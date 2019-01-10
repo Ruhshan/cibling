@@ -61,7 +61,7 @@ def register(request):
                 if user is not None:
                     user=login_form.get_user()
                     login(request,user)
-                    return redirect('timeline-about')
+                    return redirect('newsfeed')
                 else:
                     return redirect('register')
 

@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="d301200b-e571-44c4-bdd3-c16ad9fb4d36" name="Default Changelist" comment="" />
+    <list default="true" id="d301200b-e571-44c4-bdd3-c16ad9fb4d36" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cibling/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/cibling/settings.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/users/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/users/views.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,21 +27,22 @@
           <entry key="project.open.time.41" value="1" />
           <entry key="project.open.time.43" value="1" />
           <entry key="project.open.time.48" value="1" />
-          <entry key="project.opened" value="7" />
+          <entry key="project.open.time.62" value="1" />
+          <entry key="project.opened" value="8" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="html" value="49" />
           <entry key="jpg" value="1" />
-          <entry key="py" value="38" />
+          <entry key="py" value="39" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="HTML" value="49" />
           <entry key="Image" value="1" />
-          <entry key="Python" value="38" />
+          <entry key="Python" value="39" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
@@ -44,43 +50,25 @@
           <entry key="Django Console" value="113" />
           <entry key="dummy" value="1" />
           <entry key="html" value="4620" />
-          <entry key="py" value="6047" />
+          <entry key="py" value="6089" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="4620" />
           <entry key="PLAIN_TEXT" value="1" />
-          <entry key="Python" value="6160" />
+          <entry key="Python" value="6202" />
         </counts>
       </usages-collector>
     </session>
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/cibling_web/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="259">
-              <caret line="82" column="28" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-                <marker date="1546963008353" expanded="true" signature="2011:2016" ph="..." />
-                <marker date="1546963008353" expanded="true" signature="2218:2453" ph="..." />
-                <marker date="1546963008353" expanded="true" signature="2482:2487" ph="..." />
-                <marker date="1546963008353" expanded="true" signature="2648:2653" ph="..." />
-                <marker date="1546963008353" expanded="true" signature="2721:2726" ph="..." />
-                <marker date="1546963008353" expanded="true" signature="4081:4086" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cibling_web/templates/cibling_web/newsfeed.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="225">
-              <caret line="18" column="65" lean-forward="true" selection-start-line="18" selection-start-column="65" selection-end-line="18" selection-end-column="65" />
+            <state relative-caret-position="270">
+              <caret line="18" column="65" selection-start-line="18" selection-start-column="65" selection-end-line="18" selection-end-column="65" />
             </state>
           </provider>
         </entry>
@@ -98,7 +86,7 @@
         <entry file="file://$PROJECT_DIR$/users/models.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="195">
-              <caret line="14" column="54" lean-forward="true" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="54" />
+              <caret line="14" column="54" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="54" />
             </state>
           </provider>
         </entry>
@@ -118,7 +106,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cibling_web/templates/cibling_web/base_profile.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="165">
+            <state relative-caret-position="2100">
               <caret line="140" column="36" selection-start-line="140" selection-start-column="36" selection-end-line="140" selection-end-column="36" />
               <folding>
                 <element signature="n#block#0;n#!!top" />
@@ -130,8 +118,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cibling_web/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
+            <state relative-caret-position="75">
+              <caret line="5" column="55" selection-start-line="5" selection-start-column="55" selection-end-line="5" selection-end-column="55" />
               <folding>
                 <element signature="e#0#28#0" expanded="true" />
               </folding>
@@ -142,7 +130,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cibling_web/templates/cibling_web/base_temp.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
+            <state relative-caret-position="780">
               <caret line="52" column="41" selection-start-line="52" selection-start-column="41" selection-end-line="52" selection-end-column="41" />
               <folding>
                 <element signature="n#block#0;n#!!top" />
@@ -151,16 +139,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/users/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="288">
-              <caret line="97" selection-start-line="97" selection-end-line="97" />
+            <state relative-caret-position="244">
+              <caret line="77" column="37" lean-forward="true" selection-start-line="77" selection-start-column="37" selection-end-line="77" selection-end-column="37" />
               <folding>
                 <element signature="e#0#36#0" expanded="true" />
-                <marker date="1546959909141" expanded="true" signature="3020:3025" ph="..." />
-                <marker date="1546959909141" expanded="true" signature="3844:3849" ph="..." />
+                <marker date="1547151622491" expanded="true" signature="3014:3019" ph="..." />
+                <marker date="1547151622491" expanded="true" signature="3838:3843" ph="..." />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cibling/settings.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
             </state>
           </provider>
         </entry>
@@ -168,8 +165,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cibling/urls.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="239">
-              <caret line="31" column="78" selection-start-line="31" selection-start-column="78" selection-end-line="31" selection-end-column="78" />
+            <state relative-caret-position="335">
+              <caret line="25" column="42" lean-forward="true" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
               <folding>
                 <element signature="e#631#663#0" expanded="true" />
               </folding>
@@ -192,6 +189,9 @@
       <find>cover</find>
     </findStrings>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
@@ -202,7 +202,6 @@
         <option value="$PROJECT_DIR$/users/token.py" />
         <option value="$PROJECT_DIR$/users/templates/users/acc_active_email.html" />
         <option value="$PROJECT_DIR$/users/admin.py" />
-        <option value="$PROJECT_DIR$/cibling/settings.py" />
         <option value="$PROJECT_DIR$/users/templates/users/timeline-about.html" />
         <option value="$PROJECT_DIR$/users/signals.py" />
         <option value="$PROJECT_DIR$/users/apps.py" />
@@ -216,16 +215,17 @@
         <option value="$PROJECT_DIR$/cibling_web/templates/cibling_web/temp_post.html" />
         <option value="$PROJECT_DIR$/cibling_web/admin.py" />
         <option value="$PROJECT_DIR$/cibling_web/models.py" />
-        <option value="$PROJECT_DIR$/users/views.py" />
-        <option value="$PROJECT_DIR$/cibling/urls.py" />
         <option value="$PROJECT_DIR$/cibling_web/templates/cibling_web/timeline_profile.html" />
         <option value="$PROJECT_DIR$/users/models.py" />
         <option value="$PROJECT_DIR$/cibling_web/templates/cibling_web/timeline_profile_about.html" />
-        <option value="$PROJECT_DIR$/cibling_web/urls.py" />
         <option value="$PROJECT_DIR$/cibling_web/templates/cibling_web/base_temp.html" />
         <option value="$PROJECT_DIR$/cibling_web/templates/cibling_web/base_profile.html" />
         <option value="$PROJECT_DIR$/cibling_web/templates/cibling_web/newsfeed.html" />
         <option value="$PROJECT_DIR$/cibling_web/views.py" />
+        <option value="$PROJECT_DIR$/cibling/urls.py" />
+        <option value="$PROJECT_DIR$/cibling_web/urls.py" />
+        <option value="$PROJECT_DIR$/users/views.py" />
+        <option value="$PROJECT_DIR$/cibling/settings.py" />
       </list>
     </option>
   </component>
@@ -240,6 +240,9 @@
     <option name="y" value="-4" />
     <option name="width" value="1279" />
     <option name="height" value="724" />
+  </component>
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
   </component>
   <component name="ProjectView">
     <navigator proportions="" version="1">
@@ -382,8 +385,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="64" y="-11" width="1303" height="780" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2756972" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.2804781" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -521,20 +525,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cibling/settings.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="283">
-          <caret line="126" column="20" selection-start-line="126" selection-start-column="20" selection-end-line="126" selection-end-column="20" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cibling_web/admin.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" column="28" lean-forward="true" selection-start-line="6" selection-start-column="28" selection-end-line="6" selection-end-column="28" />
-          <folding>
-            <element signature="e#0#32#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -556,11 +550,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
           <caret line="28" column="70" selection-start-line="28" selection-start-column="70" selection-end-line="28" selection-end-column="70" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-            <marker date="1546957506119" expanded="true" signature="194:199" ph="..." />
-            <marker date="1546957506119" expanded="true" signature="856:861" ph="..." />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -578,35 +567,26 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cibling/urls.py">
+    <entry file="file://$PROJECT_DIR$/cibling_web/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="239">
-          <caret line="31" column="78" selection-start-line="31" selection-start-column="78" selection-end-line="31" selection-end-column="78" />
+        <state relative-caret-position="335">
+          <caret line="83" column="5" selection-start-line="83" selection-start-column="5" selection-end-line="83" selection-end-column="5" />
           <folding>
-            <element signature="e#631#663#0" expanded="true" />
+            <element signature="e#0#35#0" expanded="true" />
+            <marker date="1546963008353" expanded="true" signature="2011:2016" ph="..." />
+            <marker date="1546963008353" expanded="true" signature="2218:2453" ph="..." />
+            <marker date="1546963008353" expanded="true" signature="2482:2487" ph="..." />
+            <marker date="1546963008353" expanded="true" signature="2648:2653" ph="..." />
+            <marker date="1546963008353" expanded="true" signature="2721:2726" ph="..." />
+            <marker date="1546963008353" expanded="true" signature="4081:4086" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/users/views.py">
+    <entry file="file://$PROJECT_DIR$/cibling_web/templates/cibling_web/newsfeed.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="288">
-          <caret line="97" selection-start-line="97" selection-end-line="97" />
-          <folding>
-            <element signature="e#0#36#0" expanded="true" />
-            <marker date="1546959909141" expanded="true" signature="3020:3025" ph="..." />
-            <marker date="1546959909141" expanded="true" signature="3844:3849" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cibling_web/templates/cibling_web/timeline_profile_about.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
-          <folding>
-            <element signature="e#134#161#0#HTML" expanded="true" />
-          </folding>
+        <state relative-caret-position="270">
+          <caret line="18" column="65" selection-start-line="18" selection-start-column="65" selection-end-line="18" selection-end-column="65" />
         </state>
       </provider>
     </entry>
@@ -620,33 +600,23 @@
     <entry file="file://$PROJECT_DIR$/users/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="195">
-          <caret line="14" column="54" lean-forward="true" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="54" />
+          <caret line="14" column="54" selection-start-line="14" selection-start-column="54" selection-end-line="14" selection-end-column="54" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cibling_web/urls.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="13" column="34" selection-start-line="13" selection-start-column="34" selection-end-line="13" selection-end-column="34" />
-          <folding>
-            <element signature="e#0#28#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cibling_web/templates/cibling_web/base_temp.html">
+    <entry file="file://$PROJECT_DIR$/cibling_web/templates/cibling_web/timeline_profile_about.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="150">
-          <caret line="52" column="41" selection-start-line="52" selection-start-column="41" selection-end-line="52" selection-end-column="41" />
+          <caret line="10" column="28" selection-start-line="10" selection-start-column="28" selection-end-line="10" selection-end-column="28" />
           <folding>
-            <element signature="n#block#0;n#!!top" />
+            <element signature="e#134#161#0#HTML" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/cibling_web/templates/cibling_web/base_profile.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="165">
+        <state relative-caret-position="2100">
           <caret line="140" column="36" selection-start-line="140" selection-start-column="36" selection-end-line="140" selection-end-column="36" />
           <folding>
             <element signature="n#block#0;n#!!top" />
@@ -654,25 +624,51 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cibling_web/templates/cibling_web/newsfeed.html">
+    <entry file="file://$PROJECT_DIR$/cibling_web/templates/cibling_web/base_temp.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="225">
-          <caret line="18" column="65" lean-forward="true" selection-start-line="18" selection-start-column="65" selection-end-line="18" selection-end-column="65" />
+        <state relative-caret-position="780">
+          <caret line="52" column="41" selection-start-line="52" selection-start-column="41" selection-end-line="52" selection-end-column="41" />
+          <folding>
+            <element signature="n#block#0;n#!!top" />
+          </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cibling_web/views.py">
+    <entry file="file://$PROJECT_DIR$/cibling/urls.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="259">
-          <caret line="82" column="28" selection-start-line="82" selection-start-column="28" selection-end-line="82" selection-end-column="28" />
+        <state relative-caret-position="335">
+          <caret line="25" column="42" lean-forward="true" selection-start-line="25" selection-start-column="42" selection-end-line="25" selection-end-column="42" />
           <folding>
-            <element signature="e#0#35#0" expanded="true" />
-            <marker date="1546963008353" expanded="true" signature="2011:2016" ph="..." />
-            <marker date="1546963008353" expanded="true" signature="2218:2453" ph="..." />
-            <marker date="1546963008353" expanded="true" signature="2482:2487" ph="..." />
-            <marker date="1546963008353" expanded="true" signature="2648:2653" ph="..." />
-            <marker date="1546963008353" expanded="true" signature="2721:2726" ph="..." />
-            <marker date="1546963008353" expanded="true" signature="4081:4086" ph="..." />
+            <element signature="e#631#663#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cibling_web/urls.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="55" selection-start-line="5" selection-start-column="55" selection-end-line="5" selection-end-column="55" />
+          <folding>
+            <element signature="e#0#28#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cibling/settings.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/users/views.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="244">
+          <caret line="77" column="37" lean-forward="true" selection-start-line="77" selection-start-column="37" selection-end-line="77" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#36#0" expanded="true" />
+            <marker date="1547151622491" expanded="true" signature="3014:3019" ph="..." />
+            <marker date="1547151622491" expanded="true" signature="3838:3843" ph="..." />
           </folding>
         </state>
       </provider>
