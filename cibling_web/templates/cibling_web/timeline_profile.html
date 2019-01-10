@@ -1,0 +1,109 @@
+{% extends 'cibling_web/base_profile.html' %}
+
+{% block timeline-display-content %}
+        {% load static %}
+        <div id="page-contents" style="position: relative;">
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-7">
+
+              <!-- Post Create Box
+            ================================================= -->
+            <div class="create-post">
+                <div class="row">
+                  <div class="form-group">
+                    <textarea name="texts" id="" rows="4" cols="100" class="" placeholder="Write what you wish"></textarea>
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="tools">
+                    <ul class="publishing-tools list-inline">
+                      <li><a href="#"><i class="ion-compose"></i></a></li>
+                      <li><a href="#"><i class="ion-images"></i></a></li>
+                      <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
+                    </ul>
+                    <button class="btn btn-primary pull-right">Publish</button>
+                  </div>
+
+                </div>
+            </div><!-- Post Create Box End-->
+
+              <!-- Post Content
+              ================================================= -->
+              {% for post in posts %}
+                {% if post.author == user %}
+                <div class="post-content">
+                    <div class="post-date hidden-xs hidden-sm">
+                      <h5>{{ user }}</h5>
+                      <p class="text-grey">{{ post.time_posted }}</p>
+                    </div><!--Post Date End-->
+                  {% if post.image.url != 'default.jpg' %}
+                    <img src="{{ post.image.url }}" alt="post-image" class="img-responsive post-image" />
+                  {% endif %}
+                  <div class="post-container">
+                    <img src="{{ post.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
+                    <div class="post-detail">
+                      <div class="user-info">
+                        <h5><a href="{% url 'timeline-profile' post.author.id %}" class="profile-link">{{ post.author }}</a> <span class="following">following</span></h5>
+                        <p class="text-muted">Published a photo {{ post.time_posted }}</p>
+                      </div>
+                      <div class="line-divider"></div>
+                      <div class="post-text">
+                        <p>{{ post.content }}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                      </div>
+                      <div class="line-divider"></div>
+                      {% for comment in comments %}
+                          {% if comment.post == post %}
+                              <div class="post-comment">
+                                <img src="{{ comment.author.profile.image.url }}" alt="" class="profile-photo-sm" />
+                                <p><a href="{% url 'timeline-profile' comment.author.id %}" class="profile-link">{{ comment.author }}    </a><i class="em em-laughing"></i>{{ comment.text }}</p>
+                              </div>
+                          {% endif %}
+                      {% endfor %}
+
+
+                    </div>
+                  </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+
+
+
+
+
+            </div>
+            <div class="col-md-2 static">
+              <div id="sticky-sidebar" class="" style="">
+                <h4 class="grey">Cibling's activity</h4>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">John</a> Asked for Host</p>
+                    <p class="text-muted">5 mins ago</p>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Shihan</a> Has posted a photo</p>
+                    <p class="text-muted">an hour ago</p>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Kim</a> Offerd a Books</p>
+                    <p class="text-muted">4 hours ago</p>
+                  </div>
+                </div>
+                <div class="feed-item">
+                  <div class="live-activity">
+                    <p><a href="#" class="profile-link">Sarah</a> has shared an album</p>
+                    <p class="text-muted">a day ago</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endblock timeline-display-content %}
