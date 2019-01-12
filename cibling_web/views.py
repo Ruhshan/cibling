@@ -1,10 +1,13 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Post,Comment
 from django.contrib.auth.models import User
 from users.models import Profile
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
+from .models import Post
+from django.db import models
+from .forms import PostForm
 
 # Create your views here.
 
@@ -73,17 +76,7 @@ def Timeline(request):
 
     return render(request, 'cibling_web/timeline.html', context)
 
-def Newsfeed(request):
-    posts=Post.objects.all()
-    comments=Comment.objects.all()
 
-    context={
-        'posts':posts,
-        'comments':comments,
-        'user': request.user
-    }
-
-    return render(request, 'cibling_web/newsfeed.html', context)
 
 
 class PostListView(ListView):
@@ -129,18 +122,56 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+def Newsfeed(request):
+    if request.method!='POST':
+        form = PostForm()
+        posts=Post.objects.all()
+        comments=Comment.objects.all()
 
+        context={
+            'posts':posts,
+            'comments':comments,
+            'user': request.user,
+            'form': form
+        }
+
+        return render(request, 'cibling_web/newsfeed.html', context)
+    else:
+        form = PostForm(request.POST)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            return redirect('newsfeed')
 
 def timeline_profile(request, pk):
-    posts = Post.objects.all()
-    comments = Comment.objects.all()
+    if request.method!='POST':
+        form = PostForm()
+        posts=Post.objects.all()
+        comments=Comment.objects.all()
 
-    context = {
-        'posts':posts,
-        'comments':comments,
-        'user': User.objects.filter(id=pk).first()
-    }
-    return render(request, 'cibling_web/timeline_profile.html', context)
+        context={
+            'posts':posts,
+            'comments':comments,
+            'user': User.objects.filter(id=pk).first(),
+            'form': form
+        }
+
+        return render(request, 'cibling_web/timeline_profile.html', context)
+
+    else:
+        form = PostForm(request.POST)
+
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+
+            #needs to be fixed
+            return redirect('newsfeed')
+
+
 
 def timeline_profile_about(request,pk):
     posts = Post.objects.all()

@@ -10,24 +10,13 @@
               <!-- Post Create Box
             ================================================= -->
             <div class="create-post">
-                <div class="row">
-                  <div class="form-group">
-                    <textarea name="texts" id="" rows="4" cols="100" class="" placeholder="Write what you wish"></textarea>
-                  </div>
-
-                </div>
-
-                <div class="row">
-                  <div class="tools">
-                    <ul class="publishing-tools list-inline">
-                      <li><a href="#"><i class="ion-compose"></i></a></li>
-                      <li><a href="#"><i class="ion-images"></i></a></li>
-                      <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
-                    </ul>
-                    <button class="btn btn-primary pull-right">Publish</button>
-                  </div>
-
-                </div>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div>
+                        {{ form.as_p }}
+                        <button class="btn btn-primary pull-right" name="submit" value="post-submit">Publish</button>
+                    </div>
+                </form>
             </div><!-- Post Create Box End-->
 
               <!-- Post Content
