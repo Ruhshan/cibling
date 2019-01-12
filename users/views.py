@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm
+from .forms import UserRegisterForm, CustomUserRegisterForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -16,13 +16,77 @@ from .tokens import account_activation_token
 from django.core.mail import EmailMessage
 # Create your views here.
 
-
 def register(request):
     #messages.success(request,'{}'.format(request.method))
     if request.method=='POST':
         #messages.success(request,'login/reg request {}'.format(request.POST.get('submit')))
         if request.POST.get('submit')=='register':
             reg_form=UserRegisterForm(request.POST)
+            #reg_form = CustomUserRegisterForm(request.POST)
+            login_form = AuthenticationForm()
+
+            if reg_form.is_valid():
+                '''
+                reg_form.save()
+                username=reg_form.cleaned_data.get('username')
+                messages.success(request, 'Account created for {}. You can now log in'.format(username))
+                return redirect('login')
+                '''
+
+                reg_form.save()
+                username = reg_form.cleaned_data.get('username')
+                messages.success(request, 'Account created for {}. You can now log in'.format(username))
+                return redirect('register')
+                '''
+                current_site = get_current_site(request)
+                mail_subject = 'Activate your blog account.'
+                message = render_to_string('users/acc_active_email.html', {
+                    'user': user,
+                    'domain': current_site.domain,
+                    'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
+                    'token': account_activation_token.make_token(user),
+                })
+                to_email = reg_form.cleaned_data.get('email')
+                email = EmailMessage(
+                    mail_subject, message, to=[to_email]
+                )
+                email.send()
+                '''
+
+        elif request.POST.get('submit')=='login':
+            login_form=AuthenticationForm(request,request.POST)
+            reg_form = UserRegisterForm()
+
+            if login_form.is_valid():
+                username = login_form.cleaned_data.get('username')
+                password = login_form.cleaned_data.get('password')
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    user=login_form.get_user()
+                    login(request,user)
+                    return redirect('newsfeed')
+                else:
+                    messages.ERROR('Wrong username or password given')
+                    return redirect('register')
+
+            else:
+                return redirect('register')
+
+    else:
+        #reg_form = CustomUserRegisterForm()
+        reg_form = UserRegisterForm()
+        login_form = AuthenticationForm()
+
+    return render(request, 'users/register.html', {'reg_form':reg_form, 'login_form':login_form})
+
+
+def register_with_activation(request):
+    #messages.success(request,'{}'.format(request.method))
+    if request.method=='POST':
+        #messages.success(request,'login/reg request {}'.format(request.POST.get('submit')))
+        if request.POST.get('submit')=='register':
+            #reg_form=UserRegisterForm(request.POST)
+            reg_form = CustomUserRegisterForm(request.POST)
             login_form = AuthenticationForm()
 
             if reg_form.is_valid():
@@ -70,7 +134,8 @@ def register(request):
                 return redirect('register')
 
     else:
-        reg_form = UserRegisterForm()
+        reg_form = CustomUserRegisterForm()
+        #reg_form = UserRegisterForm()
         login_form = AuthenticationForm()
 
     return render(request, 'users/register.html', {'reg_form':reg_form, 'login_form':login_form})
