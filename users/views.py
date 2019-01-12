@@ -63,10 +63,11 @@ def register(request):
                     login(request,user)
                     return redirect('newsfeed')
                 else:
+                    messages.ERROR('Wrong username or password given')
                     return redirect('register')
 
             else:
-                return redirect('login')
+                return redirect('register')
 
     else:
         reg_form = UserRegisterForm()
