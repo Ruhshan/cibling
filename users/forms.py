@@ -11,7 +11,7 @@ class UserRegisterForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'date_of_birth', 'institute', 'password1', 'password2']
+        fields = ['first_name','last_name','username', 'email', 'date_of_birth', 'institute', 'password1', 'password2']
 
     def save(self, commit=True):
         user = super(UserRegisterForm, self).save(commit=False)
@@ -23,6 +23,9 @@ class UserRegisterForm(UserCreationForm):
         Profile.objects.create(user=user,institute=institute,date_of_birth=date_of_birth, country=country)
         return user
 
+class UserLoginForm(forms.Form):
+    email = forms.EmailField()
+    password = forms.CharField(widget=forms.PasswordInput)
 
 class CustomUserRegisterForm(UserCreationForm):
     class Meta:

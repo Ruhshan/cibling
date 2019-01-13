@@ -25,17 +25,49 @@
               <!--Registration Form Contents-->
               <div class="tab-content">
                 <div class="tab-pane active" id="login">
-                  <form method="POST">
+                  <form name="login_form" id=""login_form method="POST">
                       {% csrf_token %}
+                      <fieldset class="form-group">
+                          <legend class="border-bottom mb-4">Log In</legend>
+                          {{ login_form|crispy }}
+                      </fieldset>
+                      <div class="form-group">
+                        <button class="btn btn-outline-info" type="submit" name="submit" value="login">Login</button>
+
+                      </div>
+                  </form>
+                  <!--
+                  <form name="Login_form" id="Login_form" method="POST">
+                     <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="my-email" class="sr-only">Email</label>
+                        <input id="my-email" class="form-control input-group-lg" type="text" name="Email" title="Enter Email" placeholder="Your Email">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <label for="my-password" class="sr-only">Password</label>
+                        <input id="my-password" class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Password">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="form-group col-xs-12">
+                        <button class="btn btn-outline-info" type="submit" name="submit" value="login">Login</button>
+                      </div>
+                    </div>
+                  </form>
+                  -->
+                  <!--
+                  <form method="POST">
                         <fieldset class="form-group">
                             <legend class="border-bottom mb-4">Log In</legend>
-                            {{ login_form|crispy }}
                         </fieldset>
                         <div class="form-group">
                             <button class="btn btn-outline-info" type="submit" name="submit" value="login">Login</button>
 
                         </div>
                     </form>
+                    -->
 
 
                     <!--
