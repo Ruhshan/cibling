@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Post,Comment
 from django.contrib.auth.models import User
-from users.models import Profile
+from users.models import Profile, ProfileInfo
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
@@ -174,12 +174,25 @@ def timeline_profile(request, pk):
 
 
 def timeline_profile_about(request,pk):
-    posts = Post.objects.all()
-    comments = Comment.objects.all()
+    user = User.objects.filter(id=pk).first()
+    profileinfo = user.profile.profileinfo
+    #posts = Post.objects.all()
+    #comments = Comment.objects.all()
+    ec = profileinfo.expertises.all().exists()
+    ic = profileinfo.interests.all().exists()
+    lc = profileinfo.languages.all().exists()
+    expertises = profileinfo.expertises.all()
+    interests = profileinfo.interests.all()
+    languages = profileinfo.languages.all()
 
     context = {
-        'posts': posts,
-        'comments': comments,
-        'user': User.objects.filter(id=pk).first()
+        'user': user,
+        'profileinfo': profileinfo,
+        'ec': ec,
+        'ic': ic,
+        'lc': lc,
+        'expertises': expertises,
+        'interests': interests,
+        'languages': languages
     }
     return render(request, 'cibling_web/timeline_profile_about.html', context)
