@@ -2,10 +2,15 @@ from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, CustomUserRegisterForm, UserLoginForm
+from .forms import UserRegisterForm, CustomUserRegisterForm, UserLoginForm, UserUpdateForm, ProfileUpdateForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
+from .models import ProfileInfo, Profile
+
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.views.generic import UpdateView
+
 
 # email confirmation things
 from django.contrib.sites.shortcuts import get_current_site
@@ -237,6 +242,44 @@ def activate(request, uidb64, token):
         return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
+
+
+class ProfileInfoUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = ProfileInfo
+
+    def form_valid(self, form):
+        form.instance.profile = self.request.user.profile
+        return super().form_valid(form)
+
+    def test_func(self):
+        profileinfo = self.get_object()
+
+        if self.request.user.profile==profileinfo.profile:
+            return True
+        return False
+
+
+@login_required
+def profile_update(request):
+    if request.method=='POST':
+        u_form= UserUpdateForm(request.POST, instance=request.user)
+        p_form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user.profile)
+
+        if u_form.is_valid() and p_form.is_valid():
+            u_form.save()
+            p_form.save()
+
+            messages.success(request, "Your Account Has Been Updated")
+            return redirect('profile-edit')
+    else:
+        u_form = UserUpdateForm(instance=request.user)
+        p_form = ProfileUpdateForm(instance=request.user.profile)
+
+    context={
+        'u_form': u_form,
+        'p_form': p_form
+    }
+    return render(request, 'users/profileinfo_form.html', context)
 
 
 

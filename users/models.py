@@ -54,7 +54,7 @@ class Profile(models.Model):
     image = models.ImageField(default='default.jpg', upload_to='profile_pics/')
     cover_image = models.ImageField(default='default.jpg', upload_to='cover_pics/', null=True)
     institute = models.ForeignKey(Institute, on_delete=None, null= True, default=None)
-    country = models.ForeignKey(Country, on_delete=None, null=True, default=None)
+    #country = models.ForeignKey(Country, on_delete=None, null=True, default=None)
     date_of_birth = models.DateField(default='2001-01-01',null = True)
 
 

@@ -20,7 +20,7 @@ class UserRegisterForm(UserCreationForm):
         country = institute.country
         if commit:
             user.save()
-        Profile.objects.create(user=user,institute=institute,date_of_birth=date_of_birth, country=country)
+        Profile.objects.create(user=user,institute=institute,date_of_birth=date_of_birth)
         return user
 
 class UserLoginForm(forms.Form):
@@ -31,3 +31,16 @@ class CustomUserRegisterForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ['username', 'email', 'date_of_birth', 'password1', 'password2']
+
+
+class UserUpdateForm(forms.ModelForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ['email']
+
+class ProfileUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Profile
+        fields = ['image', 'cover_image', 'institute', 'date_of_birth']
