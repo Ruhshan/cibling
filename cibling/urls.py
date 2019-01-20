@@ -30,7 +30,8 @@ urlpatterns = [
     #path('login/', user_views.register, name='login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='users/logout.html'), name='logout'),
     path('timeline-about/', user_views.timeline_about, name='timeline-about'),
-    path('profile/edit/', user_views.profile_update, name='profile-edit')
+    path('profile/edit/', user_views.profile_update, name='profile-edit'),
+    path('profile-info/edit/', user_views.profileinfo_update, name='profileinfo-edit'),
 ]
 
 if settings.DEBUG:
