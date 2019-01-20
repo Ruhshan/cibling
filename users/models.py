@@ -73,3 +73,12 @@ class ProfileInfo(models.Model):
 
     def __str__(self):
         return '{} Profile Info'.format(self.profile.user.username)
+
+
+class Cibling(models.Model):
+    cibling_1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cibling_1')
+    cibling_2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cibling_2')
+    status = models.BooleanField(default=False)
+
+    def __str__(self):
+        return 'Cibling between {c1} and {c2}'.format(c1=self.cibling_1.first_name+' '+self.cibling_1.last_name,c2=self.cibling_2.first_name+' '+self.cibling_2.last_name)

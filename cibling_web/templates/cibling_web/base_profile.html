@@ -39,7 +39,7 @@
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="{% url 'register' %}">
+            <a class="navbar-brand" href="{% url 'newsfeed' %}">
                 <div class="title-logo">
                     CIBLINGS
                 </div>
@@ -52,6 +52,7 @@
               <li class="dropdown">
                 <a href="{% url 'newsfeed' %}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home</a>
               </li>
+               <!--
                <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Asks <span><img src="{% static "images/down-arrow.png" %}" alt=""/></span></a>
                 <ul class="dropdown-menu login">
@@ -61,6 +62,7 @@
                   <li><a href="#">Jobs</a></li>
                 </ul>
               </li>
+              -->
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Store</a>
               </li>
@@ -76,12 +78,11 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Timeline <span><img src="{% static "images/down-arrow.png" %}" alt="" /></span></a>
                 <ul class="dropdown-menu login">
-                  <li><a href="#">Edit: Basic Info</a></li>
-                  <li><a href="#">Edit: Work</a></li>
-                  <li><a href="#">Edit: Interests</a></li>
-                  <li><a href="#">Account Settings</a></li>
+                  <li><a href="{% url 'cibling-requests' %}">Cibling Requests</a></li>
+                  <li><a href="{% url 'profileinfo-edit' %}">Edit: Basic Info</a></li>
+                  <li><a href="{% url 'profile-edit' %}">Account Settings</a></li>
                   <li><a href="#">Change Password</a></li>
-                  <li><a href="#">Log Out</a></li>
+                  <li><a href="{% url 'logout' %}">Log Out</a></li>
                 </ul>
               </li>
             </ul>
@@ -92,6 +93,7 @@
               </div>
             </form>
           </div><!-- /.navbar-collapse -->
+
         </div><!-- /.container -->
       </nav>
     </header>
@@ -109,7 +111,7 @@
                   <div class="col-md-3">
                     <div class="profile-info">
                       <img src="{{ user.profile.image.url }}" alt="" class="img-responsive profile-photo">
-                      <h3>{{ user }}</h3>
+                      <h3>{{ user.first_name }} {{ user.last_name }}</h3>
                       <p class="text-muted">{{ user.profile.profileinfo.subject }} from {{ user.profile.institute.institute }}</p>
                     </div>
                   </div>
@@ -118,10 +120,11 @@
                       <li><a href="{% url 'timeline-profile' user.id %}" class="active">Timeline</a></li>
                       <li><a href="{% url 'timeline-profile-about' user.id %}">About</a></li>
                       <li><a href="timeline-album.html">Album</a></li>
-                      <li><a href="timeline-ciblings.html">Ciblings</a></li>
+                      <li><a href="{% url 'timeline-ciblings' user.id %}">Ciblings</a></li>
                     </ul>
                     <ul class="follow-me list-inline">
-                      <li><button class="btn-primary">Add Cibling</button></li>
+                      <!--<li><button class="btn-primary">Add Cibling</button></li>-->
+                      <a class="btn btn-info" href="{% url 'add-cibling' pk %}">Add Cibling</a>
                     </ul>
                   </div>
                 </div>
@@ -141,7 +144,7 @@
                     <li><a href="timeline-album.html">Album</a></li>
                     <li><a href="timeline-ciblings.html">Ciblings</a></li>
                   </ul>
-                  <button class="btn-primary">Add Cibling</button>
+                  <a class="btn btn-info" href="{% url 'add-cibling' pk %}">Add Cibling</a>
                 </div>
               </div><!--Timeline Menu for Small Screens End-->
 

@@ -1,13 +1,16 @@
 from django.shortcuts import render, redirect
 from .models import Post,Comment
 from django.contrib.auth.models import User
-from users.models import Profile, ProfileInfo
+from django.contrib import messages
+from users.models import Profile, ProfileInfo, Cibling
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
 from .models import Post
 from django.db import models
 from .forms import PostForm
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -122,9 +125,28 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+@login_required
 def Newsfeed(request):
     if request.method!='POST':
         form = PostForm()
+        user = request.user
+        '''
+        ciblings_1 = Cibling.objects.filter(cibling_1=user, status=False)
+        ciblings_2 = Cibling.objects.filter(cibling_2=user, status=False)
+        user_ciblings = []
+
+        for cibling in ciblings_1:
+            user_ciblings.append(cibling.cibling_2)
+        for cibling in ciblings_2:
+            user_ciblings.append(cibling.cibling_1)
+
+        user_ciblings.append(user)
+        posts=[]
+        for userc in user_ciblings:
+            postc=Post.objects.filter(author=userc)
+            for post in postc:
+                posts.append(post)
+        '''
         posts=Post.objects.all()
         comments=Comment.objects.all()
 
@@ -145,6 +167,7 @@ def Newsfeed(request):
             post.save()
             return redirect('newsfeed')
 
+@login_required
 def timeline_profile(request, pk):
     if request.method!='POST':
         form = PostForm()
@@ -155,7 +178,8 @@ def timeline_profile(request, pk):
             'posts':posts,
             'comments':comments,
             'user': User.objects.filter(id=pk).first(),
-            'form': form
+            'form': form,
+            'pk': pk
         }
 
         return render(request, 'cibling_web/timeline_profile.html', context)
@@ -172,7 +196,7 @@ def timeline_profile(request, pk):
             return redirect('newsfeed')
 
 
-
+@login_required
 def timeline_profile_about(request,pk):
     user = User.objects.filter(id=pk).first()
     profileinfo = user.profile.profileinfo
@@ -193,6 +217,116 @@ def timeline_profile_about(request,pk):
         'lc': lc,
         'expertises': expertises,
         'interests': interests,
-        'languages': languages
+        'languages': languages,
+        'pk': pk
     }
     return render(request, 'cibling_web/timeline_profile_about.html', context)
+
+@login_required
+def add_cibling(request, pk):
+    user2 = User.objects.filter(id=pk).first()
+    user1 = request.user
+    c = Cibling.objects.create(cibling_1=user1, cibling_2=user2)
+    c.save()
+
+    messages.success(request, 'Cibling request sent to {}'.format(user2.first_name+' '+user2.last_name))
+    return redirect('newsfeed')
+
+@login_required
+def accept_cibling(request, pk):
+    user2 = User.objects.filter(id=pk).first()
+    c = Cibling.objects.filter(cibling_2=user2,status=False)
+
+    if not c:
+        messages.error(request, 'Wrong cibling request')
+    else:
+        c.update(status=True)
+        messages.success(request, 'Cibling accepted {}'.format(user2.first_name+' '+user2.last_name))
+
+    return redirect('newsfeed')
+
+
+@login_required
+def timeline_ciblings(request,pk):
+    user = User.objects.filter(id=pk).first()
+    ciblings_1 = Cibling.objects.filter(cibling_1=user, status=True)
+    ciblings_2 = Cibling.objects.filter(cibling_2=user, status=True)
+    user_ciblings =[]
+
+    for cibling in ciblings_1:
+        user_ciblings.append(cibling.cibling_2)
+    for cibling in ciblings_2:
+        user_ciblings.append(cibling.cibling_1)
+
+    count = len(user_ciblings)
+    count = count//3+1
+
+
+    users=[]
+
+    for i in range(count-1):
+        userl=[]
+        userl.append(user_ciblings[3*i])
+        userl.append(user_ciblings[3*i+1])
+        userl.append(user_ciblings[3*i+2])
+        users.append(userl)
+
+    for i in range((count-1)*3, len(user_ciblings)):
+        userl=[]
+        userl.append(user_ciblings[i])
+        users.append(userl)
+
+
+    #users=[users]
+    context={
+        'pk': pk,
+        'user': user,
+        'user_ciblings': user_ciblings,
+        'count': count,
+        'users': users
+    }
+
+    return render(request, 'cibling_web/timeline_profile_ciblings.html', context)
+
+
+def cibling_request(request):
+    user = request.user
+
+    ciblings_1 = Cibling.objects.filter(cibling_1=user, status=False)
+    ciblings_2 = Cibling.objects.filter(cibling_2=user, status=False)
+    user_ciblings =[]
+
+    for cibling in ciblings_1:
+        user_ciblings.append(cibling.cibling_2)
+    for cibling in ciblings_2:
+        user_ciblings.append(cibling.cibling_1)
+
+    count = len(user_ciblings)
+    count = count//3+1
+
+
+    users=[]
+
+    for i in range(count-1):
+        userl=[]
+        userl.append(user_ciblings[3*i])
+        userl.append(user_ciblings[3*i+1])
+        userl.append(user_ciblings[3*i+2])
+        users.append(userl)
+
+    for i in range((count-1)*3, len(user_ciblings)):
+        userl=[]
+        userl.append(user_ciblings[i])
+        users.append(userl)
+
+
+    #users=[users]
+    context={
+        'pk': user.id,
+        'user': user,
+        'user_ciblings': user_ciblings,
+        'count': count,
+        'users': users
+    }
+
+    return render(request, 'cibling_web/cibling_requests.html', context)

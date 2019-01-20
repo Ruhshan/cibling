@@ -277,7 +277,8 @@ def profile_update(request):
 
     context={
         'u_form': u_form,
-        'p_form': p_form
+        'p_form': p_form,
+        'pk': request.user.id
     }
     return render(request, 'users/profile_form.html', context)
 
@@ -298,7 +299,8 @@ def profileinfo_update(request):
         form = ProfileInfoUpdateForm(instance=request.user.profile.profileinfo)
 
     context={
-        'form': form
+        'form': form,
+        'pk': request.user.id
     }
 
     return render(request, 'users/profileinfo_form.html', context)

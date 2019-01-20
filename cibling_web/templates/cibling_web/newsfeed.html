@@ -12,12 +12,12 @@
     			<div class="col-md-3 static">
             <div class="profile-card">
             	<img src="{% static "images/users/user-1.jpg" %}" alt="user" class="profile-photo" />
-            	<h5><a href="#" class="text-white">{{ user }}</a></h5>
+            	<h5><a href="{% url 'timeline-profile' user.id %}" class="text-white">{{ user }}</a></h5>
             	<a href="#" class="text-white"><i class="ion ion-android-person-add"></i> 109 Ciblings</a>
             </div><!--profile card ends-->
             <ul class="nav-news-feed">
               <li><i class="icon ion-ios-paper"></i><div><a href="{% url 'timeline-profile' user.id %}">My Timeline</a></div></li>
-              <li><i class="icon ion-ios-people-outline"></i><div><a href="#">My Ciblings</a></div></li>
+              <li><i class="icon ion-ios-people-outline"></i><div><a href="{% url 'timeline-ciblings' user.id %}">My Ciblings</a></div></li>
               <li><i class="icon ion-chatboxes"></i><div><a href="#">Messages</a></div></li>
             </ul><!--news-feed links ends-->
             <div id="chat-block">
