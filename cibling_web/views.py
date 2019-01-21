@@ -154,7 +154,8 @@ def Newsfeed(request):
             'posts':posts,
             'comments':comments,
             'user': request.user,
-            'form': form
+            'form': form,
+            'title': 'Newsfeed'
         }
 
         return render(request, 'cibling_web/newsfeed.html', context)
@@ -173,13 +174,15 @@ def timeline_profile(request, pk):
         form = PostForm()
         posts=Post.objects.all()
         comments=Comment.objects.all()
+        user=User.objects.filter(id=pk).first()
 
         context={
             'posts':posts,
             'comments':comments,
             'user': User.objects.filter(id=pk).first(),
             'form': form,
-            'pk': pk
+            'pk': pk,
+            'title': '{fname} {lname} Profile'.format(fname=user.first_name, lname=user.last_name)
         }
 
         return render(request, 'cibling_web/timeline_profile.html', context)
@@ -218,7 +221,8 @@ def timeline_profile_about(request,pk):
         'expertises': expertises,
         'interests': interests,
         'languages': languages,
-        'pk': pk
+        'pk': pk,
+        'title': '{fname} {lname} Profile Info'.format(fname=user.first_name, lname=user.last_name)
     }
     return render(request, 'cibling_web/timeline_profile_about.html', context)
 
@@ -283,12 +287,17 @@ def timeline_ciblings(request,pk):
         'user': user,
         'user_ciblings': user_ciblings,
         'count': count,
-        'users': users
+        'users': users,
+        'title': '{fname} {lname} Ciblings'.format(fname=user.first_name, lname=user.last_name)
     }
 
     return render(request, 'cibling_web/timeline_profile_ciblings.html', context)
 
 
+def about(request):
+    return render(request, 'cibling_web/about.html')
+
+@login_required
 def cibling_request(request):
     user = request.user
 
@@ -326,7 +335,8 @@ def cibling_request(request):
         'user': user,
         'user_ciblings': user_ciblings,
         'count': count,
-        'users': users
+        'users': users,
+        'title': '{fname} {lname} Cibling Requests'.format(fname=user.first_name, lname=user.last_name)
     }
 
     return render(request, 'cibling_web/cibling_requests.html', context)

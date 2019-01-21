@@ -7,7 +7,11 @@
 		<meta name="description" content="This is social network html5 template available in themeforest......" />
 		<meta name="keywords" content="Social Network, Social Media, Make ciblings, Newsfeed, Profile Page" />
 		<meta name="robots" content="index, follow" />
-		<title>News Feed | Check what your Ciblings are doing</title>
+		{% if title %}
+            <title>{{ title }}</title>
+        {% else %}
+            <title>Cibling</title>
+        {% endif %}
 
     <!-- Stylesheets
     ================================================= -->
@@ -97,6 +101,14 @@
         </div><!-- /.container -->
       </nav>
     </header>
+
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
     <!--Header End-->
         <div class="container">
 

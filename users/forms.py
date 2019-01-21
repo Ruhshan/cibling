@@ -5,7 +5,7 @@ from .models import CustomUser, Profile, Institute, ProfileInfo
 
 
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField()
+    email = forms.EmailField(initial='Please enter your academic email')
     date_of_birth = forms.DateField()
     institute = forms.ModelChoiceField(queryset=Institute.objects)
 

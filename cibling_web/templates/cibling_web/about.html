@@ -1,0 +1,110 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<meta name="description" content="This is social network html5 template available in themeforest......" />
+		<meta name="keywords" content="Social Network, Social Media, Make ciblings, Newsfeed, Profile Page" />
+		<meta name="robots" content="index, follow" />
+		<title>News Feed | Check what your Ciblings are doing</title>
+
+    <!-- Stylesheets
+    ================================================= -->
+		<link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}" />
+		<link rel="stylesheet" href="{% static "css/style.css" %}" />
+    <link rel="stylesheet" href="{% static "css/ionicons.min.css" %}" />
+    <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}" />
+    <link href="css/emoji.css" rel="stylesheet">
+
+    <!--Google Font-->
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
+
+    <!--Favicon-->
+    <link rel="shortcut icon" type="image/png" href="images/fav.png"/>
+	</head>
+  <body>
+    <a class="btn btn-info" href="{% url 'register' %}">Go Back</a>
+
+    <h1>What is Cibling?</h1>
+    <p>Campus sibling aka C-ibling/ Cibling is a worldwide network among students to promote meaningful interaction and collaborations with the easiness of sibling-like relationship. The purpose of the network is to create a comfortable relationship among students around the world where they will engage and commit for each other without the uneasiness of a random friendship on facebook or other social network. </p>
+    <p>The members will declare each other as siblings and this will remove the fear of unwanted (romantic) interested when the network users are trying to help each other.</p>
+    <h2>Advantage over other existing networks</h2>
+    <p>Facebook, the largest social network creates a very superficial and general friendship. Most of the time it is just for sharing feelings and ideas online. But when you need one of them for your real need, the response is rather limited. Facebook friendship has limited impact on connecting people in real world and making the connection something useful for them.</p>
+    <p>lso facebook friendship always comes with the fear and uneasiness of romantic interest.</p>
+    <p>Cibling by definition will declare that a user has only the relationship of brother/sister with other users. So there is no chance of thinking something else (romantic or sexual interest) when someone is trying to make Cibling connection with others. Also the users can decide the connections based on mutual understanding, matches, interests in academic matters etc. </p>
+    <p>Ciblings will be more intimate and meaningful network among students compared to any existing network.</p>
+    <h3>Ciblings can easily serve the purposes of-</h3>
+    <h3>    Couch surfing</h3>
+    <h3>    Ebay</h3>
+    <h3>    LinkedIN</h3>
+    <h3>    Facebook</h3>
+    <h3>in a more focused and purposeful way.</h3>
+
+    <!-- Footer
+    ================================================= -->
+    <footer id="footer">
+      <div class="container">
+      	<div class="row">
+          <div class="footer-wrapper">
+            <div class="col-md-3 col-sm-3">
+              <a href="#"><img src="{% static "images/logo-black.png" %}" alt="" class="footer-logo" /></a>
+              <ul class="list-inline social-icons">
+              	<li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-googleplus"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-pinterest"></i></a></li>
+              	<li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
+              </ul>
+            </div>
+            <div class="col-md-3 col-sm-3">
+              <h5>About</h5>
+              <ul class="footer-links">
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Contact us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a href="#">Help</a></li>
+              </ul>
+            </div>
+             <div class="col-md-3 col-sm-3">
+              <h5>Other Links</h5>
+              <ul class="footer-links">
+                <li><a href="#">About us</a></li>
+                <li><a href="#">Contact us</a></li>
+                <li><a href="#">Privacy Policy</a></li>
+                <li><a href="#">Terms</a></li>
+                <li><a href="#">Help</a></li>
+              </ul>
+            </div>
+            <div class="col-md-3 col-sm-3">
+              <h5>Contact Us</h5>
+              <ul class="contact">
+                <li><i class="icon ion-ios-telephone-outline"></i>+1 (234) 222 0754</li>
+                <li><i class="icon ion-ios-email-outline"></i>info@thunder-team.com</li>
+                <li><i class="icon ion-ios-location-outline"></i>228 Park Ave S NY, USA</li>
+              </ul>
+            </div>
+          </div>
+      	</div>
+      </div>
+      <div class="copyright">
+        <p>CIBLINGS Team © 2019. All rights reserved</p>
+      </div>
+		</footer>
+
+    <!--preloader-->
+    <div id="spinner-wrapper">
+      <div class="spinner"></div>
+    </div>
+
+    <!-- Scripts
+    ================================================= -->
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTMXfmDn0VlqWIyoOxK8997L-amWbUPiQ&amp;callback=initMap"></script>
+    <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/jquery.sticky-kit.min.js" %}"></script>
+    <script src="{% static "js/jquery.scrollbar.min.js" %}"></script>
+    <script src="{% static "js/script.js" %}"></script>
+  </body>
+</html>

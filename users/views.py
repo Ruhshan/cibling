@@ -41,8 +41,13 @@ def register(request):
 
                 reg_form.save()
                 username = reg_form.cleaned_data.get('username')
-                messages.success(request, 'Account created for {}. You can now log in'.format(username))
-                return redirect('register')
+                email = reg_form.cleaned_data.get('email')
+                if email.find('.ac.')!=-1:
+                    messages.success(request, 'Account created for {}. You can now log in'.format(username))
+                    return redirect('register')
+                else:
+                    messages.error(request, 'Please enter your academic mail')
+                    return redirect('register')
                 '''
                 current_site = get_current_site(request)
                 mail_subject = 'Activate your blog account.'
