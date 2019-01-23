@@ -25,6 +25,76 @@
 	</head>
   <body>
 
+    <header id="header">
+      <nav class="navbar navbar-default navbar-fixed-top menu">
+        <div class="container">
+
+          <!-- Brand and toggle get grouped for better mobile display -->
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="{% url 'newsfeed' %}">
+                <div class="title-logo">
+                    CIBLINGS
+                </div>
+            </a>
+          </div>
+
+          <!-- Collect the nav links, forms, and other content for toggling -->
+          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right main-menu">
+              <li class="dropdown">
+                <a href="{% url 'newsfeed' %}" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Home</a>
+              </li>
+               <!--
+               <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Asks <span><img src="{% static "images/down-arrow.png" %}" alt=""/></span></a>
+                <ul class="dropdown-menu login">
+                  <li><a href="#">Host</a></li>
+                  <li><a href="#">Recommendations</a></li>
+                  <li><a href="#">Offers</a></li>
+                  <li><a href="#">Jobs</a></li>
+                </ul>
+              </li>
+              -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Store</a>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Find Ciblings <span><img src="{% static "images/down-arrow.png" %}" alt=""/></span></a>
+                <ul class="dropdown-menu login">
+                  <li><a href="{% url 'find-ciblings' 0010 %}">By Country</a></li>
+                  <li><a href="{% url 'find-ciblings' 1000 %}">By University</a></li>
+                  <li><a href="{% url 'find-ciblings' 0100 %}">By Subjects</a></li>
+                  <li><a href="{% url 'find-ciblings' 0001 %}">By Expertise</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Timeline <span><img src="{% static "images/down-arrow.png" %}" alt="" /></span></a>
+                <ul class="dropdown-menu login">
+                  <li><a href="{% url 'cibling-requests' %}">Cibling Requests</a></li>
+                  <li><a href="{% url 'profileinfo-edit' %}">Edit: Basic Info</a></li>
+                  <li><a href="{% url 'profile-edit' %}">Account Settings</a></li>
+                  <li><a href="#">Change Password</a></li>
+                  <li><a href="{% url 'logout' %}">Log Out</a></li>
+                </ul>
+              </li>
+            </ul>
+            <form class="navbar-form navbar-right hidden-sm">
+              <div class="form-group">
+                <i class="icon ion-android-search"></i>
+                <input type="text" class="form-control" placeholder="Search ciblings, photos, videos">
+              </div>
+            </form>
+          </div><!-- /.navbar-collapse -->
+
+        </div><!-- /.container -->
+      </nav>
+    </header>
 
     <div id="page-contents" style="position: relative;">
           <div class="row">
@@ -32,32 +102,49 @@
               <div class="col-md-9">
                   <div class="about-profile">
                     <div class="about-content-block">
-                      <h1 class="grey">What is Cibling?</h1>
-                      <h4>Campus sibling aka C-ibling/ Cibling is a worldwide network among students to promote meaningful interaction and collaborations with the easiness of sibling-like relationship. The purpose of the network is to create a comfortable relationship among students around the world where they will engage and commit for each other without the uneasiness of a random friendship on facebook or other social network. </h4>
-                      <h4>The members will declare each other as siblings and this will remove the fear of unwanted (romantic) interested when the network users are trying to help each other.</h4>
+                      <h3>What is Cibling?</h3>
+
+<p>
+Campus sibling aka C-ibling/ Cibling is a worldwide network among students to promote meaningful interaction and collaborations with the easiness of sibling-like relationship. The purpose of the network is to create a comfortable relationship among students around the world where they will engage and commit for each other without the uneasiness of a random friendship on facebook or other social network.
+
+</br>
+
+The members will declare each other as siblings and this will remove the fear of unwanted (romantic) interested when the network users are trying to help each other.
+
+</p>
                     </div>
                   </div>
 
                   <div class="about-profile">
                     <div class="about-content-block">
-                      <h1 class="grey">Advantage over other existing networks</h1>
-                        <h4>Facebook, the largest social network creates a very superficial and general friendship. Most of the time it is just for sharing feelings and ideas online. But when you need one of them for your real need, the response is rather limited. Facebook friendship has limited impact on connecting people in real world and making the connection something useful for them.</h4>
-                        <h4>Also facebook friendship always comes with the fear and uneasiness of romantic interest.</h4>
-                        <h4>Cibling by definition will declare that a user has only the relationship of brother/sister with other users. So there is no chance of thinking something else (romantic or sexual interest) when someone is trying to make Cibling connection with others. Also the users can decide the connections based on mutual understanding, matches, interests in academic matters etc. </h4>
-                        <h4>Ciblings will be more intimate and meaningful network among students compared to any existing network.</h4>
-
+                      <h4>Advantage over other existing networks</h4>
+<p>
+Facebook, the largest social network creates a very superficial and general friendship. Most of the time it is just for sharing feelings and ideas online. But when you need one of them for your real need, the response is rather limited. Facebook friendship has limited impact on connecting people in real world and making the connection something useful for them.
+</br>
+Also facebook friendship always comes with the fear and uneasiness of romantic interest.
+</br>
+Cibling by definition will declare that a user has only the relationship of brother/sister with other users. So there is no chance of thinking something else (romantic or sexual interest) when someone is trying to make Cibling connection with others. Also the users can decide the connections based on mutual understanding, matches, interests in academic matters etc.
+</p>
                     </div>
                   </div>
 
                   <div class="about-profile">
                     <div class="about-content-block">
-                      <h1 class="grey">Ciblings can easily serve the purposes of-</h1>
+                      <h4>
 
-                      <h3>    Couch surfing</h3>
-                        <h3>    Ebay</h3>
-                        <h3>    LinkedIN</h3>
-                        <h3>    Facebook</h3>
-                        <h3>in a more focused and purposeful way.</h3>
+Ciblings will be more intimate and meaningful network among students compared to any existing network.
+</h4>
+Ciblings can easily serve the purposes of-
+
+
+
+<ul>
+<li>Couch surfing</li>
+<li>Ebay</li>
+<li>LinkedIn</li>
+<li>Facebook</li>
+</ul>
+in a more focused and purposeful way.
                     </div>
                   </div>
 
@@ -71,7 +158,8 @@
           </div>
         </div>
       </div>
-    </div>
+
+
 
     <!--
     <h1>What is Cibling?</h1>
