@@ -182,7 +182,9 @@ def timeline_profile(request, pk):
             'user': User.objects.filter(id=pk).first(),
             'form': form,
             'pk': pk,
-            'title': '{fname} {lname} Profile'.format(fname=user.first_name, lname=user.last_name)
+            'title': '{fname} {lname} Profile'.format(fname=user.first_name, lname=user.last_name),
+            'addability': addability(request, pk),
+            'cibling_status': cibling_status(request,pk)
         }
 
         return render(request, 'cibling_web/timeline_profile.html', context)
@@ -222,14 +224,66 @@ def timeline_profile_about(request,pk):
         'interests': interests,
         'languages': languages,
         'pk': pk,
-        'title': '{fname} {lname} Profile Info'.format(fname=user.first_name, lname=user.last_name)
+        'title': '{fname} {lname} Profile Info'.format(fname=user.first_name, lname=user.last_name),
+        'addability': addability(request, pk),
+
+        'cibling_status': cibling_status(request, pk)
     }
     return render(request, 'cibling_web/timeline_profile_about.html', context)
+
+def addability(request, pk):
+    user2 = User.objects.filter(id=pk).first()
+    user1 = request.user
+
+    if user2==user1:
+        return False
+
+
+    ciblings_1 = Cibling.objects.filter(cibling_1=user1, cibling_2=user2)
+    ciblings_2 = Cibling.objects.filter(cibling_1=user2, cibling_2=user1)
+    user_ciblings = []
+
+    for cibling in ciblings_1:
+        user_ciblings.append(cibling.cibling_2)
+    for cibling in ciblings_2:
+        user_ciblings.append(cibling.cibling_1)
+
+    if len(user_ciblings)!=0:
+        return False
+    return True
+
+def cibling_status(request, pk):
+    user2 = User.objects.filter(id=pk).first()
+    user1 = request.user
+
+    if user2 == user1:
+        return -2
+    ciblings_1 = Cibling.objects.filter(cibling_1=user1, cibling_2=user2)
+    ciblings_2 = Cibling.objects.filter(cibling_1=user2, cibling_2=user1)
+    user_ciblings = []
+
+    for cibling in ciblings_1:
+        user_ciblings.append(cibling)
+    for cibling in ciblings_2:
+        user_ciblings.append(cibling)
+
+    if len(user_ciblings) == 0:
+        return -1
+
+    userc = user_ciblings[0]
+    if userc.status==False:
+        return 0
+    else:
+        return 1
+
 
 @login_required
 def add_cibling(request, pk):
     user2 = User.objects.filter(id=pk).first()
     user1 = request.user
+    if addability(request,pk)==False:
+        messages.error(request,"Wrong add request")
+        return redirect('newsfeed')
     c = Cibling.objects.create(cibling_1=user1, cibling_2=user2)
     c.save()
 
@@ -263,9 +317,28 @@ def timeline_ciblings(request,pk):
         user_ciblings.append(cibling.cibling_1)
 
     count = len(user_ciblings)
-    count = count//3+1
+    count = count//3
+
+    if count!=0:
+        users1 = user_ciblings[:count]
+        users2 = user_ciblings[count:2 * count]
+        users3 = user_ciblings[2 * count:3 * count]
+    else:
+        users1=[]
+        users2 = []
+        users3 = []
 
 
+    if len(user_ciblings)%3==1:
+        users1.append(user_ciblings[-1])
+    elif len(user_ciblings)%3==2:
+        users1.append(user_ciblings[-1])
+        users2.append(user_ciblings[-2])
+
+
+
+
+    '''
     users=[]
 
     for i in range(count-1):
@@ -279,6 +352,8 @@ def timeline_ciblings(request,pk):
         userl=[]
         userl.append(user_ciblings[i])
         users.append(userl)
+        
+    '''
 
 
     #users=[users]
@@ -287,8 +362,13 @@ def timeline_ciblings(request,pk):
         'user': user,
         'user_ciblings': user_ciblings,
         'count': count,
-        'users': users,
-        'title': '{fname} {lname} Ciblings'.format(fname=user.first_name, lname=user.last_name)
+        #'users': users,
+        'users1': users1,
+        'users2': users2,
+        'users3': users3,
+        'title': '{fname} {lname} Ciblings'.format(fname=user.first_name, lname=user.last_name),
+        'addability': addability(request,pk),
+        'cibling_status': cibling_status(request,pk)
     }
 
     return render(request, 'cibling_web/timeline_profile_ciblings.html', context)
@@ -301,32 +381,35 @@ def about(request):
 def cibling_request(request):
     user = request.user
 
-    ciblings_1 = Cibling.objects.filter(cibling_1=user, status=False)
+    #ciblings_1 = Cibling.objects.filter(cibling_1=user, status=False)
     ciblings_2 = Cibling.objects.filter(cibling_2=user, status=False)
     user_ciblings =[]
 
+    '''
     for cibling in ciblings_1:
         user_ciblings.append(cibling.cibling_2)
+    '''
     for cibling in ciblings_2:
         user_ciblings.append(cibling.cibling_1)
 
     count = len(user_ciblings)
-    count = count//3+1
+    count = count//3
 
 
-    users=[]
+    if count!=0:
+        users1 = user_ciblings[:count]
+        users2 = user_ciblings[count:2 * count]
+        users3 = user_ciblings[2 * count:3 * count]
+    else:
+        users1=[]
+        users2 = []
+        users3 = []
 
-    for i in range(count-1):
-        userl=[]
-        userl.append(user_ciblings[3*i])
-        userl.append(user_ciblings[3*i+1])
-        userl.append(user_ciblings[3*i+2])
-        users.append(userl)
-
-    for i in range((count-1)*3, len(user_ciblings)):
-        userl=[]
-        userl.append(user_ciblings[i])
-        users.append(userl)
+    if len(user_ciblings) % 3 == 1:
+        users1.append(user_ciblings[-1])
+    elif len(user_ciblings) % 3 == 2:
+        users1.append(user_ciblings[-1])
+        users2.append(user_ciblings[-2])
 
 
     #users=[users]
@@ -335,7 +418,10 @@ def cibling_request(request):
         'user': user,
         'user_ciblings': user_ciblings,
         'count': count,
-        'users': users,
+        'users1': users1,
+        'users2': users2,
+        'users3': users3,
+
         'title': '{fname} {lname} Cibling Requests'.format(fname=user.first_name, lname=user.last_name)
     }
 

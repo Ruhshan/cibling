@@ -136,7 +136,14 @@
                     </ul>
                     <ul class="follow-me list-inline">
                       <!--<li><button class="btn-primary">Add Cibling</button></li>-->
-                      <a class="btn btn-info" href="{% url 'add-cibling' pk %}">Add Cibling</a>
+                        {% if cibling_status == -1 %}
+                            <a class="btn btn-info" href="{% url 'add-cibling' pk %}">Add Cibling</a>
+                        {% elif cibling_status == 0 %}
+                            <a class="btn btn-info" href="#">Request Sent</a>
+                        {% elif cibling_status == 1 %}
+                            <a class="btn btn-info" href="#">Your Cibling</a>
+                        {% endif %}
+
                     </ul>
                   </div>
                 </div>
