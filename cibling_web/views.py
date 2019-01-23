@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Post,Comment
 from django.contrib.auth.models import User
 from django.contrib import messages
-from users.models import Profile, ProfileInfo, Cibling
+from users.models import Profile, ProfileInfo, Cibling, Institute, Expertise
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
@@ -125,14 +125,17 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
             return True
         return False
 
+def getFeedPosts(request):
+    return []
+
 @login_required
 def Newsfeed(request):
     if request.method!='POST':
         form = PostForm()
         user = request.user
-        '''
-        ciblings_1 = Cibling.objects.filter(cibling_1=user, status=False)
-        ciblings_2 = Cibling.objects.filter(cibling_2=user, status=False)
+
+        ciblings_1 = Cibling.objects.filter(cibling_1=user, status=True)
+        ciblings_2 = Cibling.objects.filter(cibling_2=user, status=True)
         user_ciblings = []
 
         for cibling in ciblings_1:
@@ -143,11 +146,11 @@ def Newsfeed(request):
         user_ciblings.append(user)
         posts=[]
         for userc in user_ciblings:
-            postc=Post.objects.filter(author=userc)
+            postc=Post.objects.filter(author=userc).all()
             for post in postc:
                 posts.append(post)
-        '''
-        posts=Post.objects.all()
+
+        #posts=Post.objects.all()
         comments=Comment.objects.all()
 
         context={
@@ -426,3 +429,94 @@ def cibling_request(request):
     }
 
     return render(request, 'cibling_web/cibling_requests.html', context)
+
+
+
+def get_ciblings_by_key(request, univ, sub, country, exp):
+    user = request.user
+    users=[]
+    dict={}
+    #profiles_by_institutes = []
+    #profileinfos_by_subjects = []
+    key = None
+    if univ==1:
+        profiles_by_institutes = Profile.objects.filter(institute=user.profile.institute).exclude(user=user)
+        for profile in profiles_by_institutes:
+            users.append(profile.user)
+            dict[profile.user.id]=user.profile.institute
+        key = user.profile.institute
+    if sub==1:
+        profileinfos_by_subjects = ProfileInfo.objects.filter(subject=user.profile.profileinfo.subject).exclude(profile=user.profile)
+        for profileinfo in profileinfos_by_subjects:
+            users.append(profileinfo.profile.user)
+            dict[profileinfo.profile.user.id]=user.profile.profileinfo.subject
+        key = user.profile.profileinfo.subject
+    if country==1:
+        institutes = Institute.objects.filter(country=user.profile.institute.country)
+        for institute in institutes:
+            profiles_by_countrys = Profile.objects.filter(institute=institute).exclude(user=user)
+            for profile in profiles_by_countrys:
+                users.append(profile.user)
+                dict[profile.user.id]=user.profile.institute.country
+        key = user.profile.institute.country
+    if exp==1:
+        expertises = user.profile.profileinfo.expertises.all()
+        for expertise in expertises:
+            profileinfos_by_expertises = expertise.profiles.all()
+            for profileinfo in profileinfos_by_expertises:
+                if profileinfo.profile.user!=user:
+                    users.append(profileinfo.profile.user)
+                    dict[profileinfo.profile.user.id]=expertise
+                    key = expertise
+    return (users, dict, key)
+
+
+def find_ciblings(request, pk):
+    user = request.user
+    expertise = pk%1000
+    pk=pk//10
+    country = pk%100
+    pk=pk//10
+    sub = pk%10
+    pk=pk//10
+    univ = pk
+
+    (users, dict, key) =get_ciblings_by_key(request, univ,sub,country,expertise)
+
+
+    user_ciblings = users
+
+    count = len(user_ciblings)
+    count = count//3
+
+    if count!=0:
+        users1 = user_ciblings[:count]
+        users2 = user_ciblings[count:2 * count]
+        users3 = user_ciblings[2 * count:3 * count]
+    else:
+        users1=[]
+        users2 = []
+        users3 = []
+
+
+    if len(user_ciblings)%3==1:
+        users1.append(user_ciblings[-1])
+    elif len(user_ciblings)%3==2:
+        users1.append(user_ciblings[-1])
+        users2.append(user_ciblings[-2])
+
+
+    context={
+        'users1': users1,
+        'users2': users2,
+        'users3': users3,
+        'dict': dict,
+        'title': 'Find Ciblings',
+        'user': request.user,
+        'pk': user.id,
+
+        'key': key
+
+    }
+
+    return render(request, 'cibling_web/find_ciblings.html', context)

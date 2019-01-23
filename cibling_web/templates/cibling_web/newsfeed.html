@@ -11,7 +11,7 @@
           ================================================= -->
     			<div class="col-md-3 static">
             <div class="profile-card">
-            	<img src="{% static "images/users/user-1.jpg" %}" alt="user" class="profile-photo" />
+            	<img src="{{ user.profile.image.url }}" alt="user" class="profile-photo" />
             	<h5><a href="{% url 'timeline-profile' user.id %}" class="text-white">{{ user }}</a></h5>
             	<a href="#" class="text-white"><i class="ion ion-android-person-add"></i> 109 Ciblings</a>
             </div><!--profile card ends-->

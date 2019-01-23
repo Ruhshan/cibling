@@ -16,5 +16,6 @@ urlpatterns=[
     path('add-cibling/<int:pk>/', views.add_cibling, name='add-cibling'),
     path('accept-cibling/<int:pk>/', views.accept_cibling, name='accept-cibling'),
     path('cibling-requests/', views.cibling_request, name='cibling-requests'),
-    path('about/', views.about, name='about')
+    path('about/', views.about, name='about'),
+    path('find-ciblings/<int:pk>/', views.find_ciblings, name='find-ciblings')
 ]
