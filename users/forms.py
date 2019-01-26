@@ -6,12 +6,14 @@ from .models import CustomUser, Profile, Institute, ProfileInfo
 
 class UserRegisterForm(UserCreationForm):
     email = forms.EmailField(initial='Please enter your academic email')
-    date_of_birth = forms.DateField()
+    years = [i for i in range(1940,2001)]
+    date_of_birth = forms.DateField(initial='YYYY-MM-DD')
     institute = forms.ModelChoiceField(queryset=Institute.objects)
 
     class Meta:
         model = User
         fields = ['first_name','last_name','username', 'email', 'date_of_birth', 'institute', 'password1', 'password2']
+
 
     def save(self, commit=True):
         user = super(UserRegisterForm, self).save(commit=False)

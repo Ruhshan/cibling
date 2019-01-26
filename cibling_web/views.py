@@ -163,12 +163,16 @@ def Newsfeed(request):
 
         return render(request, 'cibling_web/newsfeed.html', context)
     else:
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
 
         if form.is_valid():
             post = form.save(commit=False)
             post.author = request.user
+            #image = form.cleaned_data.get('image')
+            #post.image = image
             post.save()
+            return redirect('newsfeed')
+        else:
             return redirect('newsfeed')
 
 @login_required
@@ -193,7 +197,7 @@ def timeline_profile(request, pk):
         return render(request, 'cibling_web/timeline_profile.html', context)
 
     else:
-        form = PostForm(request.POST)
+        form = PostForm(request.POST, request.FILES)
 
         if form.is_valid():
             post = form.save(commit=False)
