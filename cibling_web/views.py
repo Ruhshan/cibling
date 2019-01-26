@@ -8,7 +8,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
 from .models import Post
 from django.db import models
-from .forms import PostForm
+from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
 
 
@@ -132,6 +132,7 @@ def getFeedPosts(request):
 def Newsfeed(request):
     if request.method!='POST':
         form = PostForm()
+        comment_form = CommentForm()
         user = request.user
 
         ciblings_1 = Cibling.objects.filter(cibling_1=user, status=True)
@@ -158,22 +159,37 @@ def Newsfeed(request):
             'comments':comments,
             'user': request.user,
             'form': form,
+            'comment_form': comment_form,
             'title': 'Newsfeed'
         }
 
         return render(request, 'cibling_web/newsfeed.html', context)
     else:
-        form = PostForm(request.POST, request.FILES)
+        if request.POST.get('submit')=='post-submit':
+            form = PostForm(request.POST, request.FILES)
 
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            #image = form.cleaned_data.get('image')
-            #post.image = image
-            post.save()
-            return redirect('newsfeed')
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.author = request.user
+                #image = form.cleaned_data.get('image')
+                #post.image = image
+                post.save()
+                return redirect('newsfeed')
+            else:
+                return redirect('newsfeed')
         else:
-            return redirect('newsfeed')
+            form = CommentForm(request.POST)
+            postid = int(request.POST.get('submit'))
+
+            if form.is_valid():
+                comment = form.save(commit=False)
+                post = Post.objects.filter(id=postid).first()
+                comment.author = request.user
+                comment.post = post
+                comment.save()
+                return redirect('newsfeed')
+            else:
+                return redirect('newsfeed')
 
 @login_required
 def timeline_profile(request, pk):
@@ -197,15 +213,29 @@ def timeline_profile(request, pk):
         return render(request, 'cibling_web/timeline_profile.html', context)
 
     else:
-        form = PostForm(request.POST, request.FILES)
+        if request.POST.get('submit') == 'post-submit':
+            form = PostForm(request.POST, request.FILES)
 
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.author = request.user
-            post.save()
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.author = request.user
+                post.save()
 
-            #needs to be fixed
-            return redirect('newsfeed')
+                #needs to be fixed
+                return redirect('newsfeed')
+        else:
+            form = CommentForm(request.POST)
+            postid = int(request.POST.get('submit'))
+
+            if form.is_valid():
+                comment = form.save(commit=False)
+                post = Post.objects.filter(id=postid).first()
+                comment.author = request.user
+                comment.post = post
+                comment.save()
+                return redirect('newsfeed')
+            else:
+                return redirect('newsfeed')
 
 
 @login_required
