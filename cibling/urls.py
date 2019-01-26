@@ -24,6 +24,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('cibling_web.urls')),
+    path('messages/', include('postman.urls')),
     path('register/', user_views.register, name='register'),
     path('login/', user_views.register, name='login'),
     re_path(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', user_views.activate, name='activate'),
@@ -33,7 +34,7 @@ urlpatterns = [
     path('timeline-about/', user_views.timeline_about, name='timeline-about'),
     path('profile/edit/', user_views.profile_update, name='profile-edit'),
     path('profile-info/edit/', user_views.profileinfo_update, name='profileinfo-edit'),
-
+    ##dummy
 ]
 
 if settings.DEBUG:
