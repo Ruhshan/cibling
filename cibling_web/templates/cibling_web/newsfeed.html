@@ -115,6 +115,7 @@
                               <div class="post-comment">
                                 <img src="{{ comment.author.profile.image.url }}" alt="" class="profile-photo-sm" />
                                 <p><a href="{% url 'timeline-profile' comment.author.id %}" class="profile-link">{{ comment.author }}    </a><i class="em em-laughing"></i>{{ comment.text }}</p>
+                                
                               </div>
                           {% endif %}
                       {% endfor %}

@@ -91,6 +91,33 @@ class PostListView(ListView):
 class PostDetailView(DetailView):
     model = Post
 
+def post_detail_view(request, pk):
+    if request.method!='POST':
+        post = Post.objects.filter(id = pk).first()
+        comments = Comment.objects.filter(post=post)
+        comment_form = CommentForm()
+        context = {
+            'user': request.user,
+            'post': post,
+            'comments': comments,
+            'comment_form': comment_form
+        }
+
+        return render(request, 'cibling_web/post_detail.html', context)
+    else:
+        form = CommentForm(request.POST)
+        postid = int(request.POST.get('submit'))
+
+        if form.is_valid():
+            comment = form.save(commit=False)
+            post = Post.objects.filter(id=postid).first()
+            comment.author = request.user
+            comment.post = post
+            comment.save()
+            return redirect('newsfeed')
+        else:
+            return redirect('newsfeed')
+
 
 class PostCreateView(LoginRequiredMixin, CreateView):
     model = Post
@@ -146,10 +173,18 @@ def Newsfeed(request):
 
         user_ciblings.append(user)
         posts=[]
+
+        posts_all=Post.objects.all().order_by('-time_posted')
+        for post in posts_all:
+            if post.author in user_ciblings:
+                posts.append(post)
+        '''
         for userc in user_ciblings:
             postc=Post.objects.filter(author=userc).all()
             for post in postc:
                 posts.append(post)
+        '''
+
 
         #posts=Post.objects.all()
         comments=Comment.objects.all()
@@ -174,7 +209,7 @@ def Newsfeed(request):
                 #image = form.cleaned_data.get('image')
                 #post.image = image
                 post.save()
-                return redirect('newsfeed')
+                return redirect('post-detail-view', pk=post.id)
             else:
                 return redirect('newsfeed')
         else:
@@ -195,7 +230,8 @@ def Newsfeed(request):
 def timeline_profile(request, pk):
     if request.method!='POST':
         form = PostForm()
-        posts=Post.objects.all()
+        comment_form = CommentForm()
+        posts=Post.objects.all().order_by('-time_posted')
         comments=Comment.objects.all()
         user=User.objects.filter(id=pk).first()
 
@@ -204,6 +240,7 @@ def timeline_profile(request, pk):
             'comments':comments,
             'user': User.objects.filter(id=pk).first(),
             'form': form,
+            'comment_form': comment_form,
             'pk': pk,
             'title': '{fname} {lname} Profile'.format(fname=user.first_name, lname=user.last_name),
             'addability': addability(request, pk),
@@ -222,7 +259,7 @@ def timeline_profile(request, pk):
                 post.save()
 
                 #needs to be fixed
-                return redirect('newsfeed')
+                return redirect('post-detail-view', pk=post.id)
         else:
             form = CommentForm(request.POST)
             postid = int(request.POST.get('submit'))
@@ -233,7 +270,7 @@ def timeline_profile(request, pk):
                 comment.author = request.user
                 comment.post = post
                 comment.save()
-                return redirect('newsfeed')
+                return redirect('post-detail-view', pk=post.id)
             else:
                 return redirect('newsfeed')
 
@@ -267,6 +304,13 @@ def timeline_profile_about(request,pk):
         'cibling_status': cibling_status(request, pk)
     }
     return render(request, 'cibling_web/timeline_profile_about.html', context)
+
+def delete_comment(request, pk):
+    comment = Comment.objects.filter(id=pk).first()
+    post = Post.objects.filter(id=comment.post.id).first()
+    Comment.objects.filter(id=pk).delete()
+    messages.success(request,'Comment deleted')
+    return redirect('post-detail-view', pk=post.id)
 
 def addability(request, pk):
     user2 = User.objects.filter(id=pk).first()
@@ -325,12 +369,12 @@ def add_cibling(request, pk):
     c.save()
 
     messages.success(request, 'Cibling request sent to {}'.format(user2.first_name+' '+user2.last_name))
-    return redirect('newsfeed')
+    return redirect('timeline-profile',pk=user2.id)
 
 @login_required
 def accept_cibling(request, pk):
     user2 = User.objects.filter(id=pk).first()
-    c = Cibling.objects.filter(cibling_2=user2,status=False)
+    c = Cibling.objects.filter(cibling_1=user2,status=False)
 
     if not c:
         messages.error(request, 'Wrong cibling request')
@@ -338,7 +382,7 @@ def accept_cibling(request, pk):
         c.update(status=True)
         messages.success(request, 'Cibling accepted {}'.format(user2.first_name+' '+user2.last_name))
 
-    return redirect('newsfeed')
+        return redirect('timeline-profile', pk=user2.id)
 
 
 @login_required
@@ -518,7 +562,11 @@ def find_ciblings(request, pk):
     (users, dict, key) =get_ciblings_by_key(request, univ,sub,country,expertise)
 
 
-    user_ciblings = users
+    user_ciblings = []
+
+    for userc in users:
+        if cibling_status(request, userc.id)==0 or cibling_status(request, userc.id)==-1:
+            user_ciblings.append(userc)
 
     count = len(user_ciblings)
     count = count//3

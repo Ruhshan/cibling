@@ -9,6 +9,7 @@
 
               <!-- Post Create Box
             ================================================= -->
+            {% if request.user.id == pk %}
             <div class="create-post">
                 <form method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -30,7 +31,9 @@
                         </div>
                     </div>
                 </form>
-            </div><!-- Post Create Box End-->
+            </div>
+            {% endif %}
+                <!-- Post Create Box End-->
 
               <!-- Post Content
               ================================================= -->

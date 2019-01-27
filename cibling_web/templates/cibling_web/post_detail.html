@@ -1,6 +1,6 @@
-{% extends "cibling_web/base.html" %}
+{% extends "cibling_web/base_temp.html" %}
 
-{% block timeline-content %}
+{% block newsfeed-content %}
     {% load static %}
     <div class="container">
 
@@ -14,46 +14,52 @@
 
 
 
-            <div class="post-content">
 
-                <!--Post Date-->
-                <div class="post-date hidden-xs hidden-sm">
-                  <h5>{{ object.author }}</h5>
-                  <p class="text-grey">{{ object.time }}</p>
-                </div><!--Post Date End-->
+                <div class="post-content">
+                  {% if post.image.url != None %}
+                    <img src="{{ post.image.url }}" alt="post-image" class="img-responsive post-image" />
+                  {% endif %}
+                  <div class="post-container">
+                    <img src="{{ post.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
+                    <div class="post-detail">
+                      <div class="user-info">
+                        <h5><a href="{% url 'timeline-profile' post.author.id %}" class="profile-link">{{ post.author }}</a> <span class="following">following</span></h5>
+                        <p class="text-muted">Published a photo {{ post.time_posted }}</p>
+                      </div>
+                      <div class="line-divider"></div>
+                      <div class="post-text">
+                        <p>{{ post.content }}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                      </div>
+                      <div class="line-divider"></div>
+                      {% for comment in comments %}
+                          {% if comment.post == post %}
+                              <div class="post-comment">
+                                <img src="{{ comment.author.profile.image.url }}" alt="" class="profile-photo-sm" />
+                                <p><a href="{% url 'timeline-profile' comment.author.id %}" class="profile-link">{{ comment.author }}    </a><i class="em em-laughing"></i>{{ comment.text }}</p>
 
-                <img src="{% static 'images/post-images/13.jpg' %}" alt="post-image" class="img-responsive post-image" />
-                <div class="post-container">
-                  <img src="{{ object.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
-                  <div class="post-detail">
-                    <div class="user-info">
-                      <h5><a href="" class="profile-link">{{ object.author }}</a> <span class="following">following</span></h5>
-                      <p class="text-muted">Published a photo {{ object.time_posted }}</p>
-                        {% if object.author == user %}
-                            <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'web-timeline-detail-view' object.id %}">Update</a>
-                            <a class="btn btn-danger btn-sm mt-1 mb-1" href="{% url 'web-timeline-delete-view' object.id %}">Delete</a>
-                        {% endif %}
-                    </div>
-                    <div class="reaction">
-                      <a class="btn text-green"><i class="icon ion-thumbsup"></i> 13</a>
-                      <a class="btn text-red"><i class="fa fa-thumbs-down"></i> 0</a>
-                    </div>
-                    <div class="line-divider"></div>
-                    <div class="post-text">
-                      <p>{{ object.content }}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                    </div>
-                    <div class="line-divider"></div>
-                      {% for comment in object.comments %}
-                          <div class="post-comment">
-                            <img src="{% static comment.authorimg %}" alt="" class="profile-photo-sm" />
-                              <p><a href="timeline.html" class="profile-link">{{ comment.author }}</a><i class="em em-laughing"></i> {{ comment.content }}</p>
-                          </div>
+                              </div>
+                          {% endif %}
                       {% endfor %}
+
                         <div class="post-comment">
+                            <form method="POST">
+                                {% csrf_token %}
+
+                                <div class="form-row">
+                                  <div class="form-group col-md-1 mb-0">
+                                    <img src="{{ user.profile.image.url }}" alt="" class="profile-photo-sm" />
+                                  </div>
+                                  <div class="form-group col-md-11 mb-0">
+                                    {{ comment_form.text }}
+                                    <button class="btn btn-primary pull-right" name="submit" value="{{ post.id }}">Comment</button>
+                                  </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
 
 
               <!-- Post Content
@@ -64,4 +70,4 @@
         </div>
       </div>
     </div>
-{% endblock timeline-content %}
+{% endblock newsfeed-content %}

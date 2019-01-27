@@ -40,7 +40,8 @@ INSTALLED_APPS = [
     'cibling_web.apps.CiblingWebConfig',
     'users.apps.UsersConfig',
     'crispy_forms',
-    'postman'
+    'postman',
+    'django_private_chat'
 ]
 
 MIDDLEWARE = [
@@ -153,3 +154,7 @@ POSTMAN_AUTO_MODERATE_AS = True
 
 
 
+#private chat
+CHAT_WS_SERVER_HOST = 'localhost'
+CHAT_WS_SERVER_PORT = 5002
+CHAT_WS_SERVER_PROTOCOL = 'ws'
