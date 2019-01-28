@@ -95,9 +95,11 @@
 
             {% for post in posts %}
                 <div class="post-content">
-                  {% if post.image.url != None %}
-                    <img src="{{ post.image.url }}" alt="post-image" class="img-responsive post-image" />
-                  {% endif %}
+                    {% if post.image %}
+                      {% if post.image != 'default.jpg' %}
+                        <img src="{{ post.image.url }}" alt="post-image" class="img-responsive post-image" />
+                      {% endif %}
+                    {% endif %}
                   <div class="post-container">
                     <img src="{{ post.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
                     <div class="post-detail">
@@ -148,41 +150,18 @@
     			<div class="col-md-2 static">
             <div class="suggestions" id="sticky-sidebar">
               <h4 class="grey">Add More Ciblings</h4>
-              <div class="follow-user">
-                <img src="{% static "images/users/user-11.jpg" %}" alt="" class="profile-photo-sm pull-left" />
-                <div>
-                  <h5><a href="timeline.html">Diana Amber</a></h5>
-                  <a href="#" class="text-green">Add cibling</a>
-                </div>
-              </div>
-              <div class="follow-user">
-                <img src="{% static "images/users/user-12.jpg" %}" alt="" class="profile-photo-sm pull-left" />
-                <div>
-                  <h5><a href="timeline.html">Cris Haris</a></h5>
-                  <a href="#" class="text-green">Add cibling</a>
-                </div>
-              </div>
-              <div class="follow-user">
-                <img src="{% static "images/users/user-11.jpg" %}" alt="" class="profile-photo-sm pull-left" />
-                <div>
-                  <h5><a href="timeline.html">Brian Walton</a></h5>
-                  <a href="#" class="text-green">Add cibling</a>
-                </div>
-              </div>
-              <div class="follow-user">
-                <img src="{% static "images/users/user-11.jpg" %}" alt="" class="profile-photo-sm pull-left" />
-                <div>
-                  <h5><a href="timeline.html">Olivia Steward</a></h5>
-                  <a href="#" class="text-green">Add cibling</a>
-                </div>
-              </div>
-              <div class="follow-user">
-                <img src="{% static "images/users/user-11.jpg" %}" alt="" class="profile-photo-sm pull-left" />
-                <div>
-                  <h5><a href="timeline.html">Sophia Page</a></h5>
-                  <a href="#" class="text-green">Add cibling</a>
-                </div>
-              </div>
+              {% for cib in cib_sug %}
+                  {% if cib %}
+                      <div class="follow-user">
+                        <img src="{{ cib.profile.image.url }}" alt="" class="profile-photo-sm pull-left" />
+                        <div>
+                          <h5><a href="{% url 'timeline-profile' cib.id %}">{{ cib.first_name }} {{ cib.last_name }}</a></h5>
+                          <a href="{% url 'add-cibling' cib.id %}" class="text-green">Add cibling</a>
+                        </div>
+                      </div>
+                  {% endif %}
+              {% endfor %}
+
             </div>
           </div>
     		</div>

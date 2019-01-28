@@ -1,0 +1,35 @@
+{% extends 'cibling_web/base_profile.html' %}
+
+{% block timeline-display-content %}
+    {% load static %}
+    <div id="page-contents" style="position: relative;">
+          <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+
+              <!-- Photo Album
+              ================================================= -->
+              <ul class="album-photos">
+                {% for postc in posts %}
+                    {% if postc.image %}
+                        {% if postc.image != 'default.jpg' %}
+                            <li>
+                              <div class="img-wrapper" data-toggle="modal" data-target=".photo-1">
+                                <img src="{{ postc.image.url }}" alt="photo">
+                              </div>
+                              <div class="modal fade photo-1" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content">
+                                    <img src="{{ postc.image.url }}" alt="photo">
+                                  </div>
+                                </div>
+                              </div>
+                            </li>
+                         {% endif %}
+                    {% endif %}
+                {% endfor %}
+              </ul>
+          </div>
+        </div>
+
+{% endblock timeline-display-content %}

@@ -14,6 +14,7 @@ urlpatterns=[
     path('timeline/<int:pk>/', views.timeline_profile , name='timeline-profile'),
     path('timeline-about/<int:pk>/', views.timeline_profile_about, name='timeline-profile-about'),
     path('timeline/ciblings/<int:pk>/', views.timeline_ciblings, name='timeline-ciblings'),
+    path('timeline/album/<int:pk>/', views.timeline_album, name='timeline-album'),
     path('add-cibling/<int:pk>/', views.add_cibling, name='add-cibling'),
     path('accept-cibling/<int:pk>/', views.accept_cibling, name='accept-cibling'),
     path('cibling-requests/', views.cibling_request, name='cibling-requests'),

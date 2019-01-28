@@ -195,7 +195,8 @@ def Newsfeed(request):
             'user': request.user,
             'form': form,
             'comment_form': comment_form,
-            'title': 'Newsfeed'
+            'title': 'Newsfeed',
+            'cib_sug': right_sidebar_cibling_suggestion(request,request.user.id)
         }
 
         return render(request, 'cibling_web/newsfeed.html', context)
@@ -385,6 +386,24 @@ def accept_cibling(request, pk):
         return redirect('timeline-profile', pk=user2.id)
 
 
+def timeline_album(request, pk):
+    user = User.objects.filter(id=pk).first()
+    posts_col = Post.objects.filter(author=user).order_by('-time_posted')
+
+    posts=[]
+    for post in posts_col:
+        posts.append(post)
+
+
+    context={
+        'posts': posts,
+        'user': user,
+        'pk': pk,
+    }
+
+    return render(request, 'cibling_web/timeline-profile-album.html', context)
+
+
 @login_required
 def timeline_ciblings(request,pk):
     user = User.objects.filter(id=pk).first()
@@ -548,6 +567,20 @@ def get_ciblings_by_key(request, univ, sub, country, exp):
                     key = expertise
     return (users, dict, key)
 
+
+def right_sidebar_cibling_suggestion(request,pk):
+    (users, dict, key) = get_ciblings_by_key(request, 1, 1, 1, 1)
+    users= list(set(users))
+
+    user_ciblings = []
+
+    for userc in users:
+        if cibling_status(request, userc.id) == 0 or cibling_status(request, userc.id) == -1:
+            user_ciblings.append(userc)
+    if len(user_ciblings)>10:
+        return user_ciblings[:10]
+    else:
+        return  user_ciblings
 
 def find_ciblings(request, pk):
     user = request.user

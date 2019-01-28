@@ -131,7 +131,7 @@
                     <ul class="list-inline profile-menu">
                       <li><a href="{% url 'timeline-profile' user.id %}" class="active">Timeline</a></li>
                       <li><a href="{% url 'timeline-profile-about' user.id %}">About</a></li>
-                      <li><a href="timeline-album.html">Album</a></li>
+                      <li><a href="{% url 'timeline-album' user.id %}">Album</a></li>
                       <li><a href="{% url 'timeline-ciblings' user.id %}">Ciblings</a></li>
                     </ul>
                     <ul class="follow-me list-inline">
@@ -159,9 +159,9 @@
                 <div class="mobile-menu">
                   <ul class="list-inline">
                     <li><a href="{% url 'timeline-profile' user.id %}" class="active">Timeline</a></li>
-                    <li><a href="{% url 'timeline-profile' user.id %}">About</a></li>
-                    <li><a href="timeline-album.html">Album</a></li>
-                    <li><a href="timeline-ciblings.html">Ciblings</a></li>
+                    <li><a href="{% url 'timeline-profile-about' user.id %}">About</a></li>
+                    <li><a href="{% url 'timeline-album' user.id %}">Album</a></li>
+                    <li><a href="{% url 'timeline-ciblings' user.id %}">Ciblings</a></li>
                   </ul>
                   <a class="btn btn-info" href="{% url 'add-cibling' pk %}">Add Cibling</a>
                 </div>
