@@ -230,7 +230,7 @@ def Newsfeed(request):
 @login_required
 def timeline_profile(request, pk):
     if request.method!='POST':
-        if cibling_status(request, pk)!=1:
+        if cibling_status(request, pk)!=1 or cibling_status(request, pk)!=-2:
             return timeline_profile_about(request,pk)
 
         form = PostForm()
