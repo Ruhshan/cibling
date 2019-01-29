@@ -6,7 +6,7 @@ from users.models import Profile, ProfileInfo, Cibling, Institute, Expertise
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
-from .models import Post
+from .models import Post, Activity
 from django.db import models
 from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
@@ -230,11 +230,26 @@ def Newsfeed(request):
 @login_required
 def timeline_profile(request, pk):
     if request.method!='POST':
+        if cibling_status(request, pk)!=1:
+            return timeline_profile_about(request,pk)
+
         form = PostForm()
         comment_form = CommentForm()
         posts=Post.objects.all().order_by('-time_posted')
         comments=Comment.objects.all()
         user=User.objects.filter(id=pk).first()
+
+        if request.user.id == pk:
+            activities_all = Activity.objects.all()
+            activities = []
+
+            for activity in activities_all:
+                usera = activity.actor
+                if cibling_status(request, usera.id) == 1:
+                    activities.append(activity)
+        else:
+
+            activities = Activity.objects.filter(actor=user)
 
         context={
             'posts':posts,
@@ -245,7 +260,8 @@ def timeline_profile(request, pk):
             'pk': pk,
             'title': '{fname} {lname} Profile'.format(fname=user.first_name, lname=user.last_name),
             'addability': addability(request, pk),
-            'cibling_status': cibling_status(request,pk)
+            'cibling_status': cibling_status(request,pk),
+            'activities': activities
         }
 
         return render(request, 'cibling_web/timeline_profile.html', context)
@@ -302,7 +318,8 @@ def timeline_profile_about(request,pk):
         'title': '{fname} {lname} Profile Info'.format(fname=user.first_name, lname=user.last_name),
         'addability': addability(request, pk),
 
-        'cibling_status': cibling_status(request, pk)
+        'cibling_status': cibling_status(request, pk),
+        'activities': Activity.objects.filter(actor=user)
     }
     return render(request, 'cibling_web/timeline_profile_about.html', context)
 
@@ -468,7 +485,9 @@ def timeline_ciblings(request,pk):
         'users3': users3,
         'title': '{fname} {lname} Ciblings'.format(fname=user.first_name, lname=user.last_name),
         'addability': addability(request,pk),
-        'cibling_status': cibling_status(request,pk)
+        'cibling_status': cibling_status(request,pk),
+
+        'activities': activities
     }
 
     return render(request, 'cibling_web/timeline_profile_ciblings.html', context)
@@ -522,7 +541,9 @@ def cibling_request(request):
         'users2': users2,
         'users3': users3,
 
-        'title': '{fname} {lname} Cibling Requests'.format(fname=user.first_name, lname=user.last_name)
+        'title': '{fname} {lname} Cibling Requests'.format(fname=user.first_name, lname=user.last_name),
+
+        'activities': Activity.objects.filter(actor=user)
     }
 
     return render(request, 'cibling_web/cibling_requests.html', context)

@@ -30,3 +30,13 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.text
+
+class Activity(models.Model):
+    actor = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+    time_posted = models.DateTimeField(auto_now_add=True)
+    text = models.TextField()
+    type = models.TextField(null=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True)
+
+    def __str__(self):
+        return self.text

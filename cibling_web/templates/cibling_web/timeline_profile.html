@@ -100,6 +100,16 @@
             <div class="col-md-2 static">
               <div id="sticky-sidebar" class="" style="">
                 <h4 class="grey">Cibling's activity</h4>
+                  {% if activities %}
+                    {% for activity in activities %}
+                        <div class="feed-item">
+                          <div class="live-activity">
+                              <p><a href="{% url 'timeline-profile' activity.actor.id %}" class="profile-link">{{ activity.actor.first_name }} {{ activity.actor.last_name }}</a> added a new <a href="{% url 'post-detail-view' activity.post.id %}" class="profile-link">{{ activity.type }}</a></p>
+                            <p class="text-muted">{{ activity.time_posted }}</p>
+                          </div>
+                        </div>
+                    {% endfor %}
+                  {% endif %}
                 <div class="feed-item">
                   <div class="live-activity">
                     <p><a href="#" class="profile-link">John</a> Asked for Host</p>
