@@ -471,7 +471,7 @@ def timeline_ciblings(request,pk):
         users.append(userl)
         
     '''
-
+    activities = Activity.objects.filter(actor=user)
 
     #users=[users]
     context={
