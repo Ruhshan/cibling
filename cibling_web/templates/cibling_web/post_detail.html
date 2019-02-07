@@ -30,14 +30,14 @@
                       </div>
                       <div class="line-divider"></div>
                       <div class="post-text">
-                        <p>{{ post.content }}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
+                        <p>{{ post.content|urlize }}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                       </div>
                       <div class="line-divider"></div>
                       {% for comment in comments %}
                           {% if comment.post == post %}
                               <div class="post-comment">
                                 <img src="{{ comment.author.profile.image.url }}" alt="" class="profile-photo-sm" />
-                                <p><a href="{% url 'timeline-profile' comment.author.id %}" class="profile-link">{{ comment.author }}    </a><i class="em em-laughing"></i>{{ comment.text }}</p>
+                                <p><a href="{% url 'timeline-profile' comment.author.id %}" class="profile-link">{{ comment.author }}    </a><i class="em em-laughing"></i>{{ comment.text|urlize }}</p>
 
                               </div>
                           {% endif %}

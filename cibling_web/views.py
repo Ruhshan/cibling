@@ -10,6 +10,7 @@ from .models import Post, Activity
 from django.db import models
 from .forms import PostForm, CommentForm
 from django.contrib.auth.decorators import login_required
+from django.db.models import Q
 
 
 # Create your views here.
@@ -658,3 +659,53 @@ def find_ciblings(request, pk):
     }
 
     return render(request, 'cibling_web/find_ciblings.html', context)
+
+
+def search_result(request):
+    pk=request.GET.get('q')
+    posts = Post.objects.filter(content__contains=pk)
+    '''
+    users = User.objects.annotate(
+        search=search.SearchVector('first_name','last_name'),
+    ).filter(search=pk)
+    '''
+    users11 = User.objects.filter(first_name__icontains=pk)
+    users22 = User.objects.filter(last_name__icontains=pk)
+
+    user_ciblings=[]
+    for user in users22:
+        user_ciblings.append(user)
+    for user in users11:
+        if user not in user_ciblings:
+            user_ciblings.append(user)
+
+    count = len(user_ciblings)
+    count = count//3
+
+    if count!=0:
+        users1 = user_ciblings[:count]
+        users2 = user_ciblings[count:2 * count]
+        users3 = user_ciblings[2 * count:3 * count]
+    else:
+        users1=[]
+        users2 = []
+        users3 = []
+
+
+    if len(user_ciblings)%3==1:
+        users1.append(user_ciblings[-1])
+    elif len(user_ciblings)%3==2:
+        users1.append(user_ciblings[-1])
+        users2.append(user_ciblings[-2])
+
+    context={
+        'pk': pk,
+        'posts': posts,
+        #'users': users,
+        'title': 'Search Result',
+        'users1': users1,
+        'users2': users2,
+        'users3': users3
+    }
+
+    return render(request, 'cibling_web/search_result.html', context)

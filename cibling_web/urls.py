@@ -19,5 +19,7 @@ urlpatterns=[
     path('accept-cibling/<int:pk>/', views.accept_cibling, name='accept-cibling'),
     path('cibling-requests/', views.cibling_request, name='cibling-requests'),
     path('about/', views.about, name='about'),
-    path('find-ciblings/<int:pk>/', views.find_ciblings, name='find-ciblings')
+    path('find-ciblings/<int:pk>/', views.find_ciblings, name='find-ciblings'),
+    #path('search/<slug:pk>/', views.search_result, name='search-result'),
+    path('search/', views.search_result, name='search-result')
 ]

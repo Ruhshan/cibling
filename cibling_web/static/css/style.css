@@ -362,7 +362,7 @@ textarea{
 }
 
 .menu{
-  background: #31708f;
+  background: #63028f;
   border: none;
   border-radius: 0;
   margin-bottom: 0;
@@ -1539,7 +1539,7 @@ ul.online-users li span.online-dot{
   ==================================================*/
 
 .timeline-cover{
-  background: url("../images/covers/1.jpg") no-repeat;
+  /*background: url("../images/covers/1.jpg") no-repeat;*/
   background-position: center;
   background-size: cover;
   min-height: 360px;
@@ -1550,10 +1550,10 @@ ul.online-users li span.online-dot{
 /*Timeline Menu for Large Screens*/
 
 .timeline-cover .timeline-nav-bar{
-  background: #31708f;
-  width: 100%;
-  position: absolute;
-  bottom: 25px;
+  background: #63028f;
+    width: 100%;
+    position: absolute;
+    bottom: 25px;
 }
 
 .timeline-cover .timeline-nav-bar .profile-info{
@@ -2339,11 +2339,11 @@ ul.contact li i{
   color: #27AAE1;
 }
 
-.copyright{
-  background: #31708f;
-  text-align: center;
-  color: #fff;
-  padding: 12px 0 4px;
+.copyright {
+    background: #63028f;
+    text-align: center;
+    color: #fff;
+    padding: 12px 0 4px;
 }
 
 
@@ -2739,4 +2739,8 @@ width: 100%;
     border: 1px solid #ddd;
     padding: 5px;
     margin: 10px;
+}
+
+ul.nav.nav-pills.serch-result-nav {
+    margin-bottom: 20px;
 }
