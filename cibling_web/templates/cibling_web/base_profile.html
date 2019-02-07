@@ -26,6 +26,7 @@
 
     <!--Favicon-->
     <link rel="shortcut icon" type="image/png" href="images/fav.png"/>
+
 	</head>
   <body>
 
@@ -116,7 +117,9 @@
           <!-- Timeline
           ================================================= -->
           <div class="timeline">
-            <div class="timeline-cover" style="background: url({{ user.profile.cover_image.url }}) no-repeat">
+            <div class="timeline-cover" style="background: url({{ user.profile.cover_image.url }}) no-repeat; background-position: center; background-size: cover; min-height: 360px; border-radius: 0 0 4px 4px; position: relative">
+
+
 
               <!--Timeline Menu for Large Screens-->
               <div class="timeline-nav-bar hidden-sm hidden-xs">

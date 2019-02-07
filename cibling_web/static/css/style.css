@@ -1538,14 +1538,7 @@ ul.online-users li span.online-dot{
   Timeline
   ==================================================*/
 
-.timeline-cover{
-  /*background: url("../images/covers/1.jpg") no-repeat;*/
-  background-position: center;
-  background-size: cover;
-  min-height: 360px;
-  border-radius: 0 0 4px 4px;
-  position: relative;
-}
+
 
 /*Timeline Menu for Large Screens*/
 
