@@ -17,10 +17,16 @@
   <ul class="nav nav-pills serch-result-nav">
     <li class="active"><a data-toggle="pill" href="#home-serch">Ciblings</a></li>
     <li class=""><a data-toggle="pill" href="#post-serch">Post</a></li>
+    <li class=""><a data-toggle="pill" href="#institute">Ciblings by Institute</a></li>
+    <li class=""><a data-toggle="pill" href="#country">Ciblings by Country</a></li>
+    <li class=""><a data-toggle="pill" href="#expertise">Ciblings by Expertise</a></li>
+    <li class=""><a data-toggle="pill" href="#subject">Ciblings by Subject</a></li>
   </ul>
 
   <div class="tab-content">
 <!--   Cibling Result-->
+
+
     <div id="home-serch" class="tab-pane fade active in">
    <!--   Cibling Result-->
 
@@ -73,85 +79,6 @@
                                   </div>
                               {% endfor %}
 
-                            <!--
-                              <div class="col-md-4">
-                                        <div class="card-info text-center">
-                                            <img src="images/users/user-4.jpg" alt="user" class="profile-photo-lg">
-                                            <div class="Cibling-info">
-                                            <h5><a href="timeline.html" class="profile-link">John Doe</a></h5>
-                                            <p>Education Institute</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="card-info text-center">
-                                            <img src="images/users/user-4.jpg" alt="user" class="profile-photo-lg">
-                                            <div class="Cibling-info">
-                                            <h5><a href="timeline.html" class="profile-link">John Doe</a></h5>
-                                            <p>Education Institute</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="card-info text-center">
-                                            <img src="images/users/user-4.jpg" alt="user" class="profile-photo-lg">
-                                            <div class="Cibling-info">
-                                            <h5><a href="timeline.html" class="profile-link">John Doe</a></h5>
-                                            <p>Education Institute</p>
-                                            </div>
-                                        </div>
-                              </div>
-
-                              <div class="col-md-4">
-                                        <div class="card-info text-center">
-                                            <img src="images/users/user-4.jpg" alt="user" class="profile-photo-lg">
-                                            <div class="Cibling-info">
-                                            <h5><a href="timeline.html" class="profile-link">John Doe</a></h5>
-                                            <p>Education Institute</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="card-info text-center">
-                                            <img src="images/users/user-4.jpg" alt="user" class="profile-photo-lg">
-                                            <div class="Cibling-info">
-                                            <h5><a href="timeline.html" class="profile-link">John Doe</a></h5>
-                                            <p>Education Institute</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="card-info text-center">
-                                            <img src="images/users/user-4.jpg" alt="user" class="profile-photo-lg">
-                                            <div class="Cibling-info">
-                                            <h5><a href="timeline.html" class="profile-link">John Doe</a></h5>
-                                            <p>Education Institute</p>
-                                            </div>
-                                        </div>
-                              </div>
-
-                              <div class="col-md-4">
-                                        <div class="card-info text-center">
-                                            <img src="images/users/user-4.jpg" alt="user" class="profile-photo-lg">
-                                            <div class="Cibling-info">
-                                            <h5><a href="timeline.html" class="profile-link">John Doe</a></h5>
-                                            <p>Education Institute</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="card-info text-center">
-                                            <img src="images/users/user-4.jpg" alt="user" class="profile-photo-lg">
-                                            <div class="Cibling-info">
-                                            <h5><a href="timeline.html" class="profile-link">John Doe</a></h5>
-                                            <p>Education Institute</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="card-info text-center">
-                                            <img src="images/users/user-4.jpg" alt="user" class="profile-photo-lg">
-                                            <div class="Cibling-info">
-                                            <h5><a href="timeline.html" class="profile-link">John Doe</a></h5>
-                                            <p>Education Institute</p>
-                                            </div>
-                                        </div>
-                              </div>
-                              -->
                           </div>
                     </div>
               </div>
@@ -186,6 +113,353 @@
             </div>
 
     </div>
+    <div id="institute" class="tab-pane fade">
+   <!--   Cibling Result-->
+
+            <div id="institute" class="tab-pane fade in active">
+
+                <div class="row">
+
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+
+              <div class="Cibling-list">
+                    <div class="Cibling-card">
+                          <div class="row">
+                              {% for userc in userins1 %}
+                                  <div class="col md-4">
+
+
+                                        <div class="card-info text-center">
+                                            <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                            <div class="Cibling-info">
+                                                <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+                                                <p>{{ userc.profile.institute }}</p>
+                                            </div>
+
+                                        </div>
+                                  </div>
+                              {% endfor %}
+
+                          </div>
+                    </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+
+              <div class="Cibling-list">
+                    <div class="Cibling-card">
+                          <div class="row">
+                              {% for userc in userins2 %}
+                                  <div class="col md-4">
+
+
+                                        <div class="card-info text-center">
+                                            <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                            <div class="Cibling-info">
+                                                <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+                                                <p>{{ userc.profile.institute }}</p>
+                                            </div>
+
+                                        </div>
+                                  </div>
+                              {% endfor %}
+
+                          </div>
+                    </div>
+              </div>
+                </div>
+              <div class="col-md-3">
+
+                  <div class="Cibling-list">
+                        <div class="Cibling-card">
+                              <div class="row">
+                                  {% for userc in userins3 %}
+                                      <div class="col md-4">
+
+
+                                            <div class="card-info text-center">
+                                                <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                                <div class="Cibling-info">
+                                                    <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+                                                    <p>{{ userc.profile.institute }}</p>
+                                                </div>
+
+                                            </div>
+                                      </div>
+                                  {% endfor %}
+
+
+                              </div>
+                        </div>
+                  </div>
+                </div>
+
+          </div>
+            </div>
+
+    </div>
+      <div id="country" class="tab-pane fade">
+   <!--   Cibling Result-->
+
+            <div id="institute" class="tab-pane fade in active">
+
+                <div class="row">
+
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+
+              <div class="Cibling-list">
+                    <div class="Cibling-card">
+                          <div class="row">
+                              {% for userc in usercouns1 %}
+                                  <div class="col md-4">
+
+
+                                        <div class="card-info text-center">
+                                            <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                            <div class="Cibling-info">
+                                                <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+                                                <p>{{ userc.profile.institute.country }}</p>
+                                            </div>
+
+                                        </div>
+                                  </div>
+                              {% endfor %}
+
+                          </div>
+                    </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+
+              <div class="Cibling-list">
+                    <div class="Cibling-card">
+                          <div class="row">
+                              {% for userc in usercouns2 %}
+                                  <div class="col md-4">
+
+
+                                        <div class="card-info text-center">
+                                            <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                            <div class="Cibling-info">
+                                                <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+                                                <p>{{ userc.profile.institute.country }}</p>
+                                            </div>
+
+                                        </div>
+                                  </div>
+                              {% endfor %}
+
+                          </div>
+                    </div>
+              </div>
+                </div>
+              <div class="col-md-3">
+
+                  <div class="Cibling-list">
+                        <div class="Cibling-card">
+                              <div class="row">
+                                  {% for userc in usercouns3 %}
+                                      <div class="col md-4">
+
+
+                                            <div class="card-info text-center">
+                                                <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                                <div class="Cibling-info">
+                                                    <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+                                                    <p>{{ userc.profile.institute.country }}</p>
+                                                </div>
+
+                                            </div>
+                                      </div>
+                                  {% endfor %}
+
+
+                              </div>
+                        </div>
+                  </div>
+                </div>
+
+          </div>
+            </div>
+
+    </div>
+
+      <div id="subject" class="tab-pane fade">
+   <!--   Cibling Result-->
+
+            <div id="institute" class="tab-pane fade in active">
+
+                <div class="row">
+
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+
+              <div class="Cibling-list">
+                    <div class="Cibling-card">
+                          <div class="row">
+                              {% for userc in usersubs1 %}
+                                  <div class="col md-4">
+
+
+                                        <div class="card-info text-center">
+                                            <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                            <div class="Cibling-info">
+                                                <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+                                                <p>{{ userc.profile.profileinfo.subject }}</p>
+                                            </div>
+
+                                        </div>
+                                  </div>
+                              {% endfor %}
+
+                          </div>
+                    </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+
+              <div class="Cibling-list">
+                    <div class="Cibling-card">
+                          <div class="row">
+                              {% for userc in usersubs2 %}
+                                  <div class="col md-4">
+
+
+                                        <div class="card-info text-center">
+                                            <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                            <div class="Cibling-info">
+                                                <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+                                                <p>{{ userc.profile.profileinfo.subject }}</p>
+                                            </div>
+
+                                        </div>
+                                  </div>
+                              {% endfor %}
+
+                          </div>
+                    </div>
+              </div>
+                </div>
+              <div class="col-md-3">
+
+                  <div class="Cibling-list">
+                        <div class="Cibling-card">
+                              <div class="row">
+                                  {% for userc in usersubs3 %}
+                                      <div class="col md-4">
+
+
+                                            <div class="card-info text-center">
+                                                <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                                <div class="Cibling-info">
+                                                    <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+                                                    <p>{{ userc.profile.profileinfo.subject }}</p>
+                                                </div>
+
+                                            </div>
+                                      </div>
+                                  {% endfor %}
+
+
+                              </div>
+                        </div>
+                  </div>
+                </div>
+
+          </div>
+            </div>
+
+    </div>
+
+        <div id="expertise" class="tab-pane fade">
+   <!--   Cibling Result-->
+
+            <div id="institute" class="tab-pane fade in active">
+
+                <div class="row">
+
+            <div class="col-md-2"></div>
+            <div class="col-md-3">
+
+              <div class="Cibling-list">
+                    <div class="Cibling-card">
+                          <div class="row">
+                              {% for userc in userexps1 %}
+                                  <div class="col md-4">
+
+
+                                        <div class="card-info text-center">
+                                            <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                            <div class="Cibling-info">
+                                                <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+
+                                            </div>
+
+                                        </div>
+                                  </div>
+                              {% endfor %}
+
+                          </div>
+                    </div>
+              </div>
+            </div>
+            <div class="col-md-3">
+
+              <div class="Cibling-list">
+                    <div class="Cibling-card">
+                          <div class="row">
+                              {% for userc in userexps2 %}
+                                  <div class="col md-4">
+
+
+                                        <div class="card-info text-center">
+                                            <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                            <div class="Cibling-info">
+                                                <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+
+                                            </div>
+
+                                        </div>
+                                  </div>
+                              {% endfor %}
+
+                          </div>
+                    </div>
+              </div>
+                </div>
+              <div class="col-md-3">
+
+                  <div class="Cibling-list">
+                        <div class="Cibling-card">
+                              <div class="row">
+                                  {% for userc in userexps3 %}
+                                      <div class="col md-4">
+
+
+                                            <div class="card-info text-center">
+                                                <img src="{{ userc.profile.image.url }}" alt="user" class="profile-photo-lg">
+                                                <div class="Cibling-info">
+                                                    <h5><a href="{% url 'timeline-profile' userc.id %}" class="profile-link">{{ userc.first_name }} {{ userc.last_name }}</a></h5>
+
+                                                </div>
+
+                                            </div>
+                                      </div>
+                                  {% endfor %}
+
+
+                              </div>
+                        </div>
+                  </div>
+                </div>
+
+          </div>
+            </div>
+
+    </div>
+
 
 
 
@@ -193,7 +467,7 @@
     <div id="post-serch" class="tab-pane fade">
         {% for post in posts %}
 
-            <div class="post-content">
+            <div class="post-content" onclick="window.open('{% url 'post-detail-view' post.id %}')">
 
                   <div class="post-container">
                     <img src="{{ post.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
@@ -212,22 +486,6 @@
                   </div>
                 </div>
         {% endfor %}
-        <div class="post-content">
-    <div class="post-container">
-        <img src="/media/profile_pics/prpic.png" alt="user" class="profile-photo-md pull-left">
-        <div class="post-detail">
-            <div class="user-info">
-                <h5><a href="/timeline/37/" class="profile-link">mustak05</a> <span class="following">following</span></h5>
-                <p class="text-muted">Published a photo Jan. 28, 2019, 4:50 a.m.</p>
-            </div>
-            <div class="line-divider"></div>
-            <div class="post-text">
-                <p>Welcome to CIBLING. Now we are closer than ever with a meaningful relationship.
-                Stay connected.<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-            </div>
-        </div>
-    </div>
-</div>
     </div>
 
   </div>

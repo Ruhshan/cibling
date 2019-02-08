@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .models import Post,Comment
 from django.contrib.auth.models import User
 from django.contrib import messages
-from users.models import Profile, ProfileInfo, Cibling, Institute, Expertise
+from users.models import Profile, ProfileInfo, Cibling, Institute, Expertise, Country, Subject
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
@@ -663,7 +663,7 @@ def find_ciblings(request, pk):
 
 def search_result(request):
     pk=request.GET.get('q')
-    posts = Post.objects.filter(content__contains=pk)
+    posts = Post.objects.filter(content__icontains=pk)
     '''
     users = User.objects.annotate(
         search=search.SearchVector('first_name','last_name'),
@@ -671,6 +671,38 @@ def search_result(request):
     '''
     users11 = User.objects.filter(first_name__icontains=pk)
     users22 = User.objects.filter(last_name__icontains=pk)
+
+    user_ins = User.objects.filter(profile__institute__institute__icontains=pk)
+
+    (user_ins1, user_ins2, user_ins3) = three_splitter(list(user_ins))
+
+    user_couns = []
+    countries = Country.objects.filter(country__icontains=pk)
+    for country in countries:
+        users_temp = User.objects.filter(profile__institute__country_id=country.id)
+        for user in users_temp:
+            user_couns.append(user)
+
+    (user_couns1, user_couns2, user_couns3) = three_splitter(user_couns)
+
+    user_exps = []
+    expertises = Expertise.objects.filter(expertise__icontains=pk)
+    for expertise in expertises:
+        users_temp = User.objects.filter(profile__profileinfo__expertises__exact=expertise)
+        for user in users_temp:
+            user_exps.append(user)
+
+    (user_exps1, user_exps2, user_exps3) = three_splitter(user_exps)
+
+    user_subs = []
+    subjects = Subject.objects.filter(subject__icontains=pk)
+    for sub in subjects:
+        users_temp = User.objects.filter(profile__profileinfo__subject__exact=sub)
+        for user in users_temp:
+            user_subs.append(user)
+
+    (user_subs1, user_subs2, user_subs3) = three_splitter(user_subs)
+
 
     user_ciblings=[]
     for user in users22:
@@ -705,7 +737,44 @@ def search_result(request):
         'title': 'Search Result',
         'users1': users1,
         'users2': users2,
-        'users3': users3
+        'users3': users3,
+        'userins1': user_ins1,
+        'userins2': user_ins2,
+        'userins3': user_ins3,
+        'usercouns1': user_couns1,
+        'usercouns2': user_couns2,
+        'usercouns3': user_couns3,
+        'userexps1': user_exps1,
+        'userexps2': user_exps2,
+        'userexps3': user_exps3,
+        'usersubs1': user_subs1,
+        'usersubs2': user_subs2,
+        'usersubs3': user_subs3,
     }
 
     return render(request, 'cibling_web/search_result.html', context)
+
+
+def three_splitter(users):
+    user_ciblings=users
+
+    count = len(user_ciblings)
+    count = count//3
+
+    if count!=0:
+        users1 = user_ciblings[:count]
+        users2 = user_ciblings[count:2 * count]
+        users3 = user_ciblings[2 * count:3 * count]
+    else:
+        users1=[]
+        users2 = []
+        users3 = []
+
+
+    if len(user_ciblings)%3==1:
+        users1.append(user_ciblings[-1])
+    elif len(user_ciblings)%3==2:
+        users1.append(user_ciblings[-1])
+        users2.append(user_ciblings[-2])
+
+    return (users1, users2, users3)

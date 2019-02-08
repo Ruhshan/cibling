@@ -1231,6 +1231,7 @@ ul.online-users li span.online-dot{
   margin-bottom: 20px;
   overflow: hidden;
   position: relative;
+  cursor: pointer;
 }
 
 .post-content img.post-image, video.post-video, .google-maps{
