@@ -93,7 +93,7 @@ h1.grey, h2.grey, h3.grey, h4.grey, h5.grey, h6.grey{
 
 .text-muted{color: #939598;}
 
-a{color: #27aae1;}
+a{color: #7F38EC;}
 
 a:hover{color: #149AC9;}
 
@@ -150,15 +150,15 @@ section .wrapper{
 }
 
 .btn-primary{
-	background: #27aae1;
+	background: #7F38EC;
 	padding: 7px 25px;
 	border: none;
 	font-size: 14px;
 	border-radius: 4px;
 	color: #fff;
 	position: relative;
-  font-weight: 600;
-  outline: none;
+	font-weight: 600;
+	outline: none;
 }
 
 .btn-primary:hover{
@@ -362,7 +362,7 @@ textarea{
 }
 
 .menu{
-  background: #63028f;
+  background: #A74AC7;
   border: none;
   border-radius: 0;
   margin-bottom: 0;
@@ -1014,16 +1014,14 @@ textarea{
   ==================================================*/
 
 /*Profile Card CSS*/
-
 .profile-card{
-  background: linear-gradient(to bottom, rgba(39,170,225,.8), rgba(28,117,188,.8)), url(../images/covers/1.jpg) no-repeat;
-  background-size: cover;
+  background: #D462FF;
   width: 100%;
-  min-height: 90px;
+  min-height: 60px;
   border-radius: 4px;
   padding: 10px 20px;
   color: #fff;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 .profile-card img.profile-photo{
@@ -1074,7 +1072,7 @@ ul.nav-news-feed li div::after{
   left: 0;
 }
 
-ul.nav-news-feed li a{color: #6d6e71;}
+ul.nav-news-feed li a{color: #7F38EC;}
 
 ul.nav-news-feed li i{
   font-size: 18px;
@@ -1102,7 +1100,7 @@ ul.nav-news-feed i.ion-ios-videocam{color: #9e1f63;}
 }
 
 #chat-block .title{
-  background: #8dc63f;
+  background: #7F38EC;
   padding: 2px 20px;
   width: 70%;
   height: 30px;
