@@ -13,7 +13,17 @@ class UserRegisterForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['first_name','last_name','username', 'email', 'date_of_birth', 'institute', 'password1', 'password2']
+    '''
+    def is_valid(self):
+        valid = super(UserRegisterForm, self).is_valid()
 
+        if valid:
+            email = self.cleaned_data.get('email')
+            if email.find('.aac.') != -1:
+                return True
+        else:
+            return False
+    '''
 
     def save(self, commit=True):
         user = super(UserRegisterForm, self).save(commit=False)
