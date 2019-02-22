@@ -3,9 +3,19 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser, Profile, Institute, ProfileInfo
 
+#for writing validator
+from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
+def validate_ac(value):
+    print(value)
+    if '.ac.' not in value:
+        raise ValidationError(_("Please enter your academic email"))
+    else:
+        return value
 
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField(initial='Please enter your academic email')
+    email = forms.EmailField(help_text='Please enter your academic email', validators=[validate_ac])
     years = [i for i in range(1940,2001)]
     date_of_birth = forms.DateField(initial='YYYY-MM-DD')
     institute = forms.ModelChoiceField(queryset=Institute.objects)

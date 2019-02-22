@@ -11,6 +11,10 @@ from .models import ProfileInfo, Profile
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import UpdateView
 
+# For Password Change
+from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth.forms import PasswordChangeForm
+
 
 # email confirmation things
 from django.contrib.sites.shortcuts import get_current_site
@@ -316,3 +320,20 @@ def profileinfo_update(request):
 @login_required
 def timeline_about(request):
     return render(request, 'users/timeline-about.html')
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return redirect('login')
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'users/password_change.html', {
+        'form': form
+    })

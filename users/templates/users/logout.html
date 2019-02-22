@@ -1,11 +1,11 @@
-{% extends "cibling_web/base.html" %}
-{% block timeline-content %}
+{% extends "cibling_web/base_temp.html" %}
+{% block newsfeed-content %}
     <h2>You have been logged out</h2>
     <div class="border-top pt-3">
         <small class="text-muted">
             <a class="ml-2" href="{% url 'login' %}">Login Again</a>
         </small>
     </div>
-{% endblock timeline-content %}
+{% endblock newsfeed-content %}
 {% block footer %}
 {% endblock footer %}
