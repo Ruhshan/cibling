@@ -67,7 +67,7 @@ in the INSTALLED_APPS setting.
                                 <h1><i>{{ user }}</i></h1>
                                 <a title="" href="edit-profile-basic.html"><i class="fa fa-user"></i>Profile</a>
 
-                                {% block postman_menu %}
+
                                     <ul id="postman_menu">{% postman_unread as unread_count %}
                                      <li><a href="{% url 'postman:inbox' %}">{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
                                      <li><a href="{% url 'postman:sent' %}">{% trans "Sent Messages" %}</a></li>
@@ -75,7 +75,7 @@ in the INSTALLED_APPS setting.
                                      <li><a href="{% url 'postman:archives' %}">{% trans "Archives" %}</a></li>
                                      <li><a href="{% url 'postman:trash' %}">{% trans "Trash" %}</a></li>
                                     </ul>
-                                {% endblock %}
+
                             </div>
 
 
