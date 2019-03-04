@@ -66,6 +66,7 @@ in the INSTALLED_APPS setting.
 
                                 <h1><i>{{ user }}</i></h1>
                                 <a title="" href="edit-profile-basic.html"><i class="fa fa-user"></i>Profile</a>
+                                <a href="{% url 'postman:sent' %}">{% trans "Sent Messages" %}</a>
 
 
                                     {% block postman_menu %}
