@@ -15,7 +15,8 @@ def validate_ac(value):
         return value
 
 class UserRegisterForm(UserCreationForm):
-    email = forms.EmailField(help_text='Please enter your academic email', validators=[validate_ac])
+    #email = forms.EmailField(help_text='Please enter your academic email', validators=[validate_ac])
+    email = forms.EmailField(help_text='Please enter your academic email')
     years = [i for i in range(1940,2001)]
     date_of_birth = forms.DateField(initial='YYYY-MM-DD')
     institute = forms.ModelChoiceField(queryset=Institute.objects)
