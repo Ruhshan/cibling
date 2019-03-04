@@ -68,7 +68,7 @@ in the INSTALLED_APPS setting.
                                 <a title="" href="edit-profile-basic.html"><i class="fa fa-user"></i>Profile</a>
 
 
-                                    <ul id="postman_menu">{% postman_unread as unread_count %}
+                                    <ul>{% postman_unread as unread_count %}
                                      <li><a href="{% url 'postman:inbox' %}">{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
                                      <li><a href="{% url 'postman:sent' %}">{% trans "Sent Messages" %}</a></li>
                                      <li><a href="{% url 'postman:write' %}">{% trans "Write" %}</a></li>
