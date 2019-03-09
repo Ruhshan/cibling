@@ -172,6 +172,7 @@ def Newsfeed(request):
         for cibling in ciblings_2:
             user_ciblings.append(cibling.cibling_1)
 
+        user_ciblings = list(set(user_ciblings))
         user_ciblings.append(user)
         posts=[]
 
@@ -194,6 +195,8 @@ def Newsfeed(request):
             'posts':posts,
             'comments':comments,
             'user': request.user,
+            'user_ciblings': user_ciblings,
+            'number_of_ciblings': len(user_ciblings)-1,
             'form': form,
             'comment_form': comment_form,
             'title': 'Newsfeed',

@@ -41,8 +41,6 @@
                   {% if post.author == user %}
                     <div class="post-content">
                         <div class="post-date hidden-xs hidden-sm">
-                          <h5>{{ user }}</h5>
-                          <p class="text-grey">{{ post.time_posted }}</p>
                         </div><!--Post Date End-->
                         {% if post.image %}
                           {% if post.image != 'default.jpg' %}
@@ -52,12 +50,12 @@
                       <div class="post-container">
                         <img src="{{ post.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
                         <div class="post-detail">
-                          <div class="user-info">
+                          <div class="user-info" onclick="location.href='{% url 'post-detail-view' post.id %}';" style="cursor: pointer;">
                             <h5><a href="{% url 'timeline-profile' post.author.id %}" class="profile-link">{{ post.author }}</a> <span class="following"> </span></h5>
                             <p class="text-muted">Published a photo {{ post.time_posted }}</p>
                           </div>
                           <div class="line-divider"></div>
-                          <div class="post-text">
+                          <div class="post-text" onclick="location.href='{% url 'post-detail-view' post.id %}';" style="cursor: pointer;">
                             <p>{{ post.content|urlize }}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                           </div>
                           <div class="line-divider"></div>
@@ -110,30 +108,7 @@
                         </div>
                     {% endfor %}
                   {% endif %}
-                <div class="feed-item">
-                  <div class="live-activity">
-                    <p><a href="#" class="profile-link">John</a> Asked for Host</p>
-                    <p class="text-muted">5 mins ago</p>
-                  </div>
-                </div>
-                <div class="feed-item">
-                  <div class="live-activity">
-                    <p><a href="#" class="profile-link">Shihan</a> Has posted a photo</p>
-                    <p class="text-muted">an hour ago</p>
-                  </div>
-                </div>
-                <div class="feed-item">
-                  <div class="live-activity">
-                    <p><a href="#" class="profile-link">Kim</a> Offerd a Books</p>
-                    <p class="text-muted">4 hours ago</p>
-                  </div>
-                </div>
-                <div class="feed-item">
-                  <div class="live-activity">
-                    <p><a href="#" class="profile-link">Sarah</a> has shared an album</p>
-                    <p class="text-muted">a day ago</p>
-                  </div>
-                </div>
+
               </div>
             </div>
           </div>

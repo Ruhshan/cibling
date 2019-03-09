@@ -13,25 +13,19 @@
             <div class="profile-card">
             	<img src="{{ user.profile.image.url }}" alt="user" class="profile-photo" />
             	<h5><a href="{% url 'timeline-profile' user.id %}" class="text-white">{{ user }}</a></h5>
-            	<a href="#" class="text-white"><i class="ion ion-android-person-add"></i> 109 Ciblings</a>
+            	<a href="{% url 'timeline-ciblings' user.id %}" class="text-white"><i class="ion ion-android-person-add"></i> {{ number_of_ciblings }} Ciblings</a>
             </div><!--profile card ends-->
             <ul class="nav-news-feed">
               <li><i class="icon ion-ios-paper"></i><div><a href="{% url 'timeline-profile' user.id %}">My Timeline</a></div></li>
               <li><i class="icon ion-ios-people-outline"></i><div><a href="{% url 'timeline-ciblings' user.id %}">My Ciblings</a></div></li>
-              <li><i class="icon ion-chatboxes"></i><div><a href="#">Messages</a></div></li>
+              <li><i class="icon ion-chatboxes"></i><div><a href="{% url 'postman:inbox' %}">Messages</a></div></li>
             </ul><!--news-feed links ends-->
             <div id="chat-block">
-              <div class="title">Ciblings online</div>
+              <div class="title">Ciblings</div>
               <ul class="online-users list-inline">
-                <li><a href="newsfeed-messages.html" title="Linda Lohan"><img src="{% static "images/users/user-2.jpg" %}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
-                <li><a href="newsfeed-messages.html" title="Sophia Lee"><img src="{% static "images/users/user-3.jpg" %}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
-                <li><a href="newsfeed-messages.html" title="John Doe"><img src="{% static "images/users/user-4.jpg" %}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
-                <li><a href="newsfeed-messages.html" title="Alexis Clark"><img src="{% static "images/users/user-5.jpg" %}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
-                <li><a href="newsfeed-messages.html" title="James Carter"><img src="{% static "images/users/user-6.jpg" %}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
-                <li><a href="newsfeed-messages.html" title="Robert Cook"><img src="{% static "images/users/user-7.jpg" %}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
-                <li><a href="newsfeed-messages.html" title="Richard Bell"><img src="{% static "images/users/user-8.jpg" %}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
-                <li><a href="newsfeed-messages.html" title="Anna Young"><img src="{% static "images/users/user-9.jpg" %}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
-                <li><a href="newsfeed-messages.html" title="Julia Cox"><img src="{% static "images/users/user-10.jpg" %}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+                {% for userc in user_ciblings %}
+                    <li><a href="#" title="{{ userc }}"><img src="{{ userc.profile.image.url }}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+                {% endfor %}
               </ul>
             </div><!--chat block ends-->
           </div>
@@ -103,12 +97,12 @@
                   <div class="post-container">
                     <img src="{{ post.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
                     <div class="post-detail">
-                      <div class="user-info">
+                      <div class="user-info" onclick="location.href='{% url 'post-detail-view' post.id %}';" style="cursor: pointer;">
                         <h5><a href="{% url 'timeline-profile' post.author.id %}" class="profile-link">{{ post.author }}</a> <span class="following"> </span></h5>
                         <p class="text-muted">Published a photo {{ post.time_posted }}</p>
                       </div>
                       <div class="line-divider"></div>
-                      <div class="post-text">
+                      <div class="post-text" onclick="location.href='{% url 'post-detail-view' post.id %}';" style="cursor: pointer;">
                         <p>{{ post.content|urlize }}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                       </div>
                       <div class="line-divider"></div>
