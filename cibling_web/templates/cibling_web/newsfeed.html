@@ -104,7 +104,7 @@
                     <img src="{{ post.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
                     <div class="post-detail">
                       <div class="user-info">
-                        <h5><a href="{% url 'timeline-profile' post.author.id %}" class="profile-link">{{ post.author }}</a> <span class="following">following</span></h5>
+                        <h5><a href="{% url 'timeline-profile' post.author.id %}" class="profile-link">{{ post.author }}</a> <span class="following"> </span></h5>
                         <p class="text-muted">Published a photo {{ post.time_posted }}</p>
                       </div>
                       <div class="line-divider"></div>
