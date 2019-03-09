@@ -21,10 +21,10 @@
               <li><i class="icon ion-chatboxes"></i><div><a href="{% url 'postman:inbox' %}">Messages</a></div></li>
             </ul><!--news-feed links ends-->
             <div id="chat-block">
-              <div class="title">Ciblings</div>
+              <div class="title">Write to Ciblings</div>
               <ul class="online-users list-inline">
                 {% for userc in user_ciblings %}
-                    <li><a href="#" title="{{ userc }}"><img src="{{ userc.profile.image.url }}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
+                    <li><a href="{% url 'postman:write' userc %}" title="{{ userc }}"><img src="{{ userc.profile.image.url }}" alt="user" class="img-responsive profile-photo" /><span class="online-dot"></span></a></li>
                 {% endfor %}
               </ul>
             </div><!--chat block ends-->
