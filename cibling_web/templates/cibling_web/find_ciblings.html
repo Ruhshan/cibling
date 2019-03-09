@@ -1,4 +1,5 @@
 {% extends 'cibling_web/base_profile.html' %}
+{% load crispy_forms_tags %}
 
 {% block timeline-display-content %}
     {% load static %}
@@ -7,7 +8,37 @@
 
             <div class="col-md-3"></div>
             <div class="col-md-3">
-
+              <div class="search-forms">
+                  {% if country_form %}
+                      <form id="country_form" name="country_form" method="POST">
+                          {% csrf_token %}
+                              {{ country_form|crispy }}
+                            <button class="btn btn-outline-info" type="submit" name="submit" value="country">Find</button>
+                      </form>
+                  {% endif %}
+                  <br>
+                  {% if institute_form %}
+                      <form id="institute_form" name="institute_form" method="POST">
+                          {% csrf_token %}
+                              {{ institute_form|crispy }}
+                            <button class="btn btn-outline-info" type="submit" name="submit" value="institute">Find</button>
+                      </form>
+                  {% endif %}
+                  {% if subject_form %}
+                      <form id="subject_form" name="subject_form" method="POST">
+                          {% csrf_token %}
+                              {{ subject_form|crispy }}
+                            <button class="btn btn-outline-info" type="submit" name="submit" value="subject">Find</button>
+                      </form>
+                  {% endif %}
+                  {% if expertise_form %}
+                      <form id="expertise_form" name="expertise_form" method="POST">
+                          {% csrf_token %}
+                              {{ expertise_form|crispy }}
+                            <button class="btn btn-outline-info" type="submit" name="submit" value="expertise">Find</button>
+                      </form>
+                  {% endif %}
+              </div>
               <div class="Cibling-list">
                     <div class="Cibling-card">
                           <div class="row">

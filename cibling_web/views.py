@@ -8,7 +8,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.urls import reverse
 from .models import Post, Activity
 from django.db import models
-from .forms import PostForm, CommentForm
+from .forms import PostForm, CommentForm, CountryForm
+from . import forms
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 
@@ -552,7 +553,63 @@ def cibling_request(request):
 
     return render(request, 'cibling_web/cibling_requests.html', context)
 
+def get_ciblings_by_country(request, country):
+    user=request.user
+    users = []
+    dict = {}
+    # profiles_by_institutes = []
+    # profileinfos_by_subjects = []
+    key = None
+    institutes = Institute.objects.filter(country=country)
+    for institute in institutes:
+        profiles_by_countrys = Profile.objects.filter(institute=institute).exclude(user=user)
+        for profile in profiles_by_countrys:
+            users.append(profile.user)
+            dict[profile.user.id] = country
+    key = country
+    return (users, dict, key)
 
+def get_ciblings_by_univ(request, univ):
+    user = request.user
+    users = []
+    dict = {}
+    # profiles_by_institutes = []
+    # profileinfos_by_subjects = []
+    key = None
+    profiles_by_institutes = Profile.objects.filter(institute=univ).exclude(user=user)
+    for profile in profiles_by_institutes:
+        users.append(profile.user)
+        dict[profile.user.id] = univ
+    key = univ
+
+    return (users, dict, key)
+
+def get_ciblings_by_subject(request, subject):
+    user=request.user
+    users = []
+    dict = {}
+    key = None
+    profileinfos_by_subjects = ProfileInfo.objects.filter(subject=subject).exclude(profile=user.profile)
+    for profileinfo in profileinfos_by_subjects:
+        users.append(profileinfo.profile.user)
+        dict[profileinfo.profile.user.id]=subject
+    key = subject
+
+    return (users, dict, key)
+
+def get_ciblings_by_expertise(request, expertise):
+    user=request.user
+    users = []
+    dict = {}
+    key = None
+    profileinfos_by_expertises = expertise.profiles.all()
+    for profileinfo in profileinfos_by_expertises:
+        if profileinfo.profile.user != user:
+            users.append(profileinfo.profile.user)
+            dict[profileinfo.profile.user.id] = expertise
+    key = expertise
+
+    return (users, dict, key)
 
 def get_ciblings_by_key(request, univ, sub, country, exp):
     user = request.user
@@ -611,16 +668,74 @@ def right_sidebar_cibling_suggestion(request,pk):
 
 def find_ciblings(request, pk):
     user = request.user
-    expertise = pk%1000
-    pk=pk//10
-    country = pk%100
-    pk=pk//10
-    sub = pk%10
-    pk=pk//10
+    expertise = pk % 1000
+    pk = pk // 10
+    country = pk % 100
+    pk = pk // 10
+    sub = pk % 10
+    pk = pk // 10
     univ = pk
 
-    (users, dict, key) =get_ciblings_by_key(request, univ,sub,country,expertise)
+    context2 = {}
 
+    if request.method != 'POST':
+        country_form = CountryForm()
+        subject_form = forms.SubjectForm()
+        institute_form = forms.InstituteForm()
+        expertise_form = forms.ExpertiseForm()
+        if expertise == 1:
+            context2['expertise_form'] = expertise_form
+        if sub == 1:
+            context2['subject_form'] = subject_form
+        if univ == 1:
+            context2['institute_form'] = institute_form
+        if country == 1:
+            context2['country_form'] = country_form
+        (users, dict, key) =get_ciblings_by_key(request, univ,sub,country,expertise)
+
+    else:
+        if request.POST.get('submit')=='country':
+            country_form = CountryForm(request.POST)
+            institute_form = forms.InstituteForm()
+            subject_form = forms.SubjectForm()
+            expertise_form = forms.ExpertiseForm()
+            context2['country_form'] = country_form
+            if country_form.is_valid():
+                country = country_form.cleaned_data.get('choose_country')
+                (users, dict, key) = get_ciblings_by_country(request, country)
+        elif request.POST.get('submit')=='institute':
+            country_form = CountryForm()
+            institute_form = forms.InstituteForm(request.POST)
+            subject_form = forms.SubjectForm()
+            expertise_form = forms.ExpertiseForm()
+            context2['institute_form'] = institute_form
+            if institute_form.is_valid():
+                institute = institute_form.cleaned_data.get('choose_institute')
+                (users, dict, key) = get_ciblings_by_univ(request, institute)
+            else:
+                return redirect('newsfeed')
+        elif request.POST.get('submit')=='subject':
+            country_form = CountryForm()
+            institute_form = forms.InstituteForm()
+            subject_form = forms.SubjectForm(request.POST)
+            expertise_form = forms.ExpertiseForm()
+            context2['subject_form'] = subject_form
+            if subject_form.is_valid():
+                subject = subject_form.cleaned_data.get('choose_subject')
+                (users, dict, key) = get_ciblings_by_subject(request, subject)
+            else:
+                return redirect('newsfeed')
+        elif request.POST.get('submit')=='expertise':
+            country_form = CountryForm()
+            institute_form = forms.InstituteForm()
+            subject_form = forms.SubjectForm()
+            expertise_form = forms.ExpertiseForm(request.POST)
+            context2['expertise_form'] = expertise_form
+            if expertise_form.is_valid():
+                expertise = expertise_form.cleaned_data.get('choose_expertise')
+                (users, dict, key) = get_ciblings_by_expertise(request, expertise)
+            else:
+                return redirect('newsfeed')
 
     user_ciblings = []
 
@@ -655,13 +770,20 @@ def find_ciblings(request, pk):
         'dict': dict,
         'title': 'Find Ciblings',
         'user': request.user,
-        'pk': user.id,
-
+        'pk': request.user.id,
+        #'country_form': country_form,
+        #'institute_form': institute_form,
+        #'subject_form': subject_form,
+        #'expertise_form': expertise_form,
         'key': key
 
     }
 
+    for key in context2.keys():
+        context[key] = context2[key]
+
     return render(request, 'cibling_web/find_ciblings.html', context)
+
 
 
 def search_result(request):
