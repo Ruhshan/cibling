@@ -69,6 +69,8 @@ def register(request):
                 )
                 email.send()
                 '''
+            else:
+                return HttpResponse("<h1>Not registered</h1>")
 
         elif request.POST.get('submit')=='login':
             login_form = UserLoginForm(request.POST)
@@ -111,6 +113,7 @@ def register(request):
         reg_form = UserRegisterForm()
         #login_form = AuthenticationForm()
         login_form = UserLoginForm()
+        messages.success(request, "Please register")
 
     return render(request, 'users/register.html', {'reg_form':reg_form, 'login_form':login_form})
 
@@ -134,7 +137,7 @@ def register_login_with_username(request):
                 reg_form.save()
                 username = reg_form.cleaned_data.get('username')
                 messages.success(request, 'Account created for {}. You can now log in'.format(username))
-                return redirect('register')
+                return render(request, 'users/register.html', {'reg_form': reg_form, 'login_form': login_form})
                 '''
                 current_site = get_current_site(request)
                 mail_subject = 'Activate your blog account.'
@@ -165,7 +168,7 @@ def register_login_with_username(request):
                     return redirect('newsfeed')
                 else:
                     messages.ERROR('Wrong username or password given')
-                    return redirect('register')
+                    return render(request, 'users/register.html', {'reg_form': reg_form, 'login_form': login_form})
 
             else:
                 return redirect('register')
@@ -175,7 +178,7 @@ def register_login_with_username(request):
         reg_form = UserRegisterForm()
         login_form = AuthenticationForm()
 
-    return render(request, 'users/register.html', {'reg_form':reg_form, 'login_form':login_form, 'messages':messages})
+    return render(request, 'users/register.html', {'reg_form':reg_form, 'login_form':login_form})
 
 
 def register_with_activation(request):

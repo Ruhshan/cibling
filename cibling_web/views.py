@@ -666,6 +666,7 @@ def right_sidebar_cibling_suggestion(request,pk):
 
 #just a comment
 
+@login_required
 def find_ciblings(request, pk):
     user = request.user
     expertise = pk % 1000
