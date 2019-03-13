@@ -48,7 +48,7 @@ def register(request):
                 email = reg_form.cleaned_data.get('email')
                 #if email.find('.ac.')!=-1:
                 messages.success(request, 'Account created for {}. You can now log in'.format(username))
-                return redirect('register')
+                return render(request, 'users/registration_success.html')
                 '''
                 else:
                     messages.error(request, 'Please enter your academic mail')
@@ -70,7 +70,7 @@ def register(request):
                 email.send()
                 '''
             else:
-                return HttpResponse("<h1>Not registered</h1>")
+                return render(request, 'users/registration_error.html')
 
         elif request.POST.get('submit')=='login':
             login_form = UserLoginForm(request.POST)
