@@ -5,6 +5,12 @@ from users.models import Country, Institute, Subject, Expertise
 
 class PostForm(forms.ModelForm):
     image = forms.ImageField(required=False)
+    content = forms.CharField(
+        max_length=2000,
+        widget=forms.Textarea(
+            attrs={'rows':5,}
+        )
+    )
 
     class Meta:
         model = Post
