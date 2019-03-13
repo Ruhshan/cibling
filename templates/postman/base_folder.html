@@ -48,11 +48,11 @@ in the INSTALLED_APPS setting.
                                 <a title="" href="{% url 'timeline-profile' user.pk %}"><i class="fa fa-user"></i>Profile</a>
                             </div>
                             <ul>{% postman_unread as unread_count %}
-                                     <li><a href="{% url 'postman:inbox' %}">{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
-                                     <li><a href="{% url 'postman:sent' %}">{% trans "Sent Messages" %}</a></li>
-                                     <li><a href="{% url 'postman:write' %}">{% trans "Write" %}</a></li>
-                                     <li><a href="{% url 'postman:archives' %}">{% trans "Archives" %}</a></li>
-                                     <li><a href="{% url 'postman:trash' %}">{% trans "Trash" %}</a></li>
+                                     <li><a href="{% url 'postman:inbox' %}"><i class="fa fa-inbox"></i>{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
+                                <li><a href="{% url 'postman:sent' %}"><i class="fa fa-paper-plane-o"></i>{% trans "Sent Messages" %}</a></li>
+                                <li><a href="{% url 'postman:write' %}"><i class="fa fa-briefcase"></i>{% trans "Write" %}</a></li>
+                                <li><a href="{% url 'postman:archives' %}"><i class="fa fa-plane"></i>{% trans "Archives" %}</a></li>
+                                <li><a href="{% url 'postman:trash' %}"><i class="fa fa-trash-o"></i>{% trans "Trash" %}</a></li>
                             </ul>
 
                         </div>
