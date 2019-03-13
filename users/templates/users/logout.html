@@ -1,10 +1,17 @@
 {% extends "cibling_web/base_temp.html" %}
 {% block newsfeed-content %}
-    <h2>You have been logged out</h2>
-    <div class="border-top pt-3">
-        <small class="text-muted">
-            <a class="ml-2" href="{% url 'login' %}">Login Again</a>
-        </small>
+    <div id="page-contents">
+    	<div class="container">
+        <div class="row">
+            <div class="col-md-12">
+              <div class="logout-page">
+                <h2>You have been logged out</h2>
+                <a href="{% url 'login' %}">Login Again</a>
+              </div>
+            </div>
+				</div>
+				</div>
+      </div>
     </div>
 {% endblock newsfeed-content %}
 {% block footer %}

@@ -3110,3 +3110,94 @@ ul.nav.nav-pills.serch-result-nav {
 .row.widget-page aside.sidebar {
     width: 100%;
 }
+
+
+/*--- notification page ---*/
+
+.notification-box > ul {
+    display: inline-block;
+    list-style: outside none none;
+    margin-bottom: 0;
+    margin-top: 20px;
+    padding-left: 0;
+    width: 100%;
+}
+
+.notification-box {
+    display: inline-block;
+    width: 100%;
+}
+
+.notification-box > ul > li {
+    border-bottom: 1px solid #e1e8ed;
+    display: inline-block;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+}
+
+.notification-box > ul li figure {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-right: 10px;
+    max-width: 45px;
+    min-width: 45px;
+    vertical-align: top;
+}
+
+.notifi-meta {
+    display: inline-block;
+    line-height: initial;
+    vertical-align: middle;
+    width: 86%;
+}
+
+.notifi-meta > p {
+    font-size: 15px;
+    margin-bottom: 0;
+    text-transform: capitalize;
+    color: #3a3a3a;
+}
+
+.notifi-meta > span {
+    color: #999;
+    font-size: 12px;
+}
+
+.notification-box > ul > li:last-child {
+    border-bottom: 0 none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.notification-box > ul li > i.del {
+    cursor: pointer;
+    display: inline-block;
+    opacity: 0;
+    text-align: right;
+    vertical-align: top;
+    visibility: hidden;
+    transition: all 0.2s linear 0s;
+    color: red;
+}
+
+.notification-box > ul li:hover > i.del {
+    opacity: 1;
+    visibility: visible;
+}
+
+.more-options {
+    display: inline-block;
+    float: right;
+    position: relative;
+}
+
+.more-options > i {
+    color: #999 !important;
+    font-size: 16px;
+}
+
+/* Logut CSS */
+.logout-page {
+  min-height: 400px;
+}

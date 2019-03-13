@@ -196,7 +196,7 @@ def Newsfeed(request):
             'posts':posts,
             'comments':comments,
             'user': request.user,
-            'user_ciblings': user_ciblings,
+            'user_ciblings': user_ciblings[:-1],
             'number_of_ciblings': len(user_ciblings)-1,
             'form': form,
             'comment_form': comment_form,
