@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '5s5wj2j#vn!x_0eydnhhq!wq^@3mw$kak1-zmx2aw#aiu96w*w'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['www.cibling.ac','63.142.254.153','127.0.0.1', '*']
 
