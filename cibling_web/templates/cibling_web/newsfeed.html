@@ -89,11 +89,7 @@
 
             {% for post in posts %}
                 <div class="post-content">
-                    {% if post.image %}
-                      {% if post.image != 'default.jpg' %}
-                        <img src="{{ post.image.url }}" alt="post-image" class="img-responsive post-image" />
-                      {% endif %}
-                    {% endif %}
+
                   <div class="post-container">
                     <img src="{{ post.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
                     <div class="post-detail">
@@ -115,7 +111,13 @@
                               </div>
                           {% endif %}
                       {% endfor %}
-
+                        <div onclick="location.href='{% url 'post-detail-view' post.id %}';" style="cursor: pointer;">
+                            {% if post.image %}
+                              {% if post.image != 'default.jpg' %}
+                                <img src="{{ post.image.url }}" alt="post-image" class="img-responsive post-image" />
+                              {% endif %}
+                            {% endif %}
+                        </div>
                         <div class="post-comment">
                             <form method="POST">
                                 {% csrf_token %}
