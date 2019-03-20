@@ -102,6 +102,13 @@
                         <p>{{ post.content|urlize }}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                       </div>
                       <div class="line-divider"></div>
+                        <div onclick="location.href='{% url 'post-detail-view' post.id %}';" style="cursor: pointer;">
+                            {% if post.image %}
+                              {% if post.image != 'default.jpg' %}
+                                <img src="{{ post.image.url }}" alt="post-image" class="img-responsive post-image" />
+                              {% endif %}
+                            {% endif %}
+                        </div>
                       {% for comment in comments %}
                           {% if comment.post == post %}
                               <div class="post-comment">
@@ -111,13 +118,7 @@
                               </div>
                           {% endif %}
                       {% endfor %}
-                        <div onclick="location.href='{% url 'post-detail-view' post.id %}';" style="cursor: pointer;">
-                            {% if post.image %}
-                              {% if post.image != 'default.jpg' %}
-                                <img src="{{ post.image.url }}" alt="post-image" class="img-responsive post-image" />
-                              {% endif %}
-                            {% endif %}
-                        </div>
+
                         <div class="post-comment">
                             <form method="POST">
                                 {% csrf_token %}
