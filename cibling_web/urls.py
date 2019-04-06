@@ -11,6 +11,7 @@ urlpatterns=[
     path('post/<int:pk>/delete/', views.PostDeleteView.as_view(), name='web-timeline-delete-view'),
     path('post/new/', views.PostCreateView.as_view(), name='web-timeline-post-create-view'),
     path('comment/<int:pk>/delete', views.delete_comment, name='delete-comment'),
+    path('post/<int:pk>/delete', views.delete_post, name='delete-post'),
     path('timeline/<int:pk>/', views.timeline_profile , name='timeline-profile'),
     path('timeline-about/<int:pk>/', views.timeline_profile_about, name='timeline-profile-about'),
     path('timeline/ciblings/<int:pk>/', views.timeline_ciblings, name='timeline-ciblings'),

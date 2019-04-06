@@ -335,6 +335,11 @@ def delete_comment(request, pk):
     messages.success(request,'Comment deleted')
     return redirect('post-detail-view', pk=post.id)
 
+def delete_post(request, pk):
+    Post.objects.filter(id=pk).delete()
+    messages.success(request, 'Post Deleted')
+    return redirect('newsfeed')
+
 def addability(request, pk):
     user2 = User.objects.filter(id=pk).first()
     user1 = request.user

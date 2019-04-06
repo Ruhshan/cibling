@@ -3226,10 +3226,10 @@ ul.nav.nav-pills.serch-result-nav {
     text-decoration: none;
     cursor: pointer;
     transition: all 0.3s ease-out;
-    padding-top: 10px;
+    /* padding-top: 10px; */
     margin-left: 196px;
     position: relative;
-    top: 25px;
+    top: -50px;
 }
 
 .post-content .post-container .box .button:hover {
