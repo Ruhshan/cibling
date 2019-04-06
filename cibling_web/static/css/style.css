@@ -3201,3 +3201,92 @@ ul.nav.nav-pills.serch-result-nav {
 .logout-page {
   min-height: 400px;
 }
+
+/*==================================================
+  Post Delete and Popup style
+  ==================================================*/
+
+
+
+.post-content .post-container .box {
+    width: 40px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.2);
+    padding: 3px;
+    background-clip: padding-box;
+    margin-top: -17px;
+}
+
+.post-content .post-container .box .button {
+    font-size: 1em;
+    padding: 6px;
+    color: #f70000;
+    border: 2px solid #28aee6;
+    border-radius: 12%;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease-out;
+    padding-top: 10px;
+    margin-left: 196px;
+    position: relative;
+    top: 25px;
+}
+
+.post-content .post-container .box .button:hover {
+    background: #d6d83b;
+}
+
+.post-content .post-container .overlay {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+
+
+.post-content .post-container .overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+
+.post-content .post-container .overlay .popup {
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 55%;
+    position: relative;
+    transition: all 5s ease-in-out;
+}
+
+.post-content .post-container .overlay.popup h2 {
+    margin-top: 0;
+    color: #333;
+    font-family: Tahoma, Arial, sans-serif;
+}
+
+.post-content .post-container .overlay.popup .close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    transition: all 200ms;
+    font-size: 30px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #333;
+}
+
+.post-content .post-container .overlay .popup .close:hover {
+    color: orange;
+}
+
+.post-content .post-container .overlay .popup .content {
+    max-height: 30%;
+    overflow: auto;
+}
+

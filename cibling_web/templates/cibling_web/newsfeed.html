@@ -97,6 +97,9 @@
                         <h5><a href="{% url 'timeline-profile' post.author.id %}" class="profile-link">{{ post.author }}</a> <span class="following"> </span></h5>
                         <p class="text-muted">Published a photo {{ post.time_posted }}</p>
                       </div>
+                        <div class="box col-md-6">
+                            <a class="button" href="{% url 'web-timeline-delete-view' post.id %}"> X </a>
+                        </div>
                       <div class="line-divider"></div>
                       <div class="post-text" onclick="location.href='{% url 'post-detail-view' post.id %}';" style="cursor: pointer;">
                         <p>{{ post.content|urlize }}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
