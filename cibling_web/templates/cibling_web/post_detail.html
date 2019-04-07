@@ -21,24 +21,9 @@
                     <img src="{{ post.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
                     <div class="post-detail">
                       <div class="user-info">
-                        <h5><a href="{% url 'timeline-profile' post.author.id %}" class="profile-link">{{ post.author }}</a> <span class="following">following</span></h5>
+                        <h5><a href="{% url 'timeline-profile' post.author.id %}" class="profile-link">{{ post.author }}</a></h5>
                         <p class="text-muted">Published a photo {{ post.time_posted }}</p>
                       </div>
-                        {% if post.author.id == user.id %}
-                            <div class="box col-md-6">
-                                <a class="button" href="#popup1"> X </a>
-                            </div>
-                            <div id="popup1" class="overlay">
-                              <div class="popup">
-                                <h2 class="danger">Do You Want To Delete It</h2>
-                                  <a class="close" href="#"></a>
-                                <div class="content">
-                                  <div class="yes" style="float:left;"><a href="{% url 'delete-post' post.id %}">Yes</a></div>
-                                  <div class="no" style="float:right;"><a href="#">No</a></div>
-                                </div>
-                              </div>
-                            </div>
-                        {% endif %}
                       <div class="line-divider"></div>
                       <div class="post-text">
                         <p>{{ post.content|urlize }}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
@@ -76,6 +61,27 @@
                         </div>
 
                     </div>
+                    {% if post.author.id == user.id %}
+                    <div class="post-delete">
+                      <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+                      <!-- Modal -->
+                      <div class="modal fade" id="myModal" role="dialog">
+                        <div class="modal-dialog modal-sm">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h4 class="modal-title">Are you sure?</h4>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal" onclick="location.href='{% url 'delete-post' post.id %}'">Yes</button>
+                              <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+
                   </div>
                 </div>
 

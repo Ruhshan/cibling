@@ -337,7 +337,6 @@ def delete_comment(request, pk):
 
 def delete_post(request, pk):
     Post.objects.filter(id=pk).delete()
-    messages.success(request, 'Post Deleted')
     return redirect('newsfeed')
 
 def addability(request, pk):

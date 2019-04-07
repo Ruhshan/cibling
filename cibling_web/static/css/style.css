@@ -3290,3 +3290,19 @@ ul.nav.nav-pills.serch-result-nav {
     overflow: auto;
 }
 
+/* Post Style April */
+.post-content {
+  padding: 0px 0px 20px 0;
+}
+
+.post-container {
+  position: relative;
+}
+
+.post-delete {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
+}
+
