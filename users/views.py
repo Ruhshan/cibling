@@ -70,7 +70,10 @@ def register(request):
                 email.send()
                 '''
             else:
-                return render(request, 'users/registration_error.html')
+                error_message = ''
+                username = reg_form.cleaned_data.get('username')
+                error_message = username
+                return render(request, 'users/registration_error.html', {'em': error_message})
 
         elif request.POST.get('submit')=='login':
             login_form = UserLoginForm(request.POST)

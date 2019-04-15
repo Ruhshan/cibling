@@ -260,6 +260,7 @@ def timeline_profile(request, pk):
             'posts':posts,
             'comments':comments,
             'user': User.objects.filter(id=pk).first(),
+            'session_user': request.user,
             'form': form,
             'comment_form': comment_form,
             'pk': pk,

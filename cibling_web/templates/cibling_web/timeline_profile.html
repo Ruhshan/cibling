@@ -91,7 +91,7 @@
 
 
                       </div>
-                    {% if post.author.id == user.id %}
+                    {% if post.author.id == session_user.id %}
                     <div class="post-delete" onclick="location.href='{% url 'post-detail-view' post.id %}'">
                       <button type="button" class="btn btn-info btn-lg" data-toggle="modal" ><i class="fa fa-trash-o" aria-hidden="true"></i></button>
 
