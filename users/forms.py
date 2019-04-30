@@ -16,10 +16,14 @@ def validate_ac(value):
 
 class UserRegisterForm(UserCreationForm):
     #email = forms.EmailField(help_text='Please enter your academic email', validators=[validate_ac])
-    email = forms.EmailField(help_text='Please enter your academic email')
+    first_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Please enter your first part of the name'}))
+    last_name = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Please enter your last part of the name'}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Please enter your email'}),
+                             help_text='Email should be your academic email')
     years = [i for i in range(1940,2001)]
-    date_of_birth = forms.DateField(initial='YYYY-MM-DD')
-    institute = forms.ModelChoiceField(queryset=Institute.objects)
+    date_of_birth = forms.DateField(widget=forms.TextInput(attrs={'placeholder': 'Select your date of birth'}),
+                                    help_text='Format: YYYY-MM-DD')
+    institute = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Please enter the name of your institution'}))
 
     class Meta:
         model = User

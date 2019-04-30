@@ -20,6 +20,9 @@ media
 *.py[cod]
 *$py.class
 
+### Migrations
+migrations/
+
 # C extensions
 *.so
 
