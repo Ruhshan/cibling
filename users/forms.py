@@ -23,7 +23,7 @@ class UserRegisterForm(UserCreationForm):
     years = [i for i in range(1940,2001)]
     date_of_birth = forms.DateField(widget=forms.TextInput(attrs={'placeholder': 'Select your date of birth'}),
                                     help_text='Format: YYYY-MM-DD')
-    institute = forms.CharField(widget=forms.TextInput(attrs={'placeholder': 'Please enter the name of your institution'}))
+    institute = forms.ModelChoiceField(queryset=Institute.objects)
 
     class Meta:
         model = User
@@ -44,7 +44,7 @@ class UserRegisterForm(UserCreationForm):
         user = super(UserRegisterForm, self).save(commit=False)
         institute = self.cleaned_data.get('institute')
         date_of_birth = self.cleaned_data.get('date_of_birth')
-        country = institute.country
+        country = ''
         if commit:
             user.save()
         Profile.objects.create(user=user,institute=institute,date_of_birth=date_of_birth)
