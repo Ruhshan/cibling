@@ -36,6 +36,6 @@ def check_email(sender,instance,**kwargs):
         if usr.username == instance.username:
             pass
         else:
-            raise Exception('EmailExists')
+            raise Exception('Email is already registered.')
     except User.DoesNotExist:
         pass
