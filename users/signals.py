@@ -31,8 +31,8 @@ def save_profile(sender, instance, **kwargs):
 def check_email(sender,instance,**kwargs):
     try:
         usr = User.objects.get(email=instance.email)
-        # If email exists but it is assigned with the same username than we are overlooking here
-        # This check is redundant but I am still keeping it
+        # If email exists but it is assigned with the same username than we are overlooking here (above)
+        # This (below) check is redundant but I am still keeping it
         if usr.username == instance.username:
             pass
         else:
