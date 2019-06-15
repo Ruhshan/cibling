@@ -45,7 +45,16 @@
                 </div><!--Registration Form Contents Ends-->
 
                 <!--Login-->
-                <div class="tab-pane" id="register">
+                <div
+                        {% if reg_error %}
+                        class="tab-pane active"
+                        {% else %}
+                        class="tab-pane"
+                        {% endif %}
+                        id="register" >
+                    <div id="app">
+
+
                     <form method="POST">
                       {% csrf_token %}
                       <fieldset class="form-group">
@@ -56,6 +65,7 @@
                           <button class="btn btn-outline-info" type="submit" name="submit" value="register">Sign Up</button>
                       </div>
                   </form>
+                    </div>
                 </div>
               </div>
             </div>
@@ -82,6 +92,8 @@
 {% block script %}
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/datepicker.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/i18n/datepicker.en.min.js"></script>
-    <script type="text/javascript" src="{% static 'custom/js/register.js' %}"></script>
+{#    <script type="text/javascript" src="{% static 'custom/js/register.js' %}"></script>#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script type="text/javascript" src="{% static 'custom/js/register-app.js' %}"></script>
 {% endblock %}
 

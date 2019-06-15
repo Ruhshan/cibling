@@ -1,8 +1,8 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser, Profile, Institute, ProfileInfo
-from .listtextwidget import ListTextWidget
+from .models import CustomUser, Profile, Institute, ProfileInfo, Country
+from .listtextwidget import ListTextWidget, ListTextWidgetDynamic
 #for writing validator
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -23,8 +23,9 @@ class UserRegisterForm(UserCreationForm):
     years = [i for i in range(1940,2001)]
     date_of_birth = forms.DateField(widget=forms.TextInput(attrs={'placeholder': 'Select your date of birth'}),
                                     help_text='Format: YYYY-MM-DD')
-    institute = forms.ModelChoiceField(queryset=Institute.objects)
-    country = forms.CharField(widget=ListTextWidget(data_list, name='country-list'))
+
+    institute = forms.CharField(widget=ListTextWidgetDynamic("institute", name='institute-list',attrs={"v-on:focus":"focused"}))
+    country = forms.CharField(widget=ListTextWidget(Country.objects.all().values_list('country', flat=True), name='country-list', attrs={'v-model':"country"}))
 
 
     class Meta:
@@ -47,10 +48,11 @@ class UserRegisterForm(UserCreationForm):
         user = super(UserRegisterForm, self).save(commit=False)
         institute = self.cleaned_data.get('institute')
         date_of_birth = self.cleaned_data.get('date_of_birth')
-        country = ''
-        if commit:
-            user.save()
-        Profile.objects.create(user=user,institute=institute,date_of_birth=date_of_birth)
+        country = self.cleaned_data.get('country')
+        print(country)
+        #if commit:
+        #    user.save()
+        #Profile.objects.create(user=user,institute=institute,date_of_birth=date_of_birth)
         return user
 
 class UserLoginForm(forms.Form):
