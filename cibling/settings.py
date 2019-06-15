@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     'cibling_web.apps.CiblingWebConfig',
     'users.apps.UsersConfig',
     'crispy_forms',

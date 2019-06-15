@@ -1,140 +1,114 @@
 {% extends "cibling_web/base2.html" %}
+{% load static %}
 {% load crispy_forms_tags %}
+
+{% block head %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/css/datepicker.min.css"/>
+    <link rel="stylesheet" href="{% static 'css/tagsinput.css' %}"/>
+    <style>
+        .invalid-feedback {
+            color: indianred;
+        }
+
+        .tag {
+            color: #3E6D8E;
+            background-color: #E0EAF1;
+            border-bottom: 1px solid #b3cee1;
+            border-right: 1px solid #b3cee1;
+            padding: 3px 4px 3px 4px;
+            margin: 2px 2px 2px 0;
+            text-decoration: none;
+            font-size: 90%;
+            line-height: 2.4;
+            white-space: nowrap;
+        }
+
+        .tag:hover {
+            background-color: #c4dae9;
+            border-bottom: 1px solid #c4dae9;
+            border-right: 1px solid #c4dae9;
+            text-decoration: none;
+        }
+
+        .cross {
+            background-color: #cdbb13;
+            border-radius: 30px;
+            padding: 2px;
+        }
+
+        .cross:hover {
+            background-color: red;
+        }
+    </style>
+{% endblock %}
+
 {% block body-content %}
     <div id="lp-register">
-        <div class="container wrapper">
-            <div class="row">
-                <div class="col-sm-5">
-                    <div class="intro-texts">
-                        <h1 class="text-white">Cibling</h1>
-                        <p>Worldwide Kinship<br/> <br/></p>
-                        <a class="btn btn-primary" href="{% url 'about' %}">Learn More</a>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-sm-offset-1">
-                    <div class="reg-form-container">
+    <div class="container wrapper">
+    <div class="row">
+    <div class="col-sm-5">
+        <div class="intro-texts">
+            <h1 class="text-white">Cibling</h1>
+            <p>Worldwide Kinship<br/> <br/></p>
+            <a class="btn btn-primary" href="{% url 'about' %}">Learn More</a>
+        </div>
+    </div>
+    <div class="col-sm-6 col-sm-offset-1">
+        <div class="reg-form-container">
 
-                        <!-- Register/Login Tabs-->
-                        <div class="reg-options">
-                            <ul class="nav nav-tabs">
-                                <li><a href="#login" data-toggle="tab">Login</a></li>
-                                <li><a href="#register" data-toggle="tab">Register</a></li>
-                            </ul><!--Tabs End-->
+            <!-- Register/Login Tabs-->
+            <div class="reg-options">
+                <ul class="nav nav-tabs">
+                    <li><a href="#login" data-toggle="tab">Login</a></li>
+                    <li><a href="#register" data-toggle="tab">Register</a></li>
+                </ul><!--Tabs End-->
+            </div>
+
+            <!--Registration Form Contents-->
+            <div class="tab-content">
+                <div class="tab-pane active" id="login">
+                    <form name="login_form" id="login_form" method="POST">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4">Log In</legend>
+                            {{ login_form|crispy }}
+                        </fieldset>
+                        <div class="form-group">
+                            <button class="btn btn-outline-info" type="submit" name="submit" value="login">
+                                Login
+                            </button>
+
+
                         </div>
+                    </form>
+                </div><!--Registration Form Contents Ends-->
 
-                        <!--Registration Form Contents-->
-                        <div class="tab-content">
-                            <div class="tab-pane active" id="login">
-                                <form name="login_form" id="login_form" method="POST">
-                                    {% csrf_token %}
-                                    <fieldset class="form-group">
-                                        <legend class="border-bottom mb-4">Log In</legend>
-                                        {{ login_form|crispy }}
-                                    </fieldset>
-                                    <div class="form-group">
-                                        <button class="btn btn-outline-info" type="submit" name="submit" value="login">
-                                            Login
-                                        </button>
+                <!--Login-->
+                <div
+                        {% if reg_error %}
+                            class="tab-pane active"
+                        {% else %}
+                            class="tab-pane"
+                        {% endif %}
+                            id="register">
+                    <div id="app">
 
-                                    </div>
-                                </form>
-                                <!--
-                                <form name="Login_form" id="Login_form" method="POST">
-                                   <div class="row">
-                                    <div class="form-group col-xs-12">
-                                      <label for="my-email" class="sr-only">Email</label>
-                                      <input id="my-email" class="form-control input-group-lg" type="text" name="Email" title="Enter Email" placeholder="Your Email">
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="form-group col-xs-12">
-                                      <label for="my-password" class="sr-only">Password</label>
-                                      <input id="my-password" class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Password">
-                                    </div>
-                                  </div>
-                                  <div class="row">
-                                    <div class="form-group col-xs-12">
-                                      <button class="btn btn-outline-info" type="submit" name="submit" value="login">Login</button>
-                                    </div>
-                                  </div>
-                                </form>
-                                -->
-                                <!--
-                                <form method="POST">
-                                      <fieldset class="form-group">
-                                          <legend class="border-bottom mb-4">Log In</legend>
-                                      </fieldset>
-                                      <div class="form-group">
-                                          <button class="btn btn-outline-info" type="submit" name="submit" value="login">Login</button>
+                        <form method="POST" onsubmit="return false;">
+                            {% csrf_token %}
+                            <fieldset class="form-group">
+                                <legend class="border-bottom mb-4">Join Today</legend>
+                                {{ reg_form|crispy }}
+                            </fieldset>
 
-                                      </div>
-                                  </form>
-                                  -->
+                            <input type="text" data-role="tagsinput" value="jQuery,Script,Net">
 
-
-                                <!--
-                              <h3>Register Now !!!</h3>
-                              <p class="text-muted">Be cool and join today. Meet millions</p>
-
-
-                              <p><a href="#">Already have an account?</a></p>
-                              <button class="btn btn-primary" type="submit">Register Now</button>
-                              -->
-                            </div><!--Registration Form Contents Ends-->
-
-                            <!--Login-->
-                            <div class="tab-pane" id="register">
-                                <!--Login Form-->
-                                <!--
-                              <form name="Login_form" id='Login_form'>
-                                 <div class="row">
-                                  <div class="form-group col-xs-12">
-                                    <label for="my-email" class="sr-only">Email</label>
-                                    <input id="my-email" class="form-control input-group-lg" type="text" name="Email" title="Enter Email" placeholder="Your Email"/>
-                                  </div>
-                                </div>
-                                <div class="row">
-                                  <div class="form-group col-xs-12">
-                                    <label for="my-password" class="sr-only">Password</label>
-                                    <input id="my-password" class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Password"/>
-                                  </div>
-                                </div>
-                              </form>
-                              --><!--Login Form Ends-->
-
-                                <form method="POST">
-                                    {% csrf_token %}
-                                    <fieldset class="form-group">
-                                        <legend class="border-bottom mb-4">Join Today</legend>
-                                        {% for field in reg_form %}
-                                            {% if field.name != 'country' %}
-                                                {{ field|as_crispy_field }}
-                                            {% endif %}
-                                        {% endfor %}
-                                        <div id="div_id_country" class="form-group">
-                                            <label for="id_country" class="col-form-label  requiredField">
-                                                Country<span class="asteriskField">*</span>
-                                            </label>
-                                            <div class="">
-                                                <input name="country" list="countries" type="text"
-                                                       class="form-control" required
-                                                       id="id_country">
-                                                <datalist id="countries">
-                                                    {% for country in countries %}
-                                                        <option value="{{ country.country }}">
-                                                    {% endfor %}
-                                                </datalist>
-                                            </div>
-                                        </div>
-                                    </fieldset>
-                                    <div class="form-group">
-                                        <button class="btn btn-outline-info" type="submit" name="submit"
-                                                value="register">Sign Up
-                                        </button>
-                                    </div>
-                                </form>
+                            <div class="form-group">
+                                <button class="btn btn-outline-info" type="submit" name="submit" value="register">Sign
+                                    Up
+                                </button>
                             </div>
-                        </div>
+                        </form>
+
                     </div>
                 </div>
             </div>
@@ -155,4 +129,16 @@
     </div>
 
 {% endblock body-content %}
+
+{% block script %}
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/datepicker.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/i18n/datepicker.en.min.js"></script>
+    {#    <script type="text/javascript" src="{% static 'custom/js/register.js' %}"></script>#}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/tagsinput.js' %}"></script>
+    <script type="text/javascript" src="{% static 'custom/js/register-app.js' %}"></script>
+{% endblock %}
 

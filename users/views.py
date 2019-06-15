@@ -73,7 +73,8 @@ def register(request):
                 error_message = ''
                 username = reg_form.cleaned_data.get('username')
                 error_message = username
-                return render(request, 'users/registration_error.html', {'em': error_message})
+                #return render(request, 'users/registration_error.html', {'em': error_message})
+                return render(request, 'users/register.html', {'reg_form': reg_form, 'login_form': login_form, 'reg_error':True})
 
         elif request.POST.get('submit')=='login':
             login_form = UserLoginForm(request.POST)
