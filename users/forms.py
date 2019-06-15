@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser, Profile, Institute, ProfileInfo
-
+from .listtextwidget import ListTextWidget
 #for writing validator
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -24,10 +24,13 @@ class UserRegisterForm(UserCreationForm):
     date_of_birth = forms.DateField(widget=forms.TextInput(attrs={'placeholder': 'Select your date of birth'}),
                                     help_text='Format: YYYY-MM-DD')
     institute = forms.ModelChoiceField(queryset=Institute.objects)
+    country = forms.CharField(widget=ListTextWidget(data_list, name='country-list'))
+
 
     class Meta:
         model = User
-        fields = ['first_name','last_name','username', 'email', 'date_of_birth', 'institute', 'password1', 'password2']
+        fields = ['first_name','last_name','username', 'email', 'date_of_birth', 'country','institute', 'password1', 'password2']
+
     '''
     def is_valid(self):
         valid = super(UserRegisterForm, self).is_valid()
