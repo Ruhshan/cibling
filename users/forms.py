@@ -44,6 +44,9 @@ class UserRegisterForm(UserCreationForm):
             return False
     '''
 
+    def clean_email(self):
+        raise forms.ValidationError("You have forgotten about Fred!")
+
     def save(self, commit=True):
         user = super(UserRegisterForm, self).save(commit=False)
         institute = self.cleaned_data.get('institute')
