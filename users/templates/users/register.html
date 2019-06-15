@@ -2,133 +2,156 @@
 {% load crispy_forms_tags %}
 {% block body-content %}
     <div id="lp-register">
-    	<div class="container wrapper">
-        <div class="row">
-        	<div class="col-sm-5">
-            <div class="intro-texts">
-            	<h1 class="text-white">Cibling</h1>
-            	<p>Worldwide Kinship<br /> <br /></p>
-              <a class="btn btn-primary" href="{% url 'about' %}">Learn More</a>
-            </div>
-          </div>
-        	<div class="col-sm-6 col-sm-offset-1">
-            <div class="reg-form-container">
-
-              <!-- Register/Login Tabs-->
-              <div class="reg-options">
-                <ul class="nav nav-tabs">
-                  <li><a href="#login" data-toggle="tab">Login</a></li>
-                  <li><a href="#register" data-toggle="tab">Register</a></li>
-                </ul><!--Tabs End-->
-              </div>
-
-              <!--Registration Form Contents-->
-              <div class="tab-content">
-                <div class="tab-pane active" id="login">
-                  <form name="login_form" id="login_form" method="POST">
-                      {% csrf_token %}
-                      <fieldset class="form-group">
-                          <legend class="border-bottom mb-4">Log In</legend>
-                          {{ login_form|crispy }}
-                      </fieldset>
-                      <div class="form-group">
-                        <button class="btn btn-outline-info" type="submit" name="submit" value="login">Login</button>
-
-                      </div>
-                  </form>
-                  <!--
-                  <form name="Login_form" id="Login_form" method="POST">
-                     <div class="row">
-                      <div class="form-group col-xs-12">
-                        <label for="my-email" class="sr-only">Email</label>
-                        <input id="my-email" class="form-control input-group-lg" type="text" name="Email" title="Enter Email" placeholder="Your Email">
-                      </div>
+        <div class="container wrapper">
+            <div class="row">
+                <div class="col-sm-5">
+                    <div class="intro-texts">
+                        <h1 class="text-white">Cibling</h1>
+                        <p>Worldwide Kinship<br/> <br/></p>
+                        <a class="btn btn-primary" href="{% url 'about' %}">Learn More</a>
                     </div>
-                    <div class="row">
-                      <div class="form-group col-xs-12">
-                        <label for="my-password" class="sr-only">Password</label>
-                        <input id="my-password" class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Password">
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-xs-12">
-                        <button class="btn btn-outline-info" type="submit" name="submit" value="login">Login</button>
-                      </div>
-                    </div>
-                  </form>
-                  -->
-                  <!--
-                  <form method="POST">
-                        <fieldset class="form-group">
-                            <legend class="border-bottom mb-4">Log In</legend>
-                        </fieldset>
-                        <div class="form-group">
-                            <button class="btn btn-outline-info" type="submit" name="submit" value="login">Login</button>
-
-                        </div>
-                    </form>
-                    -->
-
-
-                    <!--
-                  <h3>Register Now !!!</h3>
-                  <p class="text-muted">Be cool and join today. Meet millions</p>
-
-
-                  <p><a href="#">Already have an account?</a></p>
-                  <button class="btn btn-primary" type="submit">Register Now</button>
-                  -->
-                </div><!--Registration Form Contents Ends-->
-
-                <!--Login-->
-                <div class="tab-pane" id="register">
-                  <!--Login Form-->
-                    <!--
-                  <form name="Login_form" id='Login_form'>
-                     <div class="row">
-                      <div class="form-group col-xs-12">
-                        <label for="my-email" class="sr-only">Email</label>
-                        <input id="my-email" class="form-control input-group-lg" type="text" name="Email" title="Enter Email" placeholder="Your Email"/>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="form-group col-xs-12">
-                        <label for="my-password" class="sr-only">Password</label>
-                        <input id="my-password" class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Password"/>
-                      </div>
-                    </div>
-                  </form>
-                  --><!--Login Form Ends-->
-
-                    <form method="POST">
-                      {% csrf_token %}
-                      <fieldset class="form-group">
-                          <legend class="border-bottom mb-4">Join Today</legend>
-                          {{ reg_form|crispy }}
-                      </fieldset>
-                      <div class="form-group">
-                          <button class="btn btn-outline-info" type="submit" name="submit" value="register">Sign Up</button>
-                      </div>
-                  </form>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-6 col-sm-offset-6">
+                <div class="col-sm-6 col-sm-offset-1">
+                    <div class="reg-form-container">
 
-            <!--Social Icons-->
-            <ul class="list-inline social-icons">
-              <li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
-              <li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
-              <li><a href="#"><i class="icon ion-social-googleplus"></i></a></li>
-              <li><a href="#"><i class="icon ion-social-pinterest"></i></a></li>
-              <li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
-            </ul>
-          </div>
+                        <!-- Register/Login Tabs-->
+                        <div class="reg-options">
+                            <ul class="nav nav-tabs">
+                                <li><a href="#login" data-toggle="tab">Login</a></li>
+                                <li><a href="#register" data-toggle="tab">Register</a></li>
+                            </ul><!--Tabs End-->
+                        </div>
+
+                        <!--Registration Form Contents-->
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="login">
+                                <form name="login_form" id="login_form" method="POST">
+                                    {% csrf_token %}
+                                    <fieldset class="form-group">
+                                        <legend class="border-bottom mb-4">Log In</legend>
+                                        {{ login_form|crispy }}
+                                    </fieldset>
+                                    <div class="form-group">
+                                        <button class="btn btn-outline-info" type="submit" name="submit" value="login">
+                                            Login
+                                        </button>
+
+                                    </div>
+                                </form>
+                                <!--
+                                <form name="Login_form" id="Login_form" method="POST">
+                                   <div class="row">
+                                    <div class="form-group col-xs-12">
+                                      <label for="my-email" class="sr-only">Email</label>
+                                      <input id="my-email" class="form-control input-group-lg" type="text" name="Email" title="Enter Email" placeholder="Your Email">
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="form-group col-xs-12">
+                                      <label for="my-password" class="sr-only">Password</label>
+                                      <input id="my-password" class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Password">
+                                    </div>
+                                  </div>
+                                  <div class="row">
+                                    <div class="form-group col-xs-12">
+                                      <button class="btn btn-outline-info" type="submit" name="submit" value="login">Login</button>
+                                    </div>
+                                  </div>
+                                </form>
+                                -->
+                                <!--
+                                <form method="POST">
+                                      <fieldset class="form-group">
+                                          <legend class="border-bottom mb-4">Log In</legend>
+                                      </fieldset>
+                                      <div class="form-group">
+                                          <button class="btn btn-outline-info" type="submit" name="submit" value="login">Login</button>
+
+                                      </div>
+                                  </form>
+                                  -->
+
+
+                                <!--
+                              <h3>Register Now !!!</h3>
+                              <p class="text-muted">Be cool and join today. Meet millions</p>
+
+
+                              <p><a href="#">Already have an account?</a></p>
+                              <button class="btn btn-primary" type="submit">Register Now</button>
+                              -->
+                            </div><!--Registration Form Contents Ends-->
+
+                            <!--Login-->
+                            <div class="tab-pane" id="register">
+                                <!--Login Form-->
+                                <!--
+                              <form name="Login_form" id='Login_form'>
+                                 <div class="row">
+                                  <div class="form-group col-xs-12">
+                                    <label for="my-email" class="sr-only">Email</label>
+                                    <input id="my-email" class="form-control input-group-lg" type="text" name="Email" title="Enter Email" placeholder="Your Email"/>
+                                  </div>
+                                </div>
+                                <div class="row">
+                                  <div class="form-group col-xs-12">
+                                    <label for="my-password" class="sr-only">Password</label>
+                                    <input id="my-password" class="form-control input-group-lg" type="password" name="password" title="Enter password" placeholder="Password"/>
+                                  </div>
+                                </div>
+                              </form>
+                              --><!--Login Form Ends-->
+
+                                <form method="POST">
+                                    {% csrf_token %}
+                                    <fieldset class="form-group">
+                                        <legend class="border-bottom mb-4">Join Today</legend>
+                                        {% for field in reg_form %}
+                                            {% if field.name != 'country' %}
+                                                {{ field|as_crispy_field }}
+                                            {% endif %}
+                                        {% endfor %}
+                                        <div id="div_id_country" class="form-group">
+                                            <label for="id_country" class="col-form-label  requiredField">
+                                                Country<span class="asteriskField">*</span>
+                                            </label>
+                                            <div class="">
+                                                <input name="country" list="countries" type="text"
+                                                       class="form-control" required
+                                                       id="id_country">
+                                                <datalist id="countries">
+                                                    {% for country in countries %}
+                                                        <option value="{{ country.country }}">
+                                                    {% endfor %}
+                                                </datalist>
+                                            </div>
+                                        </div>
+                                    </fieldset>
+                                    <div class="form-group">
+                                        <button class="btn btn-outline-info" type="submit" name="submit"
+                                                value="register">Sign Up
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-6">
+
+                    <!--Social Icons-->
+                    <ul class="list-inline social-icons">
+                        <li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
+                        <li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
+                        <li><a href="#"><i class="icon ion-social-googleplus"></i></a></li>
+                        <li><a href="#"><i class="icon ion-social-pinterest"></i></a></li>
+                        <li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
 
 {% endblock body-content %}

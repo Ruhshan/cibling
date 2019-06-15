@@ -6,7 +6,7 @@ from .forms import UserRegisterForm, CustomUserRegisterForm, UserLoginForm, User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
-from .models import ProfileInfo, Profile
+from .models import ProfileInfo, Profile, Country
 
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import UpdateView
@@ -114,11 +114,12 @@ def register(request):
     else:
         #reg_form = CustomUserRegisterForm()
         reg_form = UserRegisterForm()
+        countries = Country.objects.all()
         #login_form = AuthenticationForm()
         login_form = UserLoginForm()
         messages.success(request, "Please register")
 
-    return render(request, 'users/register.html', {'reg_form':reg_form, 'login_form':login_form})
+    return render(request, 'users/register.html', {'reg_form':reg_form, 'login_form':login_form,'countries':countries})
 
 def register_login_with_username(request):
     #messages.success(request,'{}'.format(request.method))
