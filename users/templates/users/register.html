@@ -4,40 +4,11 @@
 
 {% block head %}
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/css/datepicker.min.css"/>
-    <link rel="stylesheet" href="{% static 'css/tagsinput.css' %}"/>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@1.11.2/dist/style.css">
     <style>
         .invalid-feedback {
             color: indianred;
-        }
-
-        .tag {
-            color: #3E6D8E;
-            background-color: #E0EAF1;
-            border-bottom: 1px solid #b3cee1;
-            border-right: 1px solid #b3cee1;
-            padding: 3px 4px 3px 4px;
-            margin: 2px 2px 2px 0;
-            text-decoration: none;
-            font-size: 90%;
-            line-height: 2.4;
-            white-space: nowrap;
-        }
-
-        .tag:hover {
-            background-color: #c4dae9;
-            border-bottom: 1px solid #c4dae9;
-            border-right: 1px solid #c4dae9;
-            text-decoration: none;
-        }
-
-        .cross {
-            background-color: #cdbb13;
-            border-radius: 30px;
-            padding: 2px;
-        }
-
-        .cross:hover {
-            background-color: red;
         }
     </style>
 {% endblock %}
@@ -93,14 +64,14 @@
                             id="register">
                     <div id="app">
 
-                        <form method="POST" onsubmit="return false;">
+                        <form method="POST" >
                             {% csrf_token %}
                             <fieldset class="form-group">
                                 <legend class="border-bottom mb-4">Join Today</legend>
                                 {{ reg_form|crispy }}
                             </fieldset>
 
-                            <input type="text" data-role="tagsinput" value="jQuery,Script,Net">
+
 
                             <div class="form-group">
                                 <button class="btn btn-outline-info" type="submit" name="submit" value="register">Sign
@@ -138,7 +109,8 @@
     {#    <script type="text/javascript" src="{% static 'custom/js/register.js' %}"></script>#}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/tagsinput.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@1.8.0/dist/voerro-vue-tagsinput.js"></script>
+
     <script type="text/javascript" src="{% static 'custom/js/register-app.js' %}"></script>
 {% endblock %}
 

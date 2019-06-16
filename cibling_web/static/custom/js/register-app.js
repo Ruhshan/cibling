@@ -1,12 +1,25 @@
+//import VueTagInput from 'vue-tag-input'
+//import VueTagInput from 'vue-tag-input'
+
 var app = new Vue({
     el: '#app',
+    components: { "tags-input": VoerroTagsInput },
     data: {
         message: 'Hello Vue!',
         country: "",
         subject: "",
         institutes: [],
         expertiseModel:"",
-        expertises: ["biman","bala"]
+        expertises: ["biman","bala"],
+
+        selectedExpertises:[],
+        existingExpertises:{
+            1: 'Web Development',
+            2: 'PHP',
+            3: 'JavaScript',
+            4: 'Mysql'
+        },
+
     },
     created() {
         console.log("App created");

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser, Profile, Institute, ProfileInfo, Country, Subject, Expertise
-from .listtextwidget import ListTextWidget, ListTextWidgetDynamic, ListTextWidgetTag
+from .listtextwidget import ListTextWidget, ListTextWidgetDynamic, TagWidget
 #for writing validator
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
@@ -31,11 +31,13 @@ class UserRegisterForm(UserCreationForm):
     # expertise = forms.CharField(widget=ListTextWidgetTag(Expertise.objects.all().values_list('expertise', flat=True),
     #                                                      name='expertise-list', tag_model='expertise',
     #                                                      attrs={'v-model':"expertiseModel","v-on:keyup.enter":"expertise_pressed"}))
-    expertise = forms.CharField(widget=ListTextWidget(Expertise.objects.all().values_list('expertise', flat=True),name='expertise-list', attrs={'data-role':"tagsinput"}))
+    #expertise = forms.CharField(widget=ListTextWidget(Expertise.objects.all().values_list('expertise', flat=True),name='expertise-list', attrs={'data-role':"tagsinput"}))
+
+    expertise = forms.CharField(widget=TagWidget(name="expertise",selectedTagsModel="selectedExpertises",existingTagsModel="existingExpertises"))
 
     class Meta:
         model = User
-        fields = ['first_name','last_name','username', 'email', 'password1', 'password2', 'date_of_birth', 'country','institute','subject']
+        fields = ['first_name','last_name','username', 'email', 'password1', 'password2', 'date_of_birth', 'country','institute','subject', 'expertise']
 
     '''
     def is_valid(self):
@@ -62,6 +64,7 @@ class UserRegisterForm(UserCreationForm):
         country = self.cleaned_data.get('country')
         institute = Institute.objects.get_or_create(institute=self.cleaned_data.get('institute').title(), country=Country.objects.get(country=country))
         subject = Subject.objects.get_or_create(subject=self.cleaned_data.get('subject').title())
+
 
         #if commit:
             #user.save()
