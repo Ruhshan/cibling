@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser, Profile, Institute, ProfileInfo, Country, Subject, Expertise
+from .models import CustomUser, Profile, Institute, ProfileInfo, Country, Subject, Expertise, Interest
 from .listtextwidget import ListTextWidget, ListTextWidgetDynamic, TagWidget
 #for writing validator
 from django.core.exceptions import ValidationError
@@ -25,19 +25,15 @@ class UserRegisterForm(UserCreationForm):
                                     help_text='Format: YYYY-MM-DD')
 
     institute = forms.CharField(widget=ListTextWidgetDynamic("institute", name='institute-list',attrs={"v-on:focus":"focused"}))
-    #country = forms.CharField(widget=ListTextWidget(Country.objects.all().values_list('country', flat=True), name='country-list', attrs={'v-model':"country"}))
     country = forms.ModelChoiceField(queryset=Country.objects, widget=forms.Select(attrs={'v-model':"country"}))
     subject = forms.CharField(widget=ListTextWidget(Subject.objects.all().values_list('subject', flat=True), name='subject-list', attrs={'v-model':"subject"}))
-    # expertise = forms.CharField(widget=ListTextWidgetTag(Expertise.objects.all().values_list('expertise', flat=True),
-    #                                                      name='expertise-list', tag_model='expertise',
-    #                                                      attrs={'v-model':"expertiseModel","v-on:keyup.enter":"expertise_pressed"}))
-    #expertise = forms.CharField(widget=ListTextWidget(Expertise.objects.all().values_list('expertise', flat=True),name='expertise-list', attrs={'data-role':"tagsinput"}))
-
     expertise = forms.CharField(widget=TagWidget(name="expertise",selectedTagsModel="selectedExpertises",existingTagsModel="existingExpertises"))
+    interest = forms.CharField(widget=TagWidget(name="interest",selectedTagsModel="selectedInterests",existingTagsModel="existingInterests"))
 
     class Meta:
         model = User
-        fields = ['first_name','last_name','username', 'email', 'password1', 'password2', 'date_of_birth', 'country','institute','subject', 'expertise']
+        fields = ['first_name','last_name','username', 'email', 'password1', 'password2', 'date_of_birth', 'country',
+                  'institute','subject', 'expertise', 'interest']
 
     '''
     def is_valid(self):
@@ -64,11 +60,35 @@ class UserRegisterForm(UserCreationForm):
         country = self.cleaned_data.get('country')
         institute = Institute.objects.get_or_create(institute=self.cleaned_data.get('institute').title(), country=Country.objects.get(country=country))
         subject = Subject.objects.get_or_create(subject=self.cleaned_data.get('subject').title())
-
+        expertise = self.cleaned_data["expertise"]
+        interest = self.cleaned_data["interest"]
 
         #if commit:
             #user.save()
-        #Profile.objects.create(user=user,institute=institute,date_of_birth=date_of_birth)
+        #profile = Profile.objects.create(user=user,institute=institute,date_of_birth=date_of_birth)
+        expertises = []
+        interests = []
+        for e in expertise.split(","):
+            try:
+                exp = Expertise.objects.get(id=e) if e.isdigit() else Expertise.objects.get_or_create(expertise=e.title())
+                expertises.append(exp)
+            except Exception as excptn:
+                print(excptn)
+            print(expertises)
+
+        for i in interest.split(","):
+            try:
+                intrst = Interest.objects.get(id=i) if i.isdigit() else Interest.objects.get_or_create(interest=i.title())
+                interests.append(intrst)
+            except Exception as excptn:
+                print(excptn)
+
+            print(interests)
+
+        # profile_info = ProfileInfo.objects.create(profile=profile, subject=subject)
+        # profile_info.expertises.add(expertises)
+        # profile_info.interests.add(interests)
+        # profile_info.save()
 
         return user
 

@@ -9,20 +9,33 @@ var app = new Vue({
         country: "",
         subject: "",
         institutes: [],
-        expertiseModel:"",
-        expertises: ["biman","bala"],
-
         selectedExpertises:[],
-        existingExpertises:{
-            1: 'Web Development',
-            2: 'PHP',
-            3: 'JavaScript',
-            4: 'Mysql'
-        },
+        existingExpertises:{},
+        selectedInterests:[],
+        existingInterests:{}
 
     },
     created() {
-        console.log("App created");
+        var self = this;
+
+
+        axios.get("/api/user/expertises").then((response)=>{
+            response.data.forEach((item)=>{
+                self.existingExpertises[item["id"]] = item["expertise"];
+            });
+
+        }).catch((err)=>{
+            console.log(err);
+        });
+
+        axios.get("/api/user/interests").then((response)=>{
+            response.data.forEach((item)=>{
+                self.existingInterests[item["id"]] = item["interest"];
+            });
+
+        }).catch((err)=>{
+            console.log(err);
+        })
     },
     methods: {
         focused: function () {

@@ -75,6 +75,7 @@ class ProfileInfo(models.Model):
         return '{} Profile Info'.format(self.profile.user.username)
 
 
+
 class Cibling(models.Model):
     cibling_1 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cibling_1')
     cibling_2 = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cibling_2')

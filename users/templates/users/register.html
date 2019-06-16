@@ -37,7 +37,16 @@
 
             <!--Registration Form Contents-->
             <div class="tab-content">
-                <div class="tab-pane active" id="login">
+
+                <div
+                        {% if reg_error %}
+                            class="tab-pane"
+                        {% else %}
+                            class="tab-pane active"
+                        {% endif %}
+                        id="login">
+
+
                     <form name="login_form" id="login_form" method="POST">
                         {% csrf_token %}
                         <fieldset class="form-group">
