@@ -49,7 +49,8 @@ class TagWidget(forms.TextInput):
                            "v-model":selectedTagsModel,
                            ":existing-tags":existingTagsModel,
                            "placeholder":"Add an "+name.title(),
-                           "style":"height:auto"})
+                           "style":"height:auto",
+                           "name":self._name})
 
     def render(self, name, value, attrs=None, renderer=None):
         text_html = super(TagWidget, self).render(name, value, attrs=attrs)
