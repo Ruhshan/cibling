@@ -21,13 +21,14 @@ var app = new Vue({
         var previous_expertises = document.getElementById("previous_expertise").value;
         var previous_interests = document.getElementById("previous_interest").value;
 
-        if(previous_expertises.length !==0){
+
+        if(previous_expertises.length !==0 && previous_expertises !== "None"){
         previous_expertises.split(",").forEach((item)=>{
             this.selectedExpertises.push(item);
         });
         }
 
-        if(previous_interests.length !== 0){
+        if(previous_interests.length !== 0 && previous_interests !== "None"){
         previous_interests.split(",").forEach((item)=>{
             this.selectedInterests.push(item);
         });
