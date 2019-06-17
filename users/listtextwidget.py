@@ -50,7 +50,8 @@ class TagWidget(forms.TextInput):
                            ":existing-tags":existingTagsModel,
                            "placeholder":"Add an "+name.title(),
                            "style":"height:auto",
-                           "name":self._name})
+                           "name":self._name,
+                           "id":self._name})
 
     def render(self, name, value, attrs=None, renderer=None):
         text_html = super(TagWidget, self).render(name, value, attrs=attrs)
