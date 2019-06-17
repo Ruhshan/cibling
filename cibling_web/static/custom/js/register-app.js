@@ -18,10 +18,26 @@ var app = new Vue({
     created() {
         var self = this;
 
+        var previous_expertises = document.getElementById("previous_expertise").value;
+        var previous_interests = document.getElementById("previous_interest").value;
+
+        if(previous_expertises.length !==0){
+        previous_expertises.split(",").forEach((item)=>{
+            this.selectedExpertises.push(item);
+        });
+        }
+
+        if(previous_interests.length !== 0){
+        previous_interests.split(",").forEach((item)=>{
+            this.selectedInterests.push(item);
+        });
+        }
+
+
 
         axios.get("/api/user/expertises").then((response)=>{
             response.data.forEach((item)=>{
-                self.existingExpertises[item["id"]] = item["expertise"];
+                self.existingExpertises[item["expertise"]] = item["expertise"];
             });
 
         }).catch((err)=>{
@@ -30,7 +46,7 @@ var app = new Vue({
 
         axios.get("/api/user/interests").then((response)=>{
             response.data.forEach((item)=>{
-                self.existingInterests[item["id"]] = item["interest"];
+                self.existingInterests[item["interest"]] = item["interest"];
             });
 
         }).catch((err)=>{
@@ -39,10 +55,12 @@ var app = new Vue({
     },
     methods: {
         focused: function () {
-            if (this.country) {
+            var country = document.getElementById("id_country").value;
+
+            if (country) {
                 this.institutes = [];
                 var self = this;
-                axios.get("/api/user/institute/" + this.country).then((response) => {
+                axios.get("/api/user/institute/" + country).then((response) => {
 
                     response.data.forEach((item)=>{
                         self.institutes.push(item.institute);

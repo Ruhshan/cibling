@@ -8,6 +8,7 @@ class ListInstitutes(APIView):
     def get(self, request, country):
         queryset = Institute.objects.filter(country=country)
         serialized = InstituteSerializer(queryset, many=True)
+
         return Response(serialized.data)
 
 class ListExpertise(APIView):

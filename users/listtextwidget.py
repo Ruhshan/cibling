@@ -50,6 +50,7 @@ class TagWidget(forms.TextInput):
         super(TagWidget, self).__init__(*args, **kwargs)
         self._name = name
 
+
         self.attrs.update({'element-id': self._name,
                            ":typeahead":"true",
                            "v-model":selectedTagsModel,
@@ -57,11 +58,14 @@ class TagWidget(forms.TextInput):
                            "placeholder":"Add an "+name.title(),
                            "style":"height:auto",
                            "name":self._name,
-                           "id":self._name})
+                           })
 
     def render(self, name, value, attrs=None, renderer=None):
         text_html = super(TagWidget, self).render(name, value, attrs=attrs)
         text_html = text_html.replace("input","tags-input")
+
+        text_html+='''<input type="hidden" name="previous_%s" id="previous_%s" value="%s">'''%(self._name,self._name, value)
+
 
         return text_html
 
