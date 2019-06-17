@@ -7,12 +7,19 @@ class ListTextWidget(forms.TextInput):
         self._list = data_list
         self.attrs.update({'list':'list__%s' % self._name})
 
+
     def render(self, name, value, attrs=None, renderer=None):
+
         text_html = super(ListTextWidget, self).render(name, value, attrs=attrs)
+
         data_list = '<datalist id="list__%s">' % self._name
         for item in self._list:
-            data_list += '<option value="%s">' % item
+            if item == value:
+                data_list += '<option selected value="%s">' % item
+            else:
+                data_list += '<option value="%s">' % item
         data_list += '</datalist>'
+
 
         return (text_html + data_list)
 
@@ -43,7 +50,6 @@ class TagWidget(forms.TextInput):
         super(TagWidget, self).__init__(*args, **kwargs)
         self._name = name
 
-
         self.attrs.update({'element-id': self._name,
                            ":typeahead":"true",
                            "v-model":selectedTagsModel,
@@ -57,7 +63,5 @@ class TagWidget(forms.TextInput):
         text_html = super(TagWidget, self).render(name, value, attrs=attrs)
         text_html = text_html.replace("input","tags-input")
 
-
         return text_html
-
 

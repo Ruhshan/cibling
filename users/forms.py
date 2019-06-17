@@ -31,10 +31,9 @@ class UserRegisterForm(UserCreationForm):
 
     institute = forms.CharField(
         widget=ListTextWidgetDynamic("institute", name='institute-list', attrs={"v-on:focus": "focused"}))
-    country = forms.ModelChoiceField(queryset=Country.objects, widget=forms.Select(attrs={'v-model': "country"}))
+    country = forms.ModelChoiceField(queryset=Country.objects, widget=forms.Select())
     subject = forms.CharField(
-        widget=ListTextWidget(Subject.objects.all().values_list('subject', flat=True), name='subject-list',
-                              attrs={'v-model': "subject"}))
+        widget=ListTextWidget(Subject.objects.all().values_list('subject', flat=True), name='subject-list'))
     expertise = forms.CharField(widget=TagWidget(name="expertise", selectedTagsModel="selectedExpertises",
                                                  existingTagsModel="existingExpertises"))
     interest = forms.CharField(

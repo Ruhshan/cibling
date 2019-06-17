@@ -44,7 +44,7 @@
                         {% else %}
                             class="tab-pane active"
                         {% endif %}
-                        id="login">
+                            id="login">
 
 
                     <form name="login_form" id="login_form" method="POST">
@@ -73,21 +73,20 @@
                             id="register">
                     <div id="app">
 
-                        <form method="POST" >
+                        <form method="POST">
                             {% csrf_token %}
                             <fieldset class="form-group">
                                 <legend class="border-bottom mb-4">Join Today</legend>
-{#                                {{ reg_form|crispy }}#}
-{#                                    {% crispy reg_form %}#}
+
                                 {% for field in reg_form %}
-                                      {{ field|as_crispy_field }}
-                                        {% if field.name == "interest" or field.name == "expertise" %}
+                                    {{ field|as_crispy_field }}
+                                    {% if field.name == "interest" or field.name == "expertise" %}
                                         <div>
                                             {% for error in field.errors %}
                                                 <p class="invalid-feedback">{{ error }}</p>
                                             {% endfor %}
                                         </div>
-                                        {% endif %}
+                                    {% endif %}
 
                                 {% endfor %}
 
@@ -95,7 +94,6 @@
 
                                 </div>
                             </fieldset>
-
 
 
                             <div class="form-group">

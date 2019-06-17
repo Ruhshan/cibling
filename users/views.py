@@ -36,7 +36,7 @@ def register(request):
             login_form = UserLoginForm()
 
             if reg_form.is_valid():
-                print("reg is valid")
+
                 '''
                 reg_form.save()
                 username=reg_form.cleaned_data.get('username')
@@ -71,7 +71,6 @@ def register(request):
                 email.send()
                 '''
             else:
-                print(reg_form.errors)
                 error_message = ''
                 username = reg_form.cleaned_data.get('username')
                 error_message = username
