@@ -87,6 +87,7 @@ class UserRegisterForm(UserCreationForm):
         interest = self.cleaned_data["interest"]
 
         if commit:
+            user.is_active = False
             user.save()
 
         profile = Profile.objects.create(user=user,

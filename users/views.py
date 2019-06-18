@@ -37,25 +37,9 @@ def register(request):
 
             if reg_form.is_valid():
 
-                '''
-                reg_form.save()
-                username=reg_form.cleaned_data.get('username')
-                messages.success(request, 'Account created for {}. You can now log in'.format(username))
-                return redirect('login')
-                '''
-
-                reg_form.save()
+                user = reg_form.save()
                 username = reg_form.cleaned_data.get('username')
-                email = reg_form.cleaned_data.get('email')
-                #if email.find('.ac.')!=-1:
-                messages.success(request, 'Account created for {}. You can now log in'.format(username))
-                return render(request, 'users/registration_success.html')
-                '''
-                else:
-                    messages.error(request, 'Please enter your academic mail')
-                    return redirect('register')
-                '''
-                '''
+
                 current_site = get_current_site(request)
                 mail_subject = 'Activate your blog account.'
                 message = render_to_string('users/acc_active_email.html', {
@@ -64,12 +48,14 @@ def register(request):
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
                     'token': account_activation_token.make_token(user),
                 })
-                to_email = reg_form.cleaned_data.get('email')
-                email = EmailMessage(
-                    mail_subject, message, to=[to_email]
-                )
-                email.send()
-                '''
+                user.email_user(mail_subject, message)
+
+                messages.success(request, 'Account created for {}. You can now log in'.format(username))
+                return render(request, 'users/registration_success.html')
+
+
+
+
             else:
                 error_message = ''
                 username = reg_form.cleaned_data.get('username')
