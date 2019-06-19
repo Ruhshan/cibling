@@ -141,8 +141,8 @@ ACCOUNT_ACTIVATION_DAYS = 7
 # email confirmation
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'ehsanul.kabir.stn@gmail.com'
-EMAIL_HOST_PASSWORD = 'yrfvgrfizghrvskl'
+EMAIL_HOST_USER = 'cibling.2019@gmail.com'
+EMAIL_HOST_PASSWORD = 'qweRTY!!@@##'
 EMAIL_PORT = 587
 
 
@@ -151,7 +151,9 @@ POSTMAN_DISALLOW_ANONYMOUS = True
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True
 POSTMAN_DISALLOW_COPIES_ON_REPLY = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
 POSTMAN_AUTO_MODERATE_AS = True
 
 
