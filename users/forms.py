@@ -88,6 +88,7 @@ class UserRegisterForm(UserCreationForm):
 
         if commit:
             user.is_active = False
+            user.is_staff = False
             user.save()
 
         profile = Profile.objects.create(user=user,

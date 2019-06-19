@@ -140,8 +140,8 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 # email confirmation
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'cibling.2019@gmail.com'
+EMAIL_HOST = 'smtp.zoho.com'
+EMAIL_HOST_USER = 'admin@cibling.ac'
 EMAIL_HOST_PASSWORD = 'qweRTY!!@@##'
 EMAIL_PORT = 587
 

@@ -23,16 +23,13 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 from django.core.mail import EmailMessage
+from django.conf import settings
 # Create your views here.
 
 def register(request):
-    #messages.success(request,'{}'.format(request.method))
     if request.method=='POST':
-        #messages.success(request,'login/reg request {}'.format(request.POST.get('submit')))
         if request.POST.get('submit')=='register':
             reg_form=UserRegisterForm(request.POST)
-            #reg_form = CustomUserRegisterForm(request.POST)
-            #login_form = AuthenticationForm()
             login_form = UserLoginForm()
 
             if reg_form.is_valid():
@@ -41,26 +38,24 @@ def register(request):
                 username = reg_form.cleaned_data.get('username')
 
                 current_site = get_current_site(request)
-                mail_subject = 'Activate your blog account.'
+                mail_subject = 'Activate your Cibling account.'
                 message = render_to_string('users/acc_active_email.html', {
                     'user': user,
                     'domain': current_site.domain,
                     'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
                     'token': account_activation_token.make_token(user),
                 })
-                user.email_user(mail_subject, message)
 
-                messages.success(request, 'Account created for {}. You can now log in'.format(username))
-                return render(request, 'users/registration_success.html')
+                email = EmailMessage(subject=mail_subject, body=message, from_email=settings.EMAIL_HOST_USER, to=[user.email])
 
+                email.send()
 
-
+                messages.success(request, 'Account created for {}. Pleas check your email for confirmation!'.format(username))
+                return render(request, 'users/registration_success.html', {"pending_confirmation":True})
 
             else:
-                error_message = ''
                 username = reg_form.cleaned_data.get('username')
-                error_message = username
-                #return render(request, 'users/registration_error.html', {'em': error_message})
+
                 return render(request, 'users/register.html', {'reg_form': reg_form, 'login_form': login_form, 'reg_error':True})
 
         elif request.POST.get('submit')=='login':
@@ -77,161 +72,15 @@ def register(request):
                         login(request, user)
                         return redirect('newsfeed')
 
-            return redirect('register')
-            '''
-            login_form=AuthenticationForm(request,request.POST)
-            reg_form = UserRegisterForm()
-
-            if login_form.is_valid():
-                username = login_form.cleaned_data.get('username')
-                password = login_form.cleaned_data.get('password')
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    user=login_form.get_user()
-                    login(request,user)
-                    return redirect('newsfeed')
-                else:
-                    messages.ERROR('Wrong username or password given')
-                    return redirect('register')
-
-            else:
-                return redirect('register')
-            '''
-
+            return render(request, 'users/register.html', {'reg_form': UserRegisterForm(), 'login_form': login_form, 'reg_error':False})
 
     else:
-        #reg_form = CustomUserRegisterForm()
         reg_form = UserRegisterForm()
         countries = Country.objects.all()
-        #login_form = AuthenticationForm()
         login_form = UserLoginForm()
         messages.success(request, "Please register")
 
-    return render(request, 'users/register.html', {'reg_form':reg_form, 'login_form':login_form,'countries':countries})
-
-def register_login_with_username(request):
-    #messages.success(request,'{}'.format(request.method))
-    if request.method=='POST':
-        #messages.success(request,'login/reg request {}'.format(request.POST.get('submit')))
-        if request.POST.get('submit')=='register':
-            reg_form=UserRegisterForm(request.POST)
-            #reg_form = CustomUserRegisterForm(request.POST)
-            login_form = AuthenticationForm()
-
-            if reg_form.is_valid():
-                '''
-                reg_form.save()
-                username=reg_form.cleaned_data.get('username')
-                messages.success(request, 'Account created for {}. You can now log in'.format(username))
-                return redirect('login')
-                '''
-
-                reg_form.save()
-                username = reg_form.cleaned_data.get('username')
-                messages.success(request, 'Account created for {}. You can now log in'.format(username))
-                return render(request, 'users/register.html', {'reg_form': reg_form, 'login_form': login_form})
-                '''
-                current_site = get_current_site(request)
-                mail_subject = 'Activate your blog account.'
-                message = render_to_string('users/acc_active_email.html', {
-                    'user': user,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
-                    'token': account_activation_token.make_token(user),
-                })
-                to_email = reg_form.cleaned_data.get('email')
-                email = EmailMessage(
-                    mail_subject, message, to=[to_email]
-                )
-                email.send()
-                '''
-
-        elif request.POST.get('submit')=='login':
-            login_form=AuthenticationForm(request,request.POST)
-            reg_form = UserRegisterForm()
-
-            if login_form.is_valid():
-                username = login_form.cleaned_data.get('username')
-                password = login_form.cleaned_data.get('password')
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    user=login_form.get_user()
-                    login(request,user)
-                    return redirect('newsfeed')
-                else:
-                    messages.ERROR('Wrong username or password given')
-                    return render(request, 'users/register.html', {'reg_form': reg_form, 'login_form': login_form})
-
-            else:
-                return redirect('register')
-
-    else:
-        #reg_form = CustomUserRegisterForm()
-        reg_form = UserRegisterForm()
-        login_form = AuthenticationForm()
-
-    return render(request, 'users/register.html', {'reg_form':reg_form, 'login_form':login_form})
-
-
-def register_with_activation(request):
-    #messages.success(request,'{}'.format(request.method))
-    if request.method=='POST':
-        #messages.success(request,'login/reg request {}'.format(request.POST.get('submit')))
-        if request.POST.get('submit')=='register':
-            #reg_form=UserRegisterForm(request.POST)
-            reg_form = CustomUserRegisterForm(request.POST)
-            login_form = AuthenticationForm()
-
-            if reg_form.is_valid():
-                '''
-                reg_form.save()
-                username=reg_form.cleaned_data.get('username')
-                messages.success(request, 'Account created for {}. You can now log in'.format(username))
-                return redirect('login')
-                '''
-                user=reg_form.save(commit=False)
-                user.is_active=False
-                user.save()
-                current_site = get_current_site(request)
-                mail_subject = 'Activate your blog account.'
-                message = render_to_string('users/acc_active_email.html', {
-                    'user': user,
-                    'domain': current_site.domain,
-                    'uid': urlsafe_base64_encode(force_bytes(user.pk)).decode(),
-                    'token': account_activation_token.make_token(user),
-                })
-                to_email = reg_form.cleaned_data.get('email')
-                email = EmailMessage(
-                    mail_subject, message, to=[to_email]
-                )
-                email.send()
-                return HttpResponse('Please confirm your email address to complete the registration')
-
-        elif request.POST.get('submit')=='login':
-            login_form=AuthenticationForm(request,request.POST)
-            reg_form = UserRegisterForm()
-
-            if login_form.is_valid():
-                username = login_form.cleaned_data.get('username')
-                password = login_form.cleaned_data.get('password')
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    user=login_form.get_user()
-                    login(request,user)
-                    return redirect('newsfeed')
-                else:
-                    messages.ERROR('Wrong username or password given')
-                    return redirect('register')
-
-            else:
-                return redirect('register')
-
-    else:
-        reg_form = CustomUserRegisterForm()
-        #reg_form = UserRegisterForm()
-        login_form = AuthenticationForm()
-
-    return render(request, 'users/register.html', {'reg_form':reg_form, 'login_form':login_form})
+    return render(request, 'users/register.html', {'reg_form': reg_form, 'login_form':login_form,'countries':countries})
 
 
 def activate(request, uidb64, token):
@@ -245,7 +94,8 @@ def activate(request, uidb64, token):
         user.save()
         login(request, user)
         # return redirect('home')
-        return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
+        return render(request, 'users/registration_success.html',{"pending_confirmation":False})
+        #return HttpResponse('Thank you for your email confirmation. Now you can login your account.')
     else:
         return HttpResponse('Activation link is invalid!')
 
