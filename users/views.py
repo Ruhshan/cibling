@@ -50,7 +50,6 @@ def register(request):
 
                 email.send()
 
-                messages.success(request, 'Account created for {}. Pleas check your email for confirmation!'.format(username))
                 return render(request, 'users/registration_success.html', {"pending_confirmation":True})
 
             else:
