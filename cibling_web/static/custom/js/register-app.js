@@ -58,6 +58,8 @@ var app = new Vue({
         focused: function () {
             var country = document.getElementById("id_country").value;
 
+            console.log("focused");
+
             if (country) {
                 this.institutes = [];
                 var self = this;
@@ -72,6 +74,8 @@ var app = new Vue({
 
             } else {
                 alert("Enter country first!");
+                this.$refs.country.focus();
+
             }
         },
         expertise_pressed:function () {

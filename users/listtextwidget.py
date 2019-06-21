@@ -49,13 +49,11 @@ class TagWidget(forms.TextInput):
     def __init__(self, name,selectedTagsModel,existingTagsModel, *args, **kwargs):
         super(TagWidget, self).__init__(*args, **kwargs)
         self._name = name
-
-
         self.attrs.update({'element-id': self._name,
                            ":typeahead":"true",
                            "v-model":selectedTagsModel,
                            ":existing-tags":existingTagsModel,
-                           "placeholder":"Add an "+name.title(),
+                           "placeholder":"Add an "+name.title() + " then press Enter",
                            "style":"height:auto",
                            "name":self._name,
                            })
