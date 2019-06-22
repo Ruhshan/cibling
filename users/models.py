@@ -42,7 +42,7 @@ class Language(models.Model):
 
 class Institute(models.Model):
     institute = models.CharField(unique=True, max_length=255)
-    country = models.ForeignKey(Country, on_delete=models.CASCADE)
+    country = models.ForeignKey(Country, on_delete=models.SET_NULL, null=True)
 
     def __str__(self):
         return '{institute}, {country}'.format(institute=self.institute, country = self.country.country)
@@ -53,7 +53,7 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics/')
     cover_image = models.ImageField(default='default.jpg', upload_to='cover_pics/', null=True)
-    institute = models.ForeignKey(Institute, on_delete=None, null= True, default=None)
+    institute = models.ForeignKey(Institute, on_delete=models.SET_NULL, null= True, default=None)
     #country = models.ForeignKey(Country, on_delete=None, null=True, default=None)
     date_of_birth = models.DateField(default='2001-01-01',null = True)
 
