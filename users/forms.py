@@ -21,19 +21,20 @@ def validate_ac(value):
 class UserRegisterForm(UserCreationForm):
     # email = forms.EmailField(help_text='Please enter your academic email', validators=[validate_ac])
     first_name = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder': 'Please enter your first part of the name'}))
+        widget=forms.TextInput(attrs={}))
     last_name = forms.CharField(
-        widget=forms.TextInput(attrs={'placeholder': 'Please enter your last part of the name'}))
-    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Please enter your email'}),
-                             help_text='Email should be your academic email')
+        widget=forms.TextInput(attrs={}))
+    email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Please enter your email'}))
     years = [i for i in range(1940, 2001)]
-    date_of_birth = forms.DateField(initial='YYYY-MM-DD', help_text='Format: YYYY-MM-DD')
+    date_of_birth = forms.DateField(initial='YYYY-MM-DD', widget=forms.SelectDateWidget(years=list(range(1950, 2050))))
 
     institute = forms.CharField(
-        widget=ListTextWidgetDynamic("institute", name='institute-list', attrs={"v-on:focus": "focused"}))
+        widget=ListTextWidgetDynamic("institute", name='institute-list', attrs={"v-on:focus": "focused","placeholder":
+            "Enter official name of your institution"}))
     country = forms.ModelChoiceField(queryset=Country.objects, widget=forms.Select(attrs={"ref":"country"}))
     subject = forms.CharField(
-        widget=ListTextWidget(Subject.objects.all().values_list('subject', flat=True), name='subject-list'))
+        widget=ListTextWidget(Subject.objects.all().values_list('subject', flat=True), name='subject-list',
+                              attrs={"placeholder":"Enter the subject of your study"}))
     expertise = forms.CharField(widget=TagWidget(name="expertise", selectedTagsModel="selectedExpertises",
                                                  existingTagsModel="existingExpertises"))
     interest = forms.CharField(
@@ -43,6 +44,9 @@ class UserRegisterForm(UserCreationForm):
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'date_of_birth', 'country',
                   'institute', 'subject', 'expertise', 'interest']
+        widgets = {
+            'username': forms.fields.TextInput(attrs={'placeholder': '150 characters or fewer. Letters, digits and @/./+/-/_ only.'})
+        }
 
     '''
     def is_valid(self):
@@ -118,6 +122,11 @@ class UserRegisterForm(UserCreationForm):
         profile_info.save()
 
         return user
+
+    def __init__(self, *args, **kwargs):
+        super(UserCreationForm, self).__init__(*args, **kwargs)
+        self.fields['password1'].help_text = 'Enter a strong password containing at least 8 mixed character'
+        self.fields['username'].help_text = ""
 
 
 class UserLoginForm(forms.Form):
