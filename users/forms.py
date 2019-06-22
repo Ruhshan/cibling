@@ -26,7 +26,7 @@ class UserRegisterForm(UserCreationForm):
         widget=forms.TextInput(attrs={}))
     email = forms.EmailField(widget=forms.TextInput(attrs={'placeholder': 'Please enter your email'}))
     years = [i for i in range(1940, 2001)]
-    date_of_birth = forms.DateField(initial='YYYY-MM-DD', widget=forms.SelectDateWidget(years=list(range(1950, 2050))))
+    date_of_birth = forms.DateField(initial='YYYY-MM-DD')
 
     institute = forms.CharField(
         widget=ListTextWidgetDynamic("institute", name='institute-list', attrs={"v-on:focus": "focused","placeholder":
