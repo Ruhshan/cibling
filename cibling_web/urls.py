@@ -1,4 +1,6 @@
 from django.urls import path
+
+from users.forgot_password_view import ForgotPasswordView
 from . import views
 
 urlpatterns=[
@@ -22,5 +24,6 @@ urlpatterns=[
     path('about/', views.about, name='about'),
     path('find-ciblings/<int:pk>/', views.find_ciblings, name='find-ciblings'),
     #path('search/<slug:pk>/', views.search_result, name='search-result'),
-    path('search/', views.search_result, name='search-result')
+    path('search/', views.search_result, name='search-result'),
+    path('forgot-password', ForgotPasswordView.as_view(), name="forgot-password")
 ]
