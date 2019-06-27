@@ -9,6 +9,7 @@ django-postman==3.6.2
 django-private-chat==0.2.2
 django-registration==3.0
 django-social-widgets==0.4.0
+django-widget-tweaks==1.4.5
 djangorestframework==3.9.4
 filelock==3.0.10
 gunicorn==19.9.0
