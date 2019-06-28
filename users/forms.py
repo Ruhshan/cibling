@@ -133,6 +133,21 @@ class UserLoginForm(forms.Form):
     email = forms.EmailField()
     password = forms.CharField(widget=forms.PasswordInput)
 
+    def clean_email(self):
+        data = self.cleaned_data["email"]
+        if not User.objects.filter(email=data).exists():
+            raise forms.ValidationError("No user found with this email!")
+        return data
+
+    def clean_password(self):
+        data = self.cleaned_data["password"]
+        if "email" in self.cleaned_data.keys():
+            user = User.objects.filter(email=self.cleaned_data["email"])
+
+            if user and not user.first().check_password(data):
+                raise forms.ValidationError("Username and Password doesn't match")
+            return data
+
 
 class CustomUserRegisterForm(UserCreationForm):
     class Meta:

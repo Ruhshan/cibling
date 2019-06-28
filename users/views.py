@@ -71,6 +71,8 @@ def register(request):
                         login(request, user)
                         return redirect('newsfeed')
 
+
+
             return render(request, 'users/register.html', {'reg_form': UserRegisterForm(), 'login_form': login_form, 'reg_error':False})
 
     else:
