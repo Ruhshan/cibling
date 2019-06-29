@@ -1,10 +1,10 @@
 {% extends "postman/base.html" %}
 {% load i18n %}{% load postman_tags %}
 {% block content %}
-     <div id="page-contents">
-    	<div class="container">
-        <div class="row">
-            <div class="inbox-sec">
+    <div id="page-contents">
+        <div class="container">
+            <div class="row">
+                <div class="inbox-sec">
                     <div class="col-lg-3 col-md-3 col-sm-4">
                         <div class="inbox-navigation">
                             <div class="inbox-panel-head">
@@ -13,56 +13,76 @@
                                 <a title="" href="{% url 'timeline-profile' user.pk %}"><i class="fa fa-user"></i>Profile</a>
                             </div>
                             <ul>
-                                     <li><a href="{% url 'postman:inbox' %}"><i class="fa fa-inbox"></i>{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
-                                <li><a href="{% url 'postman:sent' %}"><i class="fa fa-paper-plane-o"></i>{% trans "Sent Messages" %}</a></li>
-                                <li><a href="{% url 'postman:write' %}"><i class="fa fa-briefcase"></i>{% trans "Write" %}</a></li>
-                                <li><a href="{% url 'postman:archives' %}"><i class="fa fa-plane"></i>{% trans "Archives" %}</a></li>
-                                <li><a href="{% url 'postman:trash' %}"><i class="fa fa-trash-o"></i>{% trans "Trash" %}</a></li>
+                            {% postman_unread as unread_count %}
+                                <li><a href="{% url 'postman:inbox' %}"><i class="fa fa-inbox"></i>{% trans "Inbox" %}
+                                        {% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
+                                <li><a href="{% url 'postman:sent' %}"><i
+                                        class="fa fa-paper-plane-o"></i>{% trans "Sent Messages" %}</a></li>
+                                <li><a href="{% url 'postman:write' %}"><i
+                                        class="fa fa-briefcase"></i>{% trans "Write" %}</a></li>
+                                <li><a href="{% url 'postman:archives' %}"><i
+                                        class="fa fa-plane"></i>{% trans "Archives" %}</a></li>
+                                <li><a href="{% url 'postman:trash' %}"><i class="fa fa-trash-o"></i>{% trans "Trash" %}
+                                </a></li>
                             </ul>
 
                         </div>
                     </div>
-							<div class="col-lg-9 col-md-9 col-sm-8">
-                <div id="postman">
-<h1>{% if pm_messages|length > 1 %}{% trans "Conversation" %}{% else %}{% trans "Message" %}{% endif %}</h1>
-{% for message in pm_messages %}
-<div class="pm_message{% if message.is_pending %} pm_pending{% endif %}{% if message.is_rejected %} pm_rejected{% endif %}{% if message.sender == user and message.sender_archived or message.recipient == user and message.recipient_archived %} pm_archived{% endif %}{% if message.sender == user and message.sender_deleted_at or message.recipient == user and message.recipient_deleted_at %} pm_deleted{% endif %}{% if message.recipient == user and not message.read_at %} pm_unread{% endif %}">
- <div class="pm_header">
-  <span class="pm_sender">{{ message.obfuscated_sender|or_me:user }}</span> &raquo;
-  <span class="pm_recipient">{{ message.obfuscated_recipient|or_me:user }}</span> |
-  <span class="pm_date">{{ message.sent_at|date:"DATETIME_FORMAT"}}</span> |
-  <span class="pm_subject">{{ message.subject }}</span>
-{% if message.is_rejected %}  <div class="pm_status">{% trans "Rejected" %}{% if message.moderation_reason %}{% trans ":" %} {{ message.moderation_reason }}{% endif %}</div>{% endif %}
- </div>
- <div class="pm_body">{{ message.body|linebreaksbr }}</div>
-</div>
-{% if forloop.last %}
-<form action="" method="post">{% csrf_token %}
-<input type="hidden" {% if pm_messages|length > 1 and message.thread_id %}name="tpks" value="{{ message.thread_id }}"{% else %}name="pks" value="{{ message.pk }}"{% endif %} />
-<a href="{{ next_url }}" class="pm_action pm_action-back">{% trans "Back" %}</a>
-<span id="pm_buttons">
+                    <div class="col-lg-9 col-md-9 col-sm-8">
+                        <div id="postman">
+                            <h1>{% if pm_messages|length > 1 %}{% trans "Conversation" %}{% else %}
+                                {% trans "Message" %}{% endif %}</h1>
+                            {% for message in pm_messages %}
+                                <div class="pm_message{% if message.is_pending %} pm_pending{% endif %}{% if message.is_rejected %} pm_rejected{% endif %}{% if message.sender == user and message.sender_archived or message.recipient == user and message.recipient_archived %} pm_archived{% endif %}{% if message.sender == user and message.sender_deleted_at or message.recipient == user and message.recipient_deleted_at %} pm_deleted{% endif %}{% if message.recipient == user and not message.read_at %} pm_unread{% endif %}">
+                                    <div class="pm_header">
+                                        <span class="pm_sender">{{ message.obfuscated_sender|or_me:user }}</span>
+                                        &raquo;
+                                        <span class="pm_recipient">{{ message.obfuscated_recipient|or_me:user }}</span>
+                                        |
+                                        <span class="pm_date">{{ message.sent_at|date:"DATETIME_FORMAT" }}</span> |
+                                        <span class="pm_subject">{{ message.subject }}</span>
+                                        {% if message.is_rejected %}
+                                            <div class="pm_status">
+                                                {% trans "Rejected" %}{% if message.moderation_reason %}{% trans ":" %}
+                                                    {{ message.moderation_reason }}{% endif %}</div>{% endif %}
+                                    </div>
+                                    <div class="pm_body">{{ message.body|linebreaksbr }}</div>
+                                </div>
+                                {% if forloop.last %}
+                                    <form action="" method="post">{% csrf_token %}
+                                        <input type="hidden"
+                                               {% if pm_messages|length > 1 and message.thread_id %}name="tpks"
+                                               value="{{ message.thread_id }}"{% else %}name="pks"
+                                               value="{{ message.pk }}"{% endif %}/>
+                                        <a href="{{ next_url }}" class="pm_action pm_action-back">{% trans "Back" %}</a>
+                                        <span id="pm_buttons">
 <button type="submit" class="pm_btn pm_btn-delete"
- onclick="this.form.action='{% url 'postman:delete' %}?next={{ next_url|urlencode }}'">{% trans "Delete" %}</button>
-{% if not archived %}<button type="submit" class="pm_btn pm_btn-archive"
- onclick="this.form.action='{% url 'postman:archive' %}?next={{ next_url|urlencode }}'">{% trans "Archive" %}</button>{% endif %}
+        onclick="this.form.action='{% url 'postman:delete' %}?next={{ next_url|urlencode }}'">{% trans "Delete" %}</button>
+                                            {% if not archived %}
+                                                <button type="submit" class="pm_btn pm_btn-archive"
+                                                        onclick="this.form.action='{% url 'postman:archive' %}?next={{ next_url|urlencode }}'">{% trans "Archive" %}</button>{% endif %}
 </span>
-{% if reply_to_pk %}<a href="{% url 'postman:reply' reply_to_pk %}?next={{ next_url|urlencode }}"
- class="pm_action pm_action-reply">{% trans "Reply" %}</a>{% endif %}
-</form>
-{% if reply_to_pk %}<hr />
-<h2>{% trans 'Reply' %}</h2>
-<form action="{% url 'postman:reply' reply_to_pk %}?next={{ next_url|urlencode }}" method="post">{% csrf_token %}
-<div id="pm_reply">{{ form.body }}</div>
-<button type="submit" class="pm_btn pm_btn-reply">{% trans 'Reply' %}</button>
-</form>{% endif %}
-{% endif %}
-{% endfor %}
-</div>
-							</div>
+                                        {% if reply_to_pk %}
+                                            <a href="{% url 'postman:reply' reply_to_pk %}?next={{ next_url|urlencode }}"
+                                               class="pm_action pm_action-reply">{% trans "Reply" %}</a>{% endif %}
+                                    </form>
+                                    {% if reply_to_pk %}
+                                        <hr/>
+                                        <h2>{% trans 'Reply' %}</h2>
+                                        <form action="{% url 'postman:reply' reply_to_pk %}?next={{ next_url|urlencode }}"
+                                              method="post">{% csrf_token %}
+                                            <div id="pm_reply">{{ form.body }}</div>
+                                            <button type="submit"
+                                                    class="pm_btn pm_btn-reply">{% trans 'Reply' %}</button>
+                                        </form>{% endif %}
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
 
-						</div>
-				</div>
-      </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 
