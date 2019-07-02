@@ -15,7 +15,6 @@
             <div class="form-group">
                 <label>Country*</label>
                 <v-select :options="countries" placeholder="Select Country">
-
                 </v-select>
                 <small class="form-text text-muted"></small>
             </div>
@@ -30,14 +29,16 @@
         <div class="col-sm-3">
             <div class="form-group">
                 <label>Subject*</label>
-                <input type="text" class="form-control">
+                <v-select :options="subjects" placeholder="Select Subject">
+                </v-select>
                 <small class="form-text text-muted"></small>
             </div>
         </div>
         <div class="col-sm-3">
             <div class="form-group">
                 <label>Expertise*</label>
-                <input type="text" class="form-control">
+                <v-select :options="expertises" placeholder="Select Expertise">
+                </v-select>
                 <small class="form-text text-muted"></small>
             </div>
         </div>
