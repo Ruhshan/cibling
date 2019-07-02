@@ -14,7 +14,7 @@
         <div class="col-sm-3">
             <div class="form-group">
                 <label>Country*</label>
-                <v-select :options="countries" placeholder="Select Country">
+                <v-select :options="countries" v-model="country" label="country" placeholder="Select Country" >
                 </v-select>
                 <small class="form-text text-muted"></small>
             </div>
@@ -22,8 +22,9 @@
         <div class="col-sm-3">
             <div class="form-group">
                 <label>Institute*</label>
-                <input type="text" class="form-control">
-                <small class="form-text text-muted"></small>
+                <v-select :options="institutes" placeholder="Select Institute" label="institute">
+                </v-select>
+                <small class="form-text text-muted">Select country first</small>
             </div>
         </div>
         <div class="col-sm-3">

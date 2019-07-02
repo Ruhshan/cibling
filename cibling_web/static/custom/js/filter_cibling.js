@@ -3,9 +3,12 @@ Vue.component('v-select', VueSelect.VueSelect);
 new Vue({
   el: '#app',
   data: {
+      country : "",
       countries :[],
       subjects : [],
-      expertises: []
+      expertises: [],
+      institutes: []
+
 
   },
 
@@ -16,14 +19,21 @@ new Vue({
   },
 
   methods:{
-      fetchData:function (name) {
+      fetchData:function (name, param) {
         var self = this;
 
-        axios.get("/api/user/"+name).then((response)=>{
+        var url = "/api/user/"+name;
+        if(param){
+            url+="/"+param
+        }
+
+        console.log(url)
+
+        axios.get(url).then((response)=>{
 
         response.data.forEach((item)=>{
             if(name === "countries"){
-                self.countries.push(item.country.trim());
+                self.countries.push(item);
 
             }
             if(name === "subjects"){
@@ -34,17 +44,26 @@ new Vue({
                 self.expertises.push(item.expertise.trim());
 
             }
-
-
+            if(name === "institute"){
+                self.institutes.push(item)
+            }
 
         });
-
-        //self.countries = countries;
-        //self.countries = ["Bangladesh", "India"]
 
         }).catch((err)=>{
         console.log(err)
         })
+
+      }
+  },
+
+  watch:{
+      country:function (val) {
+          this.institutes = [];
+          if(val){
+
+            this.fetchData("institute", val.id)
+          }
 
       }
   }
