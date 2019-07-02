@@ -4,9 +4,9 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
-from .models import Institute, Expertise, Interest, Profile
+from .models import Institute, Expertise, Interest, Profile, Country
 from django.contrib.auth.models import User
-from .serializers import InstituteSerializer, ExpertiseSerializer, InterestSerializer, ProfileSerializer
+from .serializers import InstituteSerializer, ExpertiseSerializer, InterestSerializer, ProfileSerializer, CountrySerializer
 from postman.api import pm_write
 
 
@@ -55,4 +55,13 @@ class SendMessage(APIView):
 
         except Exception as e:
             return Response(e, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class ListCountries(APIView):
+    def get(self, request):
+        queryset = Country.objects.all()
+        serialized = CountrySerializer(queryset, many=True)
+
+        return Response(serialized.data)
+
+
 
