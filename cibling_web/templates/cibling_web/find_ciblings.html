@@ -10,56 +10,82 @@
     {% verbatim %}
     <div id="app">
 
-    <div class="row">
-        <div class="col-sm-3">
-            <div class="form-group">
-                <label>Country*</label>
-                <v-select :options="countries" v-model="country" label="country" placeholder="Select Country" >
-                </v-select>
-                <small class="form-text text-muted"></small>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Country*</label>
+                    <v-select :options="countries" v-model="country" label="country" placeholder="Select Country">
+                    </v-select>
+                    <small class="form-text text-muted"></small>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Institute*</label>
+                    <v-select :options="institutes" placeholder="Select Institute" label="institute"
+                              v-model="institute">
+                    </v-select>
+                    <small class="form-text text-muted">Select country first</small>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Subject*</label>
+                    <v-select :options="subjects" placeholder="Select Subject" v-model="subject" label="subject">
+                    </v-select>
+                    <small class="form-text text-muted"></small>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="form-group">
+                    <label>Expertise*</label>
+                    <v-select :options="expertises" placeholder="Select Expertise" v-model="expertise"
+                              label="expertise">
+                    </v-select>
+                    <small class="form-text text-muted"></small>
+                </div>
             </div>
         </div>
-        <div class="col-sm-3">
-            <div class="form-group">
-                <label>Institute*</label>
-                <v-select :options="institutes" placeholder="Select Institute" label="institute">
-                </v-select>
-                <small class="form-text text-muted">Select country first</small>
+
+        <div class="text-center">
+            <button class="btn btn-primary" @click="search">Search</button>
+        </div>
+        <br>
+        <br>
+        <br>
+
+        <div class="row">
+            <div v-for="cibling in ciblings" class="col-sm-3 ">
+                <div class="card bg-light" style="width: 18rem;">
+                     <div class="text-center">
+                         <img v-bind:src="cibling.image" class="img-circle " :alt="cibling.user.first_name" height="50" width="50">
+                     </div>
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
+                            the card's content.</p>
+                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                    </div>
+                </div>
             </div>
         </div>
-        <div class="col-sm-3">
-            <div class="form-group">
-                <label>Subject*</label>
-                <v-select :options="subjects" placeholder="Select Subject">
-                </v-select>
-                <small class="form-text text-muted"></small>
-            </div>
-        </div>
-        <div class="col-sm-3">
-            <div class="form-group">
-                <label>Expertise*</label>
-                <v-select :options="expertises" placeholder="Select Expertise">
-                </v-select>
-                <small class="form-text text-muted"></small>
-            </div>
-        </div>
-    </div>
+
     </div>
     {% endverbatim %}
 {% endblock page_content %}
 
 {% block head %}
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-<script src="https://unpkg.com/vue-select@3.0.0"></script>
-<link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+    <script src="https://unpkg.com/vue-select@3.0.0"></script>
+    <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
 
-<script src="https://unpkg.com/lodash@latest/lodash.min.js"></script>
+    <script src="https://unpkg.com/lodash@latest/lodash.min.js"></script>
 
-<!-- Add these two line -->
-<link rel="stylesheet" href="https://unpkg.com/vue-spinners@1.0.0/dist/vue-spinners.css">
-<script src="https://unpkg.com/vue-spinners@1.0.0/dist/vue-spinners.browser.js"></script>
+    <!-- Add these two line -->
+    <link rel="stylesheet" href="https://unpkg.com/vue-spinners@1.0.0/dist/vue-spinners.css">
+    <script src="https://unpkg.com/vue-spinners@1.0.0/dist/vue-spinners.browser.js"></script>
 
 {% endblock head %}
 

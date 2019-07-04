@@ -41,6 +41,29 @@ class ListProfiles(APIView):
 
         return Response(serialized.data)
 
+    def post(self, request):
+        profiles = Profile.objects.all()
+
+        country = self.request.data.get("country")
+        institute = self.request.data.get("institute")
+        subject = self.request.data.get("subject")
+        expertise = self.request.data.get("expertise")
+
+        print(self.request.data)
+
+        if country:
+            profiles = profiles.filter(institute__country=country)
+        if institute:
+            profiles = profiles.filter(institute=institute)
+        if subject:
+            profiles = profiles.filter(profileinfo__subject=subject)
+        if expertise:
+            profiles = profiles.filter(profileinfo__expertises=expertise)
+
+        serialized = ProfileSerializer(profiles, many=True)
+
+        return Response(serialized.data)
+
 
 class SendMessage(APIView):
     def post(self, request):
@@ -66,4 +89,5 @@ class ListCountries(ListAPIView):
 class ListSubjects(ListAPIView):
     serializer_class = SubjectSerializer
     queryset = Subject.objects.all()
+
 
