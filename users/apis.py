@@ -59,10 +59,7 @@ class ListProfiles(APIView):
         if expertise:
             profiles = profiles.filter(profileinfo__expertises=expertise)
 
-        time.sleep(5)
         serialized = ProfileSerializer(profiles, many=True, context={'request': request})
-
-        print(profiles.count())
 
         if profiles.count() == 0:
             return Response(status=status.HTTP_204_NO_CONTENT)

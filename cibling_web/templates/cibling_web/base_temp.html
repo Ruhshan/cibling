@@ -1,13 +1,22 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
+{% with request.resolver_match.url_name as url_name %}
+
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A Deeper network among students and academics around the world."/>
     <meta name="keywords" content="Cibling, Brotherhood, Academics, Student"/>
     <meta name="robots" content="index, follow"/>
-    <title>News Feed | Check what your Ciblings are doing</title>
+
+    {% if url_name == "newsfeed" %}
+
+        <title>News Feed | Check what your Ciblings are doing</title>
+    {% elif url_name == 'search-ciblings' %}
+        <title> Search Ciblings</title>
+    {% endif %}
 
     <!-- Stylesheets
     ================================================= -->
@@ -261,4 +270,5 @@
 {% block script %}
 {% endblock script %}
 </body>
+{% endwith %}
 </html>

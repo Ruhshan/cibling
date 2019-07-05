@@ -6,17 +6,17 @@ Vue.use(VueSpinners);
 new Vue({
     el: '#app',
     data: {
-        country: "",
-        institute: "",
-        subject: "",
-        expertise: "",
+        country: null,
+        institute: null,
+        subject: null,
+        expertise: null,
         countries: [],
         subjects: [],
         expertises: [],
         institutes: [],
         ciblings: [],
         searching: false,
-        message:""
+        message: ""
 
 
     },
@@ -38,8 +38,8 @@ new Vue({
                 url += "/" + param
             }
 
-            console.log(url)
 
+            self.searching = true
             axios.get(url).then((response) => {
 
                 response.data.forEach((item) => {
@@ -57,11 +57,13 @@ new Vue({
                     }
                     if (name === "institute") {
                         self.institutes.push(item)
+
                     }
 
                 });
-
+            self.searching = false
             }).catch((err) => {
+                self.searching = false
                 console.log(err)
             })
 
@@ -72,6 +74,7 @@ new Vue({
             var self = this;
 
             this.searching = true;
+            this.ciblings = []
 
             data = {
                 country: this.country ? this.country.id : null,
@@ -80,31 +83,39 @@ new Vue({
                 expertise: this.expertise ? this.expertise.id : null
             }
 
-            axios.post("/api/user/profiles",
-                data,
-                {
-                    headers: {
-                        'Accept': 'application/json',
-                        'Content-Type': 'application/json',
-                        'X-CSRFToken': csrftoken
-                    }
-                }).then((response) => {
+            console.log(this.country || this.institute || this.subject || this.expertise != null);
+
+            if (this.country || this.institute || this.subject || this.expertise != null) {
+                axios.post("/api/user/profiles",
+                    data,
+                    {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': csrftoken
+                        }
+                    }).then((response) => {
 
                     console.log(response.data)
 
-                    if(response.status == 204){
+                    if (response.status == 204) {
 
                         self.message = "No one available!"
-                    }else{
-                         self.ciblings = response.data
+                    } else {
+                        self.ciblings = response.data
 
                     }
                     self.searching = false
 
                 }).catch((err) => {
+                    self.searching = false
+                    console.log(err)
+                })
+            }else{
+                self.message = "Please select at least one search criteria!"
                 self.searching = false
-                console.log(err)
-            })
+            }
+
         },
 
         getCookie: function (name) {
@@ -127,7 +138,6 @@ new Vue({
         country: function (val) {
             this.institutes = [];
             if (val) {
-
                 this.fetchData("institute", val.id)
             }
 
