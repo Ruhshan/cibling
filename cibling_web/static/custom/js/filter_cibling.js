@@ -1,5 +1,8 @@
 Vue.component('v-select', VueSelect.VueSelect);
 
+Vue.use(VueSpinners);
+
+
 new Vue({
     el: '#app',
     data: {
@@ -11,7 +14,9 @@ new Vue({
         subjects: [],
         expertises: [],
         institutes: [],
-        ciblings: []
+        ciblings: [],
+        searching: false,
+        message:""
 
 
     },
@@ -20,6 +25,8 @@ new Vue({
         this.fetchData("countries");
         this.fetchData("subjects");
         this.fetchData("expertises");
+
+
     },
 
     methods: {
@@ -64,6 +71,8 @@ new Vue({
             var csrftoken = this.getCookie('csrftoken');
             var self = this;
 
+            this.searching = true;
+
             data = {
                 country: this.country ? this.country.id : null,
                 institute: this.institute ? this.institute.id : null,
@@ -80,8 +89,20 @@ new Vue({
                         'X-CSRFToken': csrftoken
                     }
                 }).then((response) => {
-                self.ciblings = response.data
-            }).catch((err) => {
+
+                    console.log(response.data)
+
+                    if(response.status == 204){
+
+                        self.message = "No one available!"
+                    }else{
+                         self.ciblings = response.data
+
+                    }
+                    self.searching = false
+
+                }).catch((err) => {
+                self.searching = false
                 console.log(err)
             })
         },

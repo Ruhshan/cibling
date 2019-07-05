@@ -10,6 +10,13 @@
     {% verbatim %}
     <div id="app">
 
+
+        <div v-if="searching">
+            <square color="#c112c4"></square>
+
+        </div>
+
+
         <div class="row">
             <div class="col-sm-3">
                 <div class="form-group">
@@ -54,20 +61,35 @@
         <br>
         <br>
 
+
+        <div v-if="ciblings.length == 0" style="padding-bottom: 30%" class="text-center">
+            <h3>
+             {{ message }}
+            </h3>
+
+        </div>
+
+
         <div class="row">
-            <div v-for="cibling in ciblings" class="col-sm-3 ">
-                <div class="card bg-light" style="width: 18rem;">
-                     <div class="text-center">
-                         <img v-bind:src="cibling.image" class="img-circle " :alt="cibling.user.first_name" height="50" width="50">
-                     </div>
-                    <div class="card-body">
-                        <h5 class="card-title">Card title</h5>
-                        <p class="card-text">Some quick example text to build on the card title and make up the bulk of
-                            the card's content.</p>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+
+
+
+
+            <div v-for="cibling in ciblings" class="col-sm-3">
+
+
+                <div class="card-info text-center" style="width: 25rem;">
+                    <img :src="cibling.image" :alt="cibling.user.first_name" class="profile-photo-lg">
+                    <div class="Cibling-info">
+                        <h5><a :href="cibling.user.profile_url" class="profile-link">{{ cibling.user.first_name }} {{
+                            cibling.user.last_name }}</a></h5>
+                        <p v-if="cibling.institute">{{ cibling.institute.institute }}</p>
+
                     </div>
+
                 </div>
             </div>
+
         </div>
 
     </div>
@@ -75,17 +97,26 @@
 {% endblock page_content %}
 
 {% block head %}
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-
-    <script src="https://unpkg.com/vue-select@3.0.0"></script>
     <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+    <script src="https://unpkg.com/vue-select@3.0.0"></script>
+
+
+
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
     <script src="https://unpkg.com/lodash@latest/lodash.min.js"></script>
 
     <!-- Add these two line -->
-    <link rel="stylesheet" href="https://unpkg.com/vue-spinners@1.0.0/dist/vue-spinners.css">
+{#    <link rel="stylesheet" href="https://unpkg.com/vue-spinners@1.0.0/dist/vue-spinners.css">#}
     <script src="https://unpkg.com/vue-spinners@1.0.0/dist/vue-spinners.browser.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+
+
+
+
+
 
 {% endblock head %}
 

@@ -11,6 +11,7 @@ from django.contrib.auth.models import User
 from .serializers import InstituteSerializer, ExpertiseSerializer, InterestSerializer, ProfileSerializer, CountrySerializer, SubjectSerializer
 from postman.api import pm_write
 
+import time
 
 class ListInstitutes(APIView):
     def get(self, request, country):
@@ -37,7 +38,7 @@ class ListProfiles(APIView):
         users = User.objects.annotate(name=Concat('first_name', Value(" "), 'last_name')).filter(
             name__icontains=search_text)
         queryset = Profile.objects.filter(user__in=users)
-        serialized = ProfileSerializer(queryset, many=True)
+        serialized = ProfileSerializer(queryset, many=True, context={'request': request})
 
         return Response(serialized.data)
 
@@ -49,8 +50,6 @@ class ListProfiles(APIView):
         subject = self.request.data.get("subject")
         expertise = self.request.data.get("expertise")
 
-        print(self.request.data)
-
         if country:
             profiles = profiles.filter(institute__country=country)
         if institute:
@@ -60,7 +59,13 @@ class ListProfiles(APIView):
         if expertise:
             profiles = profiles.filter(profileinfo__expertises=expertise)
 
-        serialized = ProfileSerializer(profiles, many=True)
+        time.sleep(5)
+        serialized = ProfileSerializer(profiles, many=True, context={'request': request})
+
+        print(profiles.count())
+
+        if profiles.count() == 0:
+            return Response(status=status.HTTP_204_NO_CONTENT)
 
         return Response(serialized.data)
 

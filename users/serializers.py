@@ -23,9 +23,10 @@ class InterestSerializer(ModelSerializer):
 
 
 class UserSerializer(ModelSerializer):
+    profile_url = serializers.HyperlinkedIdentityField(view_name='timeline-profile')
     class Meta:
         model = User
-        fields = ["id","first_name","last_name"]
+        fields = ["id","first_name","last_name", "profile_url"]
 
 
 class ProfileInfoSerializer(ModelSerializer):
