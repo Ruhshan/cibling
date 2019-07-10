@@ -18,7 +18,6 @@ var app = new Vue({
 
    filters:{
      formatDate:function (date) {
-         console.log(date)
          return moment(date).format('MMMM Do YYYY, h:mm:ss a')
      }
    },
@@ -37,13 +36,35 @@ var app = new Vue({
          var self = this
 
          axios.get("/api/user/me").then((respose)=>{
-             console.log(respose.data)
              self.user = respose.data
          }).catch((err)=>{
              console.log(err)
          })
 
          console.log(this.user.profile_image)
+     },
+     get_comment_id:function (id) {
+       return "id_comment_"+id
+     },
+     make_comment: function (id, post) {
+         var comment_id = "id_comment_"+id
+         comment_text = document.getElementById(comment_id).value
+
+         comment = {
+                "author": this.user,
+                "text": comment_text,
+                "post": id
+            }
+
+         console.log(comment)
+
+         post.comments.push(comment)
+
+         document.getElementById(comment_id).value = ""
+
+
+
      }
+
    }
 });
