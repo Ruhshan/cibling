@@ -87,7 +87,8 @@
                                    class="profile-link">{{ post.author.first_name }} {{ post.author.last_name }}</a>
                                 <span
                                         class="following"> </span></h5>
-                            <p class="text-muted">Published a photo {{ post.time_posted | formatDate }}</p>
+                            <p v-if="post.image" class="text-muted">Published a photo {{ post.time_posted | formatDate }}</p>
+                            <p v-else class="text-muted">Published a post {{ post.time_posted | formatDate }}</p>
                         </div>
                         <div class="line-divider"></div>
                         <div class="post-text"
@@ -130,7 +131,12 @@
                     </div>
                 </div>
             </div>
+
+        <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+
         </div>
+
+
         {% endverbatim %}
 
     </div>
