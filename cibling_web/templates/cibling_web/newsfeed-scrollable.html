@@ -5,10 +5,15 @@
 
 {% block head %}
     <script src="{% static "js/moment-with-locales.js" %}"></script>
+    <script src="{% static 'js/urlize.js' %}"></script>
+    <script src="{% static 'js/urlize_tlds.js' %}"></script>
+
 
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
     <script src="https://unpkg.com/vue-infinite-loading@^2/dist/vue-infinite-loading.js"></script>
+
+
 
 
 {% endblock %}
@@ -81,7 +86,7 @@
                          class="profile-photo-md pull-left"/>
                     <div class="post-detail">
                         <div class="user-info"
-                             onclick="location.href='#';"
+                             @click="post_detail(post.detail_url)"
                              style="cursor: pointer;">
                             <h5><a :href="post.author.profile_url"
                                    class="profile-link">{{ post.author.first_name }} {{ post.author.last_name }}</a>
@@ -92,13 +97,13 @@
                         </div>
                         <div class="line-divider"></div>
                         <div class="post-text"
-                             onclick="location.href='#';"
+                             @click="post_detail(post.detail_url)"
                              style="cursor: pointer;">
-                            <p>{{ post.content }}<i class="em em-anguished"></i> <i
+                            <p v-html="urlize(post.content)"><i class="em em-anguished"></i> <i
                                     class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                         </div>
                         <div class="line-divider"></div>
-                        <div onclick="location.href='#';"
+                        <div @click="post_detail(post.detail_url)"
                              style="cursor: pointer;">
                             <img v-if="post.image" :src="post.image" alt="post-image"
                                  class="img-responsive post-image"/>
@@ -109,7 +114,7 @@
                             <p><a :href="comment.author.profile_url"
                                   class="profile-link">{{ comment.author.first_name }} {{ comment.author.last_name
                                 }} </a><i
-                                    class="em em-laughing"></i>{{ comment.text }}</p>
+                                    class="em em-laughing"></i> <span v-html="urlize(comment.text)"></span> </p>
                         </div>
                         <div class="post-comment">
 

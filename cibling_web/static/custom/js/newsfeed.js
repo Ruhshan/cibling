@@ -20,10 +20,19 @@ var app = new Vue({
     filters: {
         formatDate: function (date) {
             return moment(date).format('MMMM Do YYYY, h:mm:ss a')
+        },
+        urlize: function(text){
+            u = urlize(text)
+            return u
         }
+
     },
 
     methods: {
+        urlize: function(text){
+            u = urlize(text)
+            return u
+        },
         get_posts: function () {
             var self = this
 
@@ -65,6 +74,10 @@ var app = new Vue({
 
 
         },
+        post_detail:function (url) {
+            location.href = url
+        }
+        ,
         infiniteHandler($state) {
             axios.get("/api/cibling-web/posts", {
                 params: {

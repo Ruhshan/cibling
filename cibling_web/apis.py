@@ -15,7 +15,7 @@ class ListPosts(ListAPIView):
     pagination_class = PostResultPagination
 
     def get_queryset(self):
-        time.sleep(3)
+        #time.sleep(3)
         author_ids = list(self.request.user.cibling_1.values_list("cibling_2__id", flat=True))
         author_ids.extend(list(self.request.user.cibling_2.values_list("cibling_1__id", flat=True)))
         author_ids.append(self.request.user.id)
