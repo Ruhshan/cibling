@@ -22,17 +22,20 @@ class InterestSerializer(ModelSerializer):
         fields = "__all__"
 
 
-class UserSerializer(ModelSerializer):
-    profile_url = serializers.HyperlinkedIdentityField(view_name='timeline-profile')
-    class Meta:
-        model = User
-        fields = ["id","first_name","last_name", "profile_url"]
-
-
 class ProfileInfoSerializer(ModelSerializer):
     class Meta:
         model = ProfileInfo
         fields = "__all__"
+
+
+class UserSerializer(ModelSerializer):
+    profile_url = serializers.HyperlinkedIdentityField(view_name='timeline-profile')
+    profile_image = serializers.ImageField(source="profile.image", read_only=True)
+
+    class Meta:
+        model = User
+        fields = ["id","first_name","last_name", "profile_url","profile_image"]
+
 
 class ProfileSerializer(ModelSerializer):
     user = UserSerializer("user")

@@ -1,14 +1,14 @@
 from django.db.models import Q, Value
 from django.db.models.functions import Concat
 from rest_framework import status
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 
 from rest_framework.response import Response
 
 from .models import Institute, Expertise, Interest, Profile, Country, Subject
 from django.contrib.auth.models import User
-from .serializers import InstituteSerializer, ExpertiseSerializer, InterestSerializer, ProfileSerializer, CountrySerializer, SubjectSerializer
+from .serializers import InstituteSerializer, ExpertiseSerializer, InterestSerializer, ProfileSerializer, CountrySerializer, SubjectSerializer, UserSerializer
 from postman.api import pm_write
 
 import time
@@ -91,5 +91,13 @@ class ListCountries(ListAPIView):
 class ListSubjects(ListAPIView):
     serializer_class = SubjectSerializer
     queryset = Subject.objects.all()
+
+
+class Me(APIView):
+    def get(self, request):
+        user = self.request.user
+        serialized = UserSerializer(user,context={'request': request})
+        return Response(serialized.data)
+
 
 

@@ -4,8 +4,9 @@
 
 
 {% block head %}
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static "js/moment-with-locales.js" %}"></script>
 
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
 {% endblock %}
@@ -74,16 +75,17 @@
         <div id="all-posts">
             <div v-for="post in posts" class="post-content">
                 <div class="post-container">
-                    <img src="http://localhost:8000/media/profile_pics/user-8.jpg" alt="user"
+                    <img :src="post.author.profile_image" alt="user"
                          class="profile-photo-md pull-left"/>
                     <div class="post-detail">
                         <div class="user-info"
                              onclick="location.href='#';"
                              style="cursor: pointer;">
-                            <h5><a href="#"
-                                   class="profile-link">{{ post.author }}</a> <span
-                                    class="following"> </span></h5>
-                            <p class="text-muted">Published a photo {{ post.time_posted }}</p>
+                            <h5><a :href="post.author.profile_url"
+                                   class="profile-link">{{ post.author.first_name }} {{ post.author.last_name }}</a>
+                                <span
+                                        class="following"> </span></h5>
+                            <p class="text-muted">Published a photo {{ post.time_posted | formatDate }}</p>
                         </div>
                         <div class="line-divider"></div>
                         <div class="post-text"
@@ -100,11 +102,30 @@
 
                         </div>
                         <div v-for="comment in post.comments" class="post-comment">
-                            <img src="http://localhost:8000/media/profile_pics/user-8.jpg" alt="" class="profile-photo-sm"/>
-                            <p><a href="#"
-                                              class="profile-link">{{ comment.author }}    </a><i
-                                                class="em em-laughing"></i>{{ comment.text }}</p>
+                            <img :src="comment.author.profile_image" alt="" class="profile-photo-sm"/>
+                            <p><a :href="comment.author.profile_url"
+                                  class="profile-link">{{ comment.author.first_name }} {{ comment.author.last_name
+                                }} </a><i
+                                    class="em em-laughing"></i>{{ comment.text }}</p>
                         </div>
+                        <div class="post-comment">
+                                <form>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-1 mb-0">
+                                            <img :src="user.profile_image" alt="user"
+                                                 class="profile-photo-sm"/>
+                                        </div>
+                                        <div class="form-group col-md-11 mb-0">
+
+                                            <textarea name="text" cols="40" rows="2" maxlength="1000" required="" id="id_comment"></textarea>
+
+                                            <button class="btn btn-primary pull-right" name="submit"
+                                                    :value="post.id">Comment
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
 
 
                     </div>
@@ -119,5 +140,6 @@
 {% block script %}
 
     <script src="{% static "custom/js/newsfeed.js" %}"></script>
+
 
 {% endblock %}
