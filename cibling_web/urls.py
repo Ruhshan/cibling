@@ -5,9 +5,9 @@ from . import views
 from .find_cibling_views import FindCiblingPageView
 from .newsfeed_view import NewsFeedView
 urlpatterns=[
-    path('', NewsFeedView.as_view(), name='newsfeed-scrollable'),
+    path('', NewsFeedView.as_view(), name='newsfeed'),
     #path('newsfeed/', views.Newsfeed, name='newsfeed'),
-    path('newsfeed/', NewsFeedView.as_view(), name='newsfeed-scrollable'),
+    path('newsfeed/', NewsFeedView.as_view(), name='newsfeed'),
     #path('timeline/', views.Timeline, name='web-timeline'),
     #path('timeline-2/', views.PostListView.as_view(), name='web-timeline-list-view'),
     path('post/<int:pk>/', views.post_detail_view, name='post-detail-view'),
