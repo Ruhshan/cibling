@@ -47,3 +47,4 @@ class NewsFeedView(View):
             return redirect('newsfeed')
 
 
+

@@ -80,7 +80,7 @@
         <!--TODO: Following will be paginated-->
         {% verbatim %}
         <div id="all-posts">
-            <div v-for="post in posts" class="post-content">
+            <div v-for="(post, index) in posts" class="post-content">
                 <div class="post-container">
                     <img :src="post.author.profile_image" alt="user"
                          class="profile-photo-md pull-left"/>
@@ -92,7 +92,8 @@
                                    class="profile-link">{{ post.author.first_name }} {{ post.author.last_name }}</a>
                                 <span
                                         class="following"> </span></h5>
-                            <p v-if="post.image" class="text-muted">Published a photo {{ post.time_posted | formatDate }}</p>
+                            <p v-if="post.image" class="text-muted">Published a photo {{ post.time_posted | formatDate
+                                }}</p>
                             <p v-else class="text-muted">Published a post {{ post.time_posted | formatDate }}</p>
                         </div>
                         <div class="line-divider"></div>
@@ -114,30 +115,52 @@
                             <p><a :href="comment.author.profile_url"
                                   class="profile-link">{{ comment.author.first_name }} {{ comment.author.last_name
                                 }} </a><i
-                                    class="em em-laughing"></i> <span v-html="urlize(comment.text)"></span> </p>
+                                    class="em em-laughing"></i> <span v-html="urlize(comment.text)"></span></p>
                         </div>
                         <div class="post-comment">
 
-                                    <div class="form-row">
-                                        <div class="form-group col-md-1 mb-0">
-                                            <img :src="user.profile_image" alt="user"
-                                                 class="profile-photo-sm"/>
-                                        </div>
-                                        <div class="form-group col-md-11 mb-0">
-                                            <textarea name="text" cols="40" rows="2" maxlength="1000" :id="get_comment_id(post.id)"></textarea>
-                                            <button class="btn btn-primary pull-right" @click="make_comment(post.id, post)">Comment
-                                            </button>
-                                        </div>
-                                    </div>
-
+                            <div class="form-row">
+                                <div class="form-group col-md-1 mb-0">
+                                    <img :src="user.profile_image" alt="user"
+                                         class="profile-photo-sm"/>
+                                </div>
+                                <div class="form-group col-md-11 mb-0">
+                                    <textarea name="text" cols="40" rows="2" maxlength="1000"
+                                              :id="get_comment_id(post.id)"></textarea>
+                                    <button class="btn btn-primary pull-right" @click="make_comment(post.id, post)">
+                                        Comment
+                                    </button>
+                                </div>
                             </div>
+
+                        </div>
 
 
                     </div>
                 </div>
+                <div v-if="post.author.id == user.id" class="post-delete">
+                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" @click="show_modal(index)"><i
+                            class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+                </div>
             </div>
 
-        <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+            <infinite-loading @infinite="infiniteHandler"></infinite-loading>
+
+
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog modal-sm">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Are you sure?</h4>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" @click="post_delete">Yes</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
         </div>
 

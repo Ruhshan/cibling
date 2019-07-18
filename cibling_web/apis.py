@@ -1,21 +1,26 @@
+from rest_framework import status
 from rest_framework.generics import ListAPIView
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from .serializers import PostSerializer
 from .models import Post
 import time
+
 
 class PostResultPagination(PageNumberPagination):
     page_size = 5
     page_size_query_param = 'page_size'
     max_page_size = 1000
 
+
 class ListPosts(ListAPIView):
     serializer_class = PostSerializer
     pagination_class = PostResultPagination
 
     def get_queryset(self):
-        #time.sleep(3)
+        # time.sleep(3)
         author_ids = list(self.request.user.cibling_1.values_list("cibling_2__id", flat=True))
         author_ids.extend(list(self.request.user.cibling_2.values_list("cibling_1__id", flat=True)))
         author_ids.append(self.request.user.id)
@@ -24,3 +29,12 @@ class ListPosts(ListAPIView):
         return queryset
 
 
+class DeletePost(APIView):
+    def delete(self, request, pk, format=None):
+        print(pk)
+        try:
+            post = Post.objects.get(id=pk)
+            post.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
