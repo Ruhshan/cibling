@@ -28,6 +28,7 @@ class NewsFeedView(View):
         user_ciblings.append(user)
 
         context={
+            "user":user,
             "user_ciblings" : user_ciblings,
             'number_of_ciblings': len(user_ciblings) - 1,
             'cib_sug': right_sidebar_cibling_suggestion(request, request.user.id),
