@@ -4,7 +4,7 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from .serializers import PostSerializer
+from .serializers import PostSerializer, MakeCommentSerializer
 from .models import Post
 import time
 
@@ -38,3 +38,16 @@ class DeletePost(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class CommentView(APIView):
+    def post(self, request):
+        try:
+            serialized = MakeCommentSerializer(data=request.data)
+            if serialized.is_valid():
+                serialized.save()
+                return Response(status=status.HTTP_201_CREATED)
+            else:
+                return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)

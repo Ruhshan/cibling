@@ -72,18 +72,26 @@ var app = new Vue({
             return "id_comment_" + id
         },
         make_comment: function (id, post) {
-            var comment_id = "id_comment_" + id
-            comment_text = document.getElementById(comment_id).value
+            var self = this;
+            var comment_id = "id_comment_" + id;
+            comment_text = document.getElementById(comment_id).value;
 
             comment = {
-                "author": this.user,
+                "author": this.user.id,
                 "text": comment_text,
                 "post": id
             }
 
-            console.log(comment)
+            axios.post("/api/cibling-web/comment",
+                comment,
+                self.get_csrf_header())
+                .then((response) => {
+                    comment["author"] = self.user;
+                    post.comments.push(comment);
+                }).catch((err) => {
+                console.log(err);
+            });
 
-            post.comments.push(comment)
 
             document.getElementById(comment_id).value = ""
 
@@ -97,16 +105,26 @@ var app = new Vue({
             this.forDelete = index;
             $('#myModal').modal('show');
         },
+
+        get_csrf_header: function () {
+            var csrftoken = this.getCookie('csrftoken')
+
+            return {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json', 'X-CSRFToken': csrftoken
+                }
+            }
+        },
         post_delete: function () {
             var self = this;
-            var csrftoken = this.getCookie('csrftoken');
 
             var id = this.posts[this.forDelete].id;
 
             this.$delete(this.posts, this.forDelete);
 
             axios.delete("/api/cibling-web/post/" + id,
-                {headers: {'Accept': 'application/json', 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken}}
+                self.get_csrf_header()
             ).then((response) => {
                 $('#myModal').modal('hide');
             }).catch((err) => {
@@ -131,7 +149,7 @@ var app = new Vue({
                 } else {
                     $state.complete();
                 }
-            }).catch((err)=>{
+            }).catch((err) => {
 
                 $state.complete();
             });

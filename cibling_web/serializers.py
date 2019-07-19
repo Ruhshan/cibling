@@ -10,6 +10,13 @@ class CommentSerializer(ModelSerializer):
         fields = "__all__"
 
 
+class MakeCommentSerializer(ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = "__all__"
+
+
+
 class PostSerializer(ModelSerializer):
     comments = CommentSerializer(many=True, read_only=True)
     author = UserSerializer(read_only=True)
