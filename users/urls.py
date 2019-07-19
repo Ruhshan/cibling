@@ -1,5 +1,5 @@
 from django.urls import path
-from .apis import ListInstitutes, ListExpertise, ListInterests, ListProfiles, SendMessage, ListCountries, ListSubjects, Me
+from .apis import ListInstitutes, ListExpertise, ListInterests, ListProfiles, SendMessage, ListCountries, ListSubjects, Me, RetrieveProfile
 from .forgot_password_view import ForgotPasswordView
 
 urlpatterns = [
@@ -7,6 +7,7 @@ urlpatterns = [
     path('expertises', ListExpertise.as_view(), name="list-expertise"),
     path('interests', ListInterests.as_view(), name="list-interest"),
     path('profiles', ListProfiles.as_view(), name="list-profiles"),
+    path('profile/<str:user>', RetrieveProfile.as_view(), name="list-profiles"),
     path('send-message', SendMessage.as_view(), name="send-message"),
     path('countries', ListCountries.as_view(), name="list-countries"),
     path('subjects', ListSubjects.as_view(), name="list-subjects"),

@@ -16,9 +16,29 @@ var app = new Vue({
 
     },
     created() {
-        console.log("This is created");
+        this.check_recepient_in_urlpath()
     },
     methods: {
+        check_recepient_in_urlpath: function () {
+            var self = this
+            var name = window.location.pathname.split("/")[3];
+
+            if(name){
+                axios.get("/api/user/profile/"+name).then((response)=>{
+
+                    var entry = {
+                            "title": response.data.first_name + " " + response.data.last_name,
+                            "image": response.data.profile_image,
+                            "id": response.data.id
+                        };
+
+                    self.recipient = entry
+                }).catch((err)=>{
+                    console.log(err)
+                })
+            }
+        }
+        ,
         onSearch: function (search, loading) {
 
             loading(true);

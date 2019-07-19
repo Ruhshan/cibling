@@ -67,6 +67,14 @@ class ListProfiles(APIView):
         return Response(serialized.data)
 
 
+class RetrieveProfile(APIView):
+    def get(self, request, user):
+        try:
+            serializer = UserSerializer(User.objects.get(username=user),context={'request': request})
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        except:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
 class SendMessage(APIView):
     def post(self, request):
         try:
