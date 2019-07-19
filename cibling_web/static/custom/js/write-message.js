@@ -78,14 +78,14 @@ var app = new Vue({
                 this.error.recipient = ""
             }
 
-            if (subject.trim().length === 0) {
-                document.getElementById("div_id_subject").classList.add("has-error");
-                this.error.subject = "Subject cannot be empty."
-                has_error += 1
-            } else {
-                this.error.subject = ""
-                document.getElementById("div_id_subject").classList.remove("has-error");
-            }
+            // if (subject.trim().length === 0) {
+            //     document.getElementById("div_id_subject").classList.add("has-error");
+            //     this.error.subject = "Subject cannot be empty."
+            //     has_error += 1
+            // } else {
+            //     this.error.subject = ""
+            //     document.getElementById("div_id_subject").classList.remove("has-error");
+            // }
             if (body.trim().length === 0) {
                 document.getElementById("div_id_body").classList.add("has-error");
                 this.error.body = "Body cannot be empty."

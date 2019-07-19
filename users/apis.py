@@ -69,10 +69,7 @@ class ListProfiles(APIView):
 
 class SendMessage(APIView):
     def post(self, request):
-
-        print(self.request.data)
         try:
-
             pm_write(sender=self.request.user,
                      recipient=User.objects.get(id=self.request.data["recipient"]),
                      subject=self.request.data["subject"],
@@ -80,6 +77,7 @@ class SendMessage(APIView):
             return Response("ok")
 
         except Exception as e:
+            print(e)
             return Response(e, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
