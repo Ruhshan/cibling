@@ -32,9 +32,10 @@ class ListInterests(APIView):
         serialized = InterestSerializer(queryset, many=True)
         return Response(serialized.data)
 
+
 class ListProfiles(APIView):
     def get(self, request):
-        search_text =self.request.query_params["q"]
+        search_text = self.request.query_params["q"]
         users = User.objects.annotate(name=Concat('first_name', Value(" "), 'last_name')).filter(
             name__icontains=search_text)
         queryset = Profile.objects.filter(user__in=users)
@@ -106,4 +107,13 @@ class Me(APIView):
         return Response(serialized.data)
 
 
+class ListCiblings(ListAPIView):
+    serializer_class = ProfileSerializer
 
+    def get_queryset(self):
+
+        cibling_ids = list(self.request.user.cibling_1.values_list("cibling_2__id", flat=True))
+        cibling_ids.extend(list(self.request.user.cibling_2.values_list("cibling_1__id", flat=True)))
+        profiles = Profile.objects.filter(user__in=cibling_ids)
+
+        return profiles

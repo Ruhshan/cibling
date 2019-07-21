@@ -25,11 +25,13 @@ new Vue({
         this.fetchData("countries");
         this.fetchData("subjects");
         this.fetchData("expertises");
+        this.fetchData("ciblings");
 
 
     },
 
     methods: {
+
         fetchData: function (name, param) {
             var self = this;
 
@@ -59,6 +61,10 @@ new Vue({
                         self.institutes.push(item)
 
                     }
+                    if (name === "ciblings"){
+                        self.ciblings.push(item)
+                    }
+
 
                 });
             self.searching = false
