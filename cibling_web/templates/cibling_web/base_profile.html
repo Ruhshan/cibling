@@ -114,21 +114,38 @@
     {% endfor %}
 {% endif %}
 <!--Header End-->
-<div class="container">
-
+<div class="container" id="profileApp">
+    <div id="profileImageChangeModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Upload Profile Picture</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Some text in the modal.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <!-- Timeline
     ================================================= -->
     <div class="timeline">
         <div class="timeline-cover"
              style="background: url({{ user.profile.cover_image.url }}) no-repeat; background-position: center; background-size: cover; min-height: 360px; border-radius: 0 0 4px 4px; position: relative">
-
-
             <!--Timeline Menu for Large Screens-->
+            <div class="pull-left">
+                <p style="color: white; background-color: #A74AC7; opacity: 0.5"><b>Change Cover</b></p>
+            </div>
             <div class="timeline-nav-bar hidden-sm hidden-xs">
                 <div class="row">
                     <div class="col-md-3">
                         <div class="profile-info">
-                            <img src="{{ user.profile.image.url }}" alt="" class="img-responsive profile-photo">
+                            {% include "cibling_web/fragment/profile_image.html" %}
                             <h3>{{ user.first_name }} {{ user.last_name }}</h3>
                             <p class="text-muted">{{ user.profile.profileinfo.subject }}
                                 from {{ user.profile.institute.institute }}</p>
@@ -159,8 +176,8 @@
             <!--Timeline Menu for Small Screens-->
             <div class="navbar-mobile hidden-lg hidden-md">
                 <div class="profile-info">
-                    <img src="{{ user.profile.image.url }}" alt="" class="img-responsive profile-photo">
-                    <h4>{{ user }}</h4>
+                    {% include "cibling_web/fragment/profile_image_mobile.html" %}
+                    <h4>{{ user }} </h4>
                     <p class="text-muted">{{ user.profile.profileinfo.subject }}
                         from {{ user.profile.institute.institute }}</p>
                 </div>
@@ -477,5 +494,22 @@
 <script src="{% static "js/jquery.sticky-kit.min.js" %}"></script>
 <script src="{% static "js/jquery.scrollbar.min.js" %}"></script>
 <script src="{% static "js/script.js" %}"></script>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+<script type="text/javascript">
+    var profileImageApp = new Vue({
+        el : "#profileApp",
+        created() {},
+        methods:{
+            profileImageChangeModal:function () {
+                $("#profileImageChangeModal").modal();
+            }
+        }
+
+    });
+</script>
+
 </body>
 </html>

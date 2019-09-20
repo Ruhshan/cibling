@@ -1,0 +1,10 @@
+
+<div class="image-container">
+    <img src="{{ user.profile.image.url }}" alt="" class="img-responsive profile-photo">
+    {% if request.user.id == pk %}
+        <div class="after">
+            <div style="padding-top: 40%" @click="profileImageChangeModal">Change Profile Picture</div>
+        </div>
+    {% endif %}
+</div>
+

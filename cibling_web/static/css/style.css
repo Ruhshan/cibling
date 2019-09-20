@@ -3307,3 +3307,22 @@ ul.nav.nav-pills.serch-result-nav {
   font-size: 24px;
 }
 
+.image-container {
+    position: relative;
+
+}
+.image-container .after {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none;
+    color: #FFF;
+    border-radius: 50%;
+}
+.image-container:hover .after {
+    display: block;
+    background: rgba(0, 0, 0, .6);
+    max-width: 100%;
+}
