@@ -7,228 +7,167 @@
     <link rel="stylesheet" href="{% static 'css/jquery.paginate.css' %}"/>
 {% endblock %}
 
-{% block newsfeed-content %}
+{% block page_content %}
+    <input type="hidden" id = "">
+    <div class="col-md-7">
 
-    <div id="page-contents">
-        <div class="container">
-            <div class="row">
-
-                <!-- Newsfeed Common Side Bar Left
-                ================================================= -->
-                <div class="col-md-3 static">
-                    <div class="profile-card">
-                        <img src="{{ user.profile.image.url }}" alt="user" class="profile-photo"/>
-                        <h5><a href="{% url 'timeline-profile' user.id %}" class="text-white">{{ user }}</a></h5>
-                        <a href="{% url 'timeline-ciblings' user.id %}" class="text-white"><i
-                                class="ion ion-android-person-add"></i> {{ number_of_ciblings }} Ciblings</a>
-                    </div><!--profile card ends-->
-                    <ul class="nav-news-feed">
-                        <li><i class="icon ion-ios-paper"></i>
-                            <div><a href="{% url 'timeline-profile' user.id %}">My Timeline</a></div>
-                        </li>
-                        <li><i class="icon ion-ios-people-outline"></i>
-                            <div><a href="{% url 'timeline-ciblings' user.id %}">My Ciblings</a></div>
-                        </li>
-                    </ul><!--news-feed links ends-->
-                    <div id="chat-block">
-                        <div class="title">Message to Ciblings</div>
-                        <ul class="online-users list-inline">
-                            {% for userc in user_ciblings %}
-                                <li><a href="{% url 'postman:write' userc %}" title="{{ userc }}"><img
-                                        src="{{ userc.profile.image.url }}" alt="user"
-                                        class="img-responsive profile-photo"/><span class="online-dot"></span></a></li>
-                            {% endfor %}
-                        </ul>
-                    </div><!--chat block ends-->
+        <div class="create-post">
+            <form method="POST" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    <h4 class="grey bold">New Post</h4>
+                    {{ form.content }}
+                    <div class="form-row">
+                        <div class="form-group col-md-5 mb-0 ml-0">
+                            {{ form.image }}
+                        </div>
+                        <div class="form-group col-md-5 mb-0">
+                        </div>
+                        <div class="form-group col-md-2 mb-0">
+                            <button class="btn btn-primary pull-right" name="submit" value="post-submit">
+                                Publish
+                            </button>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <br>
+                    </div>
                 </div>
-                <div class="col-md-7">
+            </form>
+            <!--
 
-                    <!-- Post Create Box
-                    ================================================= -->
-                    <div class="create-post">
-                        <form method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                            <div>
-                                <h4 class="grey bold">New Post</h4>
-                                {{ form.content }}
-                                <div class="form-row">
-                                    <div class="form-group col-md-5 mb-0 ml-0">
-                                        {{ form.image }}
-                                    </div>
-                                    <div class="form-group col-md-5 mb-0">
-                                    </div>
-                                    <div class="form-group col-md-2 mb-0">
-                                        <button class="btn btn-primary pull-right" name="submit" value="post-submit">
-                                            Publish
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="form-row">
-                                    <br>
-                                </div>
+            <form method="POST">
+                <div class="row">
+                  <div class="form-group">
+
+                    <input name="texts" id="" rows="4" cols="100" class="" placeholder="Write what you wish">
+
+                    </input>
+
+                  </div>
+
+                </div>
+
+                <div class="row">
+                  <div class="tools">
+                    <ul class="publishing-tools list-inline">
+                      <li><a href="#"><i class="ion-compose"></i></a></li>
+                      <li><a href="#"><i class="ion-images"></i></a></li>
+                      <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
+                    </ul>
+                    <button class="btn btn-primary pull-right" name="submit" value="post-submit">Publish</button>
+                  </div>
+
+                </div>
+            </form>
+            -->
+
+        </div><!-- Post Create Box End-->
+
+        <!-- Post Content
+        ================================================= -->
+
+        <!--TODO: Following will be paginated-->
+        <div id="all-posts">
+            {% for post in posts %}
+                <div class="post-content">
+
+                    <div class="post-container">
+                        <img src="{{ post.author.profile.image.url }}" alt="user"
+                             class="profile-photo-md pull-left"/>
+                        <div class="post-detail">
+                            <div class="user-info"
+                                 onclick="location.href='{% url 'post-detail-view' post.id %}';"
+                                 style="cursor: pointer;">
+                                <h5><a href="{% url 'timeline-profile' post.author.id %}"
+                                       class="profile-link">{{ post.author }}</a> <span
+                                        class="following"> </span></h5>
+                                <p class="text-muted">Published a photo {{ post.time_posted }}</p>
                             </div>
-                        </form>
-                        <!--
 
-                        <form method="POST">
-                            <div class="row">
-                              <div class="form-group">
-
-                                <input name="texts" id="" rows="4" cols="100" class="" placeholder="Write what you wish">
-
-                                </input>
-
-                              </div>
-
+                            <div class="line-divider"></div>
+                            <div class="post-text"
+                                 onclick="location.href='{% url 'post-detail-view' post.id %}';"
+                                 style="cursor: pointer;">
+                                <p>{{ post.content|urlize }}<i class="em em-anguished"></i> <i
+                                        class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                             </div>
-
-                            <div class="row">
-                              <div class="tools">
-                                <ul class="publishing-tools list-inline">
-                                  <li><a href="#"><i class="ion-compose"></i></a></li>
-                                  <li><a href="#"><i class="ion-images"></i></a></li>
-                                  <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
-                                </ul>
-                                <button class="btn btn-primary pull-right" name="submit" value="post-submit">Publish</button>
-                              </div>
-
+                            <div class="line-divider"></div>
+                            <div onclick="location.href='{% url 'post-detail-view' post.id %}';"
+                                 style="cursor: pointer;">
+                                {% if post.image %}
+                                    {% if post.image != 'default.jpg' %}
+                                        <img src="{{ post.image.url }}" alt="post-image"
+                                             class="img-responsive post-image"/>
+                                    {% endif %}
+                                {% endif %}
                             </div>
-                        </form>
-                        -->
-
-                    </div><!-- Post Create Box End-->
-
-                    <!-- Post Content
-                    ================================================= -->
-
-                    <!--TODO: Following will be paginated-->
-                    <div id="all-posts">
-                        {% for post in posts %}
-                            <div class="post-content">
-
-                                <div class="post-container">
-                                    <img src="{{ post.author.profile.image.url }}" alt="user"
-                                         class="profile-photo-md pull-left"/>
-                                    <div class="post-detail">
-                                        <div class="user-info"
-                                             onclick="location.href='{% url 'post-detail-view' post.id %}';"
-                                             style="cursor: pointer;">
-                                            <h5><a href="{% url 'timeline-profile' post.author.id %}"
-                                                   class="profile-link">{{ post.author }}</a> <span
-                                                    class="following"> </span></h5>
-                                            <p class="text-muted">Published a photo {{ post.time_posted }}</p>
-                                        </div>
-
-                                        <div class="line-divider"></div>
-                                        <div class="post-text"
-                                             onclick="location.href='{% url 'post-detail-view' post.id %}';"
-                                             style="cursor: pointer;">
-                                            <p>{{ post.content|urlize }}<i class="em em-anguished"></i> <i
-                                                    class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                                        </div>
-                                        <div class="line-divider"></div>
-                                        <div onclick="location.href='{% url 'post-detail-view' post.id %}';"
-                                             style="cursor: pointer;">
-                                            {% if post.image %}
-                                                {% if post.image != 'default.jpg' %}
-                                                    <img src="{{ post.image.url }}" alt="post-image"
-                                                         class="img-responsive post-image"/>
-                                                {% endif %}
-                                            {% endif %}
-                                        </div>
-                                        {% for comment in comments %}
-                                            {% if comment.post == post %}
-                                                <div class="post-comment">
-                                                    <img src="{{ comment.author.profile.image.url }}" alt=""
-                                                         class="profile-photo-sm"/>
-                                                    <p><a href="{% url 'timeline-profile' comment.author.id %}"
-                                                          class="profile-link">{{ comment.author }}    </a><i
-                                                            class="em em-laughing"></i>{{ comment.text|urlize }}</p>
-
-                                                </div>
-                                            {% endif %}
-                                        {% endfor %}
-                                        <div class="post-comment">
-                                            <form method="POST">
-                                                {% csrf_token %}
-
-                                                <div class="form-row">
-                                                    <div class="form-group col-md-1 mb-0">
-                                                        <img src="{{ user.profile.image.url }}" alt=""
-                                                             class="profile-photo-sm"/>
-                                                    </div>
-                                                    <div class="form-group col-md-11 mb-0">
-                                                        {{ comment_form.text }}
-                                                        <button class="btn btn-primary pull-right" name="submit"
-                                                                value="{{ post.id }}">Comment
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
-                                        </div>
+                            {% for comment in comments %}
+                                {% if comment.post == post %}
+                                    <div class="post-comment">
+                                        <img src="{{ comment.author.profile.image.url }}" alt=""
+                                             class="profile-photo-sm"/>
+                                        <p><a href="{% url 'timeline-profile' comment.author.id %}"
+                                              class="profile-link">{{ comment.author }}    </a><i
+                                                class="em em-laughing"></i>{{ comment.text|urlize }}</p>
 
                                     </div>
-                                    {% if post.author.id == user.id %}
-                                        <div class="post-delete"
-                                             onclick="location.href='{% url 'post-detail-view' post.id %}'">
-                                            <button type="button" class="btn btn-info btn-lg" data-toggle="modal"><i
-                                                    class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                {% endif %}
+                            {% endfor %}
+                            <div class="post-comment">
+                                <form method="POST">
+                                    {% csrf_token %}
 
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="myModal" role="dialog">
-                                                <div class="modal-dialog modal-sm">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h4 class="modal-title">Are you sure?</h4>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-default"
-                                                                    data-dismiss="modal"
-                                                                    onclick="location.href='{% url 'delete-post' post.id %}'">
-                                                                Yes
-                                                            </button>
-                                                            <button type="button" class="btn btn-default"
-                                                                    data-dismiss="modal">No
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-1 mb-0">
+                                            <img :src="{{ user.profile.image.url }}" alt=""
+                                                 class="profile-photo-sm"/>
+                                        </div>
+                                        <div class="form-group col-md-11 mb-0">
+                                            {{ comment_form.text }}
+                                            <button class="btn btn-primary pull-right" name="submit"
+                                                    value="{{ post.id }}">Comment
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+                        {% if post.author.id == user.id %}
+                            <div class="post-delete"
+                                 onclick="location.href='{% url 'post-detail-view' post.id %}'">
+                                <button type="button" class="btn btn-info btn-lg" data-toggle="modal"><i
+                                        class="fa fa-trash-o" aria-hidden="true"></i></button>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="myModal" role="dialog">
+                                    <div class="modal-dialog modal-sm">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h4 class="modal-title">Are you sure?</h4>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal"
+                                                        onclick="location.href='{% url 'delete-post' post.id %}'">
+                                                    Yes
+                                                </button>
+                                                <button type="button" class="btn btn-default"
+                                                        data-dismiss="modal">No
+                                                </button>
                                             </div>
                                         </div>
-                                    {% endif %}
-                                </div>
-                            </div>
-                        {% endfor %}
-                    </div>
-
-                </div>
-
-                <!-- Newsfeed Common Side Bar Right
-                ================================================= -->
-                <div class="col-md-2 static">
-                    <div class="suggestions" id="sticky-sidebar">
-                        <h4 class="grey">Add More Ciblings</h4>
-                        {% for cib in cib_sug %}
-                            {% if cib %}
-                                <div class="follow-user">
-                                    <img src="{{ cib.profile.image.url }}" alt="" class="profile-photo-sm pull-left"/>
-                                    <div>
-                                        <h5>
-                                            <a href="{% url 'timeline-profile' cib.id %}">{{ cib.first_name }} {{ cib.last_name }}</a>
-                                        </h5>
-                                        <a href="{% url 'add-cibling' cib.id %}" class="text-green">Add cibling</a>
                                     </div>
                                 </div>
-                            {% endif %}
-                        {% endfor %}
-
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
     </div>
-{% endblock newsfeed-content %}
-
+{% endblock page_content %}
 
 {% block script %}
     <script type="text/javascript" src="{% static 'js/jquery.paginate.js' %}"></script>

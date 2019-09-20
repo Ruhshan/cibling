@@ -1,51 +1,199 @@
 {% extends "postman/base.html" %}
 {% load i18n static %}
+{% load widget_tweaks %}
 {% load crispy_forms_tags %}
-{% block extrahead %}{{ block.super }}
-{% if autocompleter_app.is_active %}{# using the available admin jQuery is enough #}
-{# should not be necessary since AS v1.3 with AJAX_SELECT_BOOTSTRAP set #}
-{#<script type="text/javascript" src="{% static 'admin/js/jquery.min.js' %}"></script>#}
-{% endif %}
-{{ form.media }}{# for ajax_selects (v1.3.6 at least) #}
+{% load postman_tags %}
+
+
+{% block extrahead %}
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src="https://unpkg.com/vue-select@3.0.0"></script>
+    <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+
+    <script src="https://unpkg.com/lodash@latest/lodash.min.js"></script>
+
+    <!-- Add these two line -->
+    <link rel="stylesheet" href="https://unpkg.com/vue-spinners@1.0.0/dist/vue-spinners.css">
+    <script src="https://unpkg.com/vue-spinners@1.0.0/dist/vue-spinners.browser.js"></script>
+
+
+
+    <style>
+
+        img {
+            height: auto;
+            max-width: 2.5rem;
+            margin-right: 1rem;
+        }
+
+        .d-center {
+            display: flex;
+            align-items: center;
+        }
+
+        .selected img {
+            width: auto;
+            max-height: 23px;
+            margin-right: 0.5rem;
+        }
+
+        .v-select .dropdown li {
+            border-bottom: 1px solid rgba(112, 128, 144, 0.1);
+        }
+
+        .v-select .dropdown li:last-child {
+            border-bottom: none;
+        }
+
+        .v-select .dropdown li a {
+            padding: 10px 20px;
+            width: 100%;
+            font-size: 1.25em;
+            color: #3c3c3c;
+        }
+
+        .v-select .dropdown-menu .active > a {
+            color: #fff;
+        }
+
+    </style>
+
+
+
+
 {% endblock %}
 {% block content %}
     <div id="page-contents">
-    	<div class="container">
+    <div class="container">
         <div class="row">
             <div class="inbox-sec">
-                    <div class="col-lg-3 col-md-3 col-sm-4">
-                        <div class="inbox-navigation">
-                            <div class="inbox-panel-head">
+                <div class="col-lg-3 col-md-3 col-sm-4">
+                    <div class="inbox-navigation">
+                        <div class="inbox-panel-head">
 
-                                <h1><i>{{ user }}</i></h1>
-                                <a title="" href="{% url 'timeline-profile' user.pk %}"><i class="fa fa-user"></i>Profile</a>
-                            </div>
-                            <ul>
-                                     <li><a href="{% url 'postman:inbox' %}"><i class="fa fa-inbox"></i>{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
-                                <li><a href="{% url 'postman:sent' %}"><i class="fa fa-paper-plane-o"></i>{% trans "Sent Messages" %}</a></li>
-                                <li><a href="{% url 'postman:write' %}"><i class="fa fa-briefcase"></i>{% trans "Write" %}</a></li>
-                                <li><a href="{% url 'postman:archives' %}"><i class="fa fa-plane"></i>{% trans "Archives" %}</a></li>
-                                <li><a href="{% url 'postman:trash' %}"><i class="fa fa-trash-o"></i>{% trans "Trash" %}</a></li>
-                            </ul>
+                            <h1><i>{{ user }}</i></h1>
+                            <a title="" href="{% url 'timeline-profile' user.pk %}"><i
+                                    class="fa fa-user"></i>Profile</a>
+                        </div>
+                        <ul>
+                        {% postman_unread as unread_count %}
+                            <li><a href="{% url 'postman:inbox' %}"><i class="fa fa-inbox"></i>{% trans "Inbox" %}
+                                {% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
+                            <li><a href="{% url 'postman:write' %}"><i
+                                    class="fa fa-briefcase"></i>{% trans "Write" %}</a></li>
+                            <li><a href="{% url 'postman:sent' %}"><i
+                                    class="fa fa-paper-plane-o"></i>{% trans "Sent Messages" %}</a></li>
+
+                            <li><a href="{% url 'postman:archives' %}"><i
+                                    class="fa fa-plane"></i>{% trans "Archives" %}</a></li>
+                            <li><a href="{% url 'postman:trash' %}"><i class="fa fa-trash-o"></i>{% trans "Trash" %}
+                            </a></li>
+                        </ul>
+
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-9 col-sm-8">
+                    <div id="postman">
+                        <div id="postman">
+                            <h1>{% block pm_write_title %}{% endblock %}</h1>
+
+                            <table>
+                                {% verbatim %}
+                                <div id="app">
+                                    <div v-if="delivering">
+
+                                        <square color="#c112c4"></square>
+
+                                    </div>
+
+                                    <div v-if="successMessage.length > 0" class="alert alert-success" role="alert"
+                                         id="alert_message">
+                                        {{ successMessage }}
+
+                                    </div>
+
+
+                                    <div id="div_id_recipients" class="form-group required">
+                                        <label for="id_recipients" class="col-form-label  requiredField">
+                                            Recipient<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="">
+                                            <v-select v-model="recipient"
+                                                      label="title"
+                                                      :options="users"
+                                                      @search="onSearch"
+                                                      :filterable="false"
+
+                                                      class="textinput textInput"
+                                            >
+                                                <template slot="no-options">
+                                                    Type to search users..
+                                                </template>
+
+                                                <template slot="option" slot-scope="option">
+                                                    <div class="d-center">
+                                                        <img :src="option.image" height="20px"/>
+                                                        {{ option.title }}
+                                                    </div>
+                                                </template>
+
+                                                <template slot="selected-option" slot-scope="option">
+                                                    <div class="selected d-center">
+                                                        <img :src="option.image" height="20px"/>
+                                                        {{ option.title }}
+                                                    </div>
+                                                </template>
+
+                                            </v-select>
+                                            <span class="help-block">{{ error.recipient }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div id="div_id_subject" class="form-group required">
+                                        <label for="id_subject" class="col-form-label  requiredField">
+                                            Subject</span>
+                                        </label>
+                                        <div>
+                                            <input type="text" name="subject" maxlength="120"
+                                                   class="textinput textInput form-control" required
+                                                   id="id_subject" v-model="subject">
+                                            <span class="help-block">{{ error.subject }}</span>
+                                        </div>
+                                    </div>
+                                    <div id="div_id_body" class="form-group">
+                                        <label for="id_body" class="col-form-label ">
+                                            Body<span class="asteriskField">*</span>
+                                        </label>
+                                        <div class="">
+                                                <textarea name="body" cols="55" rows="12" class="textarea form-control"
+                                                          id="id_body" v-model="body">
+                                                </textarea>
+                                            <span class="help-block">{{ error.body }}</span>
+                                        </div>
+                                    </div>
+
+                                    <div>
+                                        <button type="button" class="btn btn-default" v-on:click="onSend">Send</button>
+                                    </div>
+                                </div>
+                                <br>
+                                {% endverbatim %}
+                            </table>
 
                         </div>
                     </div>
-							<div class="col-lg-9 col-md-9 col-sm-8">
-                <div id="postman"><div id="postman">
-<h1>{% block pm_write_title %}{% endblock %}</h1>
-<form action="{% if next_url %}?next={{ next_url|urlencode }}{% endif %}" method="post">{% csrf_token %}
-<table>
-{% block pm_write_recipient %}{% endblock %}
-{{ form|crispy }}
-</table>
-<button type="submit" class="pm_btn pm_btn-send">{% trans "Send" %}</button>
-</form>
-</div>
-							</div>
 
-						</div>
-				</div>
-      </div>
+                </div>
+            </div>
+        </div>
     </div>
 
 {% endblock %}
+
+
+{% block extra_js %}
+    <script type="text/javascript" src="{% static 'custom/js/write-message.js' %}"></script>
+{% endblock extra_js %}

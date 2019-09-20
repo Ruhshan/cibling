@@ -1,12 +1,17 @@
 {% extends "cibling_web/base_temp.html" %}
 
-{% block newsfeed-content %}
+{% block sidebar_left %}
+{% endblock sidebar_left %}
+
+{% block sidebar_right %}
+{% endblock sidebar_right %}
+{% block page_content %}
     {% load static %}
     <div class="container">
 
       <!-- Timeline
       ================================================= -->
-      <div class="timeline">\
+      <div class="timeline">
         <div id="page-contents">
           <div class="row">
             <div class="col-md-3"></div>
@@ -94,4 +99,4 @@
         </div>
       </div>
     </div>
-{% endblock newsfeed-content %}
+{% endblock page_content %}

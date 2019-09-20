@@ -7,12 +7,19 @@ class ListTextWidget(forms.TextInput):
         self._list = data_list
         self.attrs.update({'list':'list__%s' % self._name})
 
+
     def render(self, name, value, attrs=None, renderer=None):
+
         text_html = super(ListTextWidget, self).render(name, value, attrs=attrs)
+
         data_list = '<datalist id="list__%s">' % self._name
         for item in self._list:
-            data_list += '<option value="%s">' % item
+            if item == value:
+                data_list += '<option selected value="%s">' % item
+            else:
+                data_list += '<option value="%s">' % item
         data_list += '</datalist>'
+
 
         return (text_html + data_list)
 
@@ -38,30 +45,25 @@ class ListTextWidgetDynamic(forms.TextInput):
 
         return (text_html + data_list)
 
-class ListTextWidgetTag(forms.TextInput):
-    def __init__(self, data_list, name,tag_model, *args, **kwargs):
-        super(ListTextWidgetTag, self).__init__(*args, **kwargs)
+class TagWidget(forms.TextInput):
+    def __init__(self, name,selectedTagsModel,existingTagsModel, *args, **kwargs):
+        super(TagWidget, self).__init__(*args, **kwargs)
         self._name = name
-        self._list = data_list
-        self._tag_model = tag_model
-        self.attrs.update({'list':'list__%s' % self._name})
+        self.attrs.update({'element-id': self._name,
+                           ":typeahead":"true",
+                           "v-model":selectedTagsModel,
+                           ":existing-tags":existingTagsModel,
+                           "placeholder":"Add an "+name.title() + " then press Enter",
+                           "style":"height:auto",
+                           "name":self._name,
+                           })
 
     def render(self, name, value, attrs=None, renderer=None):
-        text_html = super(ListTextWidgetTag, self).render(name, value, attrs=attrs)
-        data_list = '<datalist id="list__%s">' % self._name
-        for item in self._list:
-            data_list += '<option value="%s">' % item
-        data_list += '</datalist>'
-        tag_div='''
-                <div>
-                <a href='#' class='tag' v-for = "%s in %s"> {{%s}} <span class="cross">X</span></a> 
-                </div>
-                ''' %(self._tag_model,self._tag_model+"s",self._tag_model)
-        data_list+=tag_div
+        text_html = super(TagWidget, self).render(name, value, attrs=attrs)
+        text_html = text_html.replace("input","tags-input")
 
-        return (text_html + data_list)
+        text_html+='''<input type="hidden" name="previous_%s" id="previous_%s" value="%s">'''%(self._name,self._name, value)
 
 
+        return text_html
 
-
-#http://jsfiddle.net/Wky2Z/11/

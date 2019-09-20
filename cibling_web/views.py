@@ -191,6 +191,7 @@ def Newsfeed(request):
 
         #posts=Post.objects.all()
         comments=Comment.objects.all()
+        print(len(posts))
 
         context={
             'posts':posts,

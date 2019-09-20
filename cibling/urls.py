@@ -40,6 +40,7 @@ urlpatterns = [
 ]
 
 urlpatterns+=[path('api/user/',include('users.urls'))]
+urlpatterns+=[path('api/cibling-web/',include('cibling_web.api_urls'))]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

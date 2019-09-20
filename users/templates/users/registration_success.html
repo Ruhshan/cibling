@@ -1,18 +1,31 @@
 {% extends "cibling_web/base_temp.html" %}
-{% block newsfeed-content %}
+
+{% block sidebar_left %}
+{% endblock sidebar_left %}
+
+{% block sidebar_right %}
+{% endblock sidebar_right %}
+
+
+{% block page_content %}
     <div id="page-contents">
     	<div class="container">
         <div class="row">
             <div class="col-md-12">
               <div class="logout-page">
-                <h2>Your Cibling registration is successful. Thank you!</h2>
-                <a href="{% url 'login' %}">You can Login here</a>
+                    {% if pending_confirmation == True %}
+                        <h2>Your Cibling registration is successful. Please check your email for verification!</h2>
+                    {% endif %}
+                    {% if pending_confirmation == False %}
+                        <h2>Thank you for verifying your email!</h2>
+                        <a href="{% url 'newsfeed' %}">You can access your account now!</a>
+                    {% endif %}
               </div>
             </div>
 				</div>
 				</div>
       </div>
     </div>
-{% endblock newsfeed-content %}
+{% endblock page_content %}
 {% block footer %}
 {% endblock footer %}
