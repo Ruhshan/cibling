@@ -3326,3 +3326,25 @@ ul.nav.nav-pills.serch-result-nav {
     background: rgba(0, 0, 0, .6);
     max-width: 100%;
 }
+
+.cibling-cover{
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    min-height: 360px;
+    border-radius: 0 0 4px 4px;
+    position: relative
+}
+
+.cibling-cover:hover .change-cover-overlay{
+    display: block;
+}
+
+.change-cover-overlay{
+    display: none;
+    background-color: black;
+    opacity: 0.5;
+    height: 50px;
+
+}
+

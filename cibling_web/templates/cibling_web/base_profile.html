@@ -119,12 +119,20 @@
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Upload Profile Picture</h4>
-                </div>
                 <div class="modal-body">
-                    <p>Some text in the modal.</p>
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <div>
+                        <div class="file-upload-form">
+                            <b>Select an image file:</b>
+                            <input type="file" @change="previewImage" accept="image/*">
+                        </div>
+                        <div class="image-preview" v-if="imageData.length > 0">
+                            <div><b>Preview:</b></div>
+                            <div class="text-center">
+                                <img :src="imageData" width="200px" style="border-radius: 100px">
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -135,12 +143,15 @@
     <!-- Timeline
     ================================================= -->
     <div class="timeline">
-        <div class="timeline-cover"
-             style="background: url({{ user.profile.cover_image.url }}) no-repeat; background-position: center; background-size: cover; min-height: 360px; border-radius: 0 0 4px 4px; position: relative">
-            <!--Timeline Menu for Large Screens-->
-            <div class="pull-left">
-                <p style="color: white; background-color: #A74AC7; opacity: 0.5"><b>Change Cover</b></p>
+        <div class="timeline-cover cibling-cover"
+             style="background: url({{ user.profile.cover_image.url }}) ">
+
+            {% if request.user.id == pk %}
+            <div class="change-cover-overlay text-center" id="coverOverLay">
+                <p style="color: white; padding-top: 10px"><b>Click to change cover photo</b></p>
             </div>
+            {% endif %}
+
             <div class="timeline-nav-bar hidden-sm hidden-xs">
                 <div class="row">
                     <div class="col-md-3">
@@ -500,12 +511,33 @@
 
 <script type="text/javascript">
     var profileImageApp = new Vue({
-        el : "#profileApp",
-        created() {},
-        methods:{
-            profileImageChangeModal:function () {
+        el: "#profileApp",
+        data: {
+            imageData: ""  // we will store base64 format of image in this string
+        },
+        created() {
+        },
+        methods: {
+            profileImageChangeModal: function () {
                 $("#profileImageChangeModal").modal();
+            },
+             previewImage: function(event) {
+            // Reference to the DOM input element
+            var input = event.target;
+            // Ensure that you have a file before attempting to read it
+            if (input.files && input.files[0]) {
+                // create a new FileReader to read this image and convert to base64 format
+                var reader = new FileReader();
+                // Define a callback function to run, when FileReader finishes its job
+                reader.onload = (e) => {
+                    // Note: arrow function used here, so that "this.imageData" refers to the imageData of Vue component
+                    // Read image as base64 and set to imageData
+                    this.imageData = e.target.result;
+                }
+                // Start the reader job - read file as a data url (base64 format)
+                reader.readAsDataURL(input.files[0]);
             }
+        }
         }
 
     });

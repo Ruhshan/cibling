@@ -1,5 +1,9 @@
 
 <div>
-    <img src="{{ user.profile.image.url }}" alt="" class="img-responsive profile-photo">
+    {% if request.user.id == pk %}
+        <img src="{{ user.profile.image.url }}" alt="" class="img-responsive profile-photo" @click="profileImageChangeModal">
+    {% else %}
+        <img src="{{ user.profile.image.url }}" alt="" class="img-responsive profile-photo">
+    {% endif %}
 </div>
 
