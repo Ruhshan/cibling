@@ -57,4 +57,8 @@ class SubjectSerializer(ModelSerializer):
         model = Subject
         fields = "__all__"
 
+class ProfileImageSerializer(ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ["image"]
 

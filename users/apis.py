@@ -1,7 +1,8 @@
 from django.db.models import Q, Value
 from django.db.models.functions import Concat
+from django.http import Http404
 from rest_framework import status
-from rest_framework.generics import ListAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, RetrieveAPIView, UpdateAPIView
 from rest_framework.views import APIView
 
 from rest_framework.response import Response
@@ -9,6 +10,7 @@ from rest_framework.response import Response
 from .models import Institute, Expertise, Interest, Profile, Country, Subject
 from django.contrib.auth.models import User
 from .serializers import InstituteSerializer, ExpertiseSerializer, InterestSerializer, ProfileSerializer, CountrySerializer, SubjectSerializer, UserSerializer
+from .serializers import ProfileImageSerializer
 from postman.api import pm_write
 
 import time
@@ -104,6 +106,7 @@ class Me(APIView):
     def get(self, request):
         user = self.request.user
         serialized = UserSerializer(user,context={'request': request})
+
         return Response(serialized.data)
 
 
@@ -117,3 +120,13 @@ class ListCiblings(ListAPIView):
         profiles = Profile.objects.filter(user__in=cibling_ids)
 
         return profiles
+
+class UpdateProfilePic(UpdateAPIView):
+    serializer_class = ProfileImageSerializer
+
+    def get_object(self):
+        pk = self.kwargs.get("pk", None)
+        if pk == self.request.user.id:
+            return User.objects.get(id=pk).profile
+        else:
+            raise Http404
