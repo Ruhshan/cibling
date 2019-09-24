@@ -62,3 +62,7 @@ class ProfileImageSerializer(ModelSerializer):
         model = Profile
         fields = ["image"]
 
+class ProfileCoverSeriaizer(ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ["cover_image"]

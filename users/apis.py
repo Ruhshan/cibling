@@ -10,7 +10,7 @@ from rest_framework.response import Response
 from .models import Institute, Expertise, Interest, Profile, Country, Subject
 from django.contrib.auth.models import User
 from .serializers import InstituteSerializer, ExpertiseSerializer, InterestSerializer, ProfileSerializer, CountrySerializer, SubjectSerializer, UserSerializer
-from .serializers import ProfileImageSerializer
+from .serializers import ProfileImageSerializer, ProfileCoverSeriaizer
 from postman.api import pm_write
 
 import time
@@ -121,8 +121,20 @@ class ListCiblings(ListAPIView):
 
         return profiles
 
+
 class UpdateProfilePic(UpdateAPIView):
     serializer_class = ProfileImageSerializer
+
+    def get_object(self):
+        pk = self.kwargs.get("pk", None)
+        if pk == self.request.user.id:
+            return User.objects.get(id=pk).profile
+        else:
+            raise Http404
+
+
+class UpdateCoverPic(UpdateAPIView):
+    serializer_class = ProfileCoverSeriaizer
 
     def get_object(self):
         pk = self.kwargs.get("pk", None)
