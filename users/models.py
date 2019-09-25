@@ -72,6 +72,7 @@ class ProfileInfo(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     expertises = models.ManyToManyField(Expertise, related_name='profiles', null=True)
     interests = models.ManyToManyField(Interest, related_name='profiles', null=True)
+    offers = models.ManyToManyField(Offer, related_name='profiles', null=True)
     languages = models.ManyToManyField(Language, related_name='profiles', null=True)
     personal_info = models.CharField(null=True, max_length=1000)
     subject = models.ForeignKey(Subject, on_delete=None, null=True)
