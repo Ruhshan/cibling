@@ -40,10 +40,12 @@ class UserRegisterForm(UserCreationForm):
     interest = forms.CharField(
         widget=TagWidget(name="interest", selectedTagsModel="selectedInterests", existingTagsModel="existingInterests"))
 
+    offer = forms.CharField(widget=TagWidget(name="offer", selectedTagsModel="selectedOffers", existingTagsModel="existingOffers"))
+
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'date_of_birth', 'country',
-                  'institute', 'subject', 'expertise', 'interest']
+                  'institute', 'subject', 'expertise', 'interest', 'offer']
         widgets = {
             'username': forms.fields.TextInput(attrs={'placeholder': '150 characters or fewer. Letters, digits and @/./+/-/_ only.'})
         }
@@ -74,8 +76,6 @@ class UserRegisterForm(UserCreationForm):
 
     def clean_expertise(self):
         data = self.cleaned_data["expertise"]
-        print("expertise")
-        print(data)
         return data
 
     @transaction.atomic

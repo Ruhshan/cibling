@@ -82,7 +82,7 @@
                                     {{ field|as_crispy_field }}
 
 
-                                    {% if field.name == "interest" or field.name == "expertise" %}
+                                    {% if field.name == "interest" or field.name == "expertise" or field.name == "offer" %}
                                         <div>
                                             {% for error in field.errors %}
                                                 <p class="invalid-feedback">{{ error }}</p>

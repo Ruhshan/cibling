@@ -12,7 +12,9 @@ var app = new Vue({
         selectedExpertises:[],
         existingExpertises:{},
         selectedInterests:[],
-        existingInterests:{}
+        existingInterests:{},
+        selectedOffers:[],
+        existingOffers:[]
 
     },
     created() {
@@ -20,6 +22,7 @@ var app = new Vue({
 
         var previous_expertises = document.getElementById("previous_expertise").value;
         var previous_interests = document.getElementById("previous_interest").value;
+        var previous_offers = document.getElementById("previous_offer").value;
 
 
         if(previous_expertises.length !==0 && previous_expertises !== "None"){
@@ -33,6 +36,13 @@ var app = new Vue({
             this.selectedInterests.push(item);
         });
         }
+
+        if(previous_offers.length !== 0 && previous_offers !== "None"){
+        previous_offers.split(",").forEach((item)=>{
+            this.selectedOffers.push(item);
+        });
+        }
+
 
 
 
@@ -48,6 +58,15 @@ var app = new Vue({
         axios.get("/api/user/interests").then((response)=>{
             response.data.forEach((item)=>{
                 self.existingInterests[item["interest"]] = item["interest"];
+            });
+
+        }).catch((err)=>{
+            console.log(err);
+        });
+
+        axios.get("/api/user/offers").then((response)=>{
+            response.data.forEach((item)=>{
+                self.existingOffers[item["offer"]] = item["offer"];
             });
 
         }).catch((err)=>{
