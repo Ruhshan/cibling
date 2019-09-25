@@ -172,4 +172,4 @@ class ProfileUpdateForm(forms.ModelForm):
 class ProfileInfoUpdateForm(forms.ModelForm):
     class Meta:
         model = ProfileInfo
-        fields = ['personal_info', 'subject', 'expertises', 'interests', 'languages']
+        fields = ['personal_info', 'subject', 'expertises', 'interests','offers', 'languages']
