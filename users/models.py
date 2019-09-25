@@ -38,6 +38,11 @@ class Language(models.Model):
     def __str__(self):
         return self.language
 
+class Offer(models.Model):
+    offer = models.CharField(unique=True, max_length=100)
+
+    def __str__(self):
+        return self.offer
 
 
 class Institute(models.Model):
