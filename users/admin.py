@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Profile, Country, Institute, ProfileInfo, Interest, Expertise, Language, Cibling, Subject
+from .models import Profile, Country, Institute, ProfileInfo, Interest, Expertise, Language, Cibling, Subject, Offer
 from cibling_web.models import Activity
 # Register your models here.
 
@@ -12,3 +12,4 @@ admin.site.register(Expertise)
 admin.site.register(Language)
 admin.site.register(Cibling)
 admin.site.register(Subject)
+admin.site.register(Offer)

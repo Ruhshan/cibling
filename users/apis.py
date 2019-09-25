@@ -7,10 +7,10 @@ from rest_framework.views import APIView
 
 from rest_framework.response import Response
 
-from .models import Institute, Expertise, Interest, Profile, Country, Subject
+from .models import Institute, Expertise, Interest, Profile, Country, Subject, Offer
 from django.contrib.auth.models import User
 from .serializers import InstituteSerializer, ExpertiseSerializer, InterestSerializer, ProfileSerializer, CountrySerializer, SubjectSerializer, UserSerializer
-from .serializers import ProfileImageSerializer, ProfileCoverSeriaizer
+from .serializers import ProfileImageSerializer, ProfileCoverSeriaizer , OfferSerializer
 from postman.api import pm_write
 
 import time
@@ -27,6 +27,9 @@ class ListExpertise(ListAPIView):
     serializer_class = ExpertiseSerializer
     queryset = Expertise.objects.all()
 
+class ListOffer(ListAPIView):
+    serializer_class = OfferSerializer
+    queryset = Offer.objects.all()
 
 class ListInterests(APIView):
     def get(self, request):

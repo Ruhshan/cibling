@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from .models import Institute, Expertise, Interest, Profile, Country, Subject, ProfileInfo
+from .models import Institute, Expertise, Interest, Profile, Country, Subject, ProfileInfo, Offer
 from django.contrib.auth.models import User
 
 class InstituteSerializer(ModelSerializer):
@@ -21,6 +21,11 @@ class InterestSerializer(ModelSerializer):
         model = Interest
         fields = "__all__"
 
+
+class OfferSerializer(ModelSerializer):
+    class Meta:
+        model = Offer
+        fields = "__all__"
 
 class ProfileInfoSerializer(ModelSerializer):
     class Meta:
