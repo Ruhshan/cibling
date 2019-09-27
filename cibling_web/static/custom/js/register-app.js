@@ -24,6 +24,8 @@ var app = new Vue({
         var previous_interests = document.getElementById("previous_interest").value;
         var previous_offers = document.getElementById("previous_offer").value;
 
+        document.getElementById("id_offer").parentNode.innerHTML+='<small class="form-text text-muted" >Adding offers will increase your exposure to ciblings!</small>';
+
 
         if(previous_expertises.length !==0 && previous_expertises !== "None"){
         previous_expertises.split(",").forEach((item)=>{

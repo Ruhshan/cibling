@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.db import transaction
 
-from .models import CustomUser, Profile, Institute, ProfileInfo, Country, Subject, Expertise, Interest
+from .models import CustomUser, Profile, Institute, ProfileInfo, Country, Subject, Expertise, Interest, Offer
 from .listtextwidget import ListTextWidget, ListTextWidgetDynamic, TagWidget
 # for writing validator
 from django.core.exceptions import ValidationError
@@ -40,7 +40,8 @@ class UserRegisterForm(UserCreationForm):
     interest = forms.CharField(
         widget=TagWidget(name="interest", selectedTagsModel="selectedInterests", existingTagsModel="existingInterests"))
 
-    offer = forms.CharField(widget=TagWidget(name="offer", selectedTagsModel="selectedOffers", existingTagsModel="existingOffers"))
+    offer = forms.CharField(widget=TagWidget(name="offer", selectedTagsModel="selectedOffers",
+                                             existingTagsModel="existingOffers"), required=False)
 
     class Meta:
         model = User
@@ -78,6 +79,7 @@ class UserRegisterForm(UserCreationForm):
         data = self.cleaned_data["expertise"]
         return data
 
+
     @transaction.atomic
     def save(self, commit=True):
         user = super(UserRegisterForm, self).save(commit=False)
@@ -89,6 +91,7 @@ class UserRegisterForm(UserCreationForm):
         subject, _ = Subject.objects.get_or_create(subject=self.cleaned_data.get('subject').title())
         expertise = self.cleaned_data["expertise"]
         interest = self.cleaned_data["interest"]
+        offer = self.cleaned_data["offer"]
 
         if commit:
             user.is_active = False
@@ -98,6 +101,7 @@ class UserRegisterForm(UserCreationForm):
         profile = Profile.objects.create(user=user,
                                          institute=institute,
                                          date_of_birth=date_of_birth)
+
         profile_info = ProfileInfo.objects.get(profile=profile)
 
         profile_info.subject = subject
@@ -119,7 +123,14 @@ class UserRegisterForm(UserCreationForm):
             except Exception as excptn:
                 print(excptn)
 
-        profile_info.save()
+        for o in offer.split(","):
+            try:
+                offr, _ = (Offer.objects.get(id=o),_) if o.isdigit() else Offer.objects.get_or_create(offer=o.title())
+                profile_info.offers.add(offr)
+            except Exception as excptn:
+                print(excptn)
+
+        #profile_info.save()
 
         return user
 

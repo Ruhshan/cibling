@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
+import random
 
 class CustomUser(User):
     institute = models.TextField()
@@ -57,12 +57,10 @@ class Institute(models.Model):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(default='default.jpg', upload_to='profile_pics/')
-    cover_image = models.ImageField(default='default.jpg', upload_to='cover_pics/', null=True)
+    cover_image = models.ImageField(default='default_cover.jpg', upload_to='cover_pics/', null=True)
     institute = models.ForeignKey(Institute, on_delete=models.SET_NULL, null= True, default=None)
     #country = models.ForeignKey(Country, on_delete=None, null=True, default=None)
     date_of_birth = models.DateField(default='2001-01-01',null = True)
-
-
 
     def __str__(self):
         return '{} Profile'.format(self.user.username)
@@ -72,7 +70,7 @@ class ProfileInfo(models.Model):
     profile = models.OneToOneField(Profile, on_delete=models.CASCADE)
     expertises = models.ManyToManyField(Expertise, related_name='profiles', null=True)
     interests = models.ManyToManyField(Interest, related_name='profiles', null=True)
-    offers = models.ManyToManyField(Offer, related_name='profiles', null=True)
+    offers = models.ManyToManyField(Offer, related_name='profiles', null=True, blank=True)
     languages = models.ManyToManyField(Language, related_name='profiles', null=True)
     personal_info = models.CharField(null=True, max_length=1000)
     subject = models.ForeignKey(Subject, on_delete=None, null=True)
