@@ -138,7 +138,7 @@
                             <p class="text-muted">{{ user.profile.profileinfo.subject }}
                                 from {{ user.profile.institute.institute }}</p>
                             {% if user.profile.profileinfo.offers.exists %}
-                                <div style="border-color: #00aae6; border-width: 1px" class="well">
+                                <div style="border-color: #00aae6; border-width: 1px" class="">
                                     <b>Offers</b>
                                     <br>
                                     {% for offer in user.profile.profileinfo.offers.all %}
