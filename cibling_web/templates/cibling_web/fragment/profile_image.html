@@ -1,5 +1,5 @@
 
-<div class="image-container">
+<div class="image-container" style="cursor: pointer">
     <img src="{{ user.profile.image.url }}" alt="" class="img-responsive profile-photo">
     {% if request.user.id == pk %}
         <div class="after" @click="showModal('profile')">

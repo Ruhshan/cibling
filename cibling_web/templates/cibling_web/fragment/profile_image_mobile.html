@@ -1,7 +1,7 @@
 
-<div>
+<div style="cursor: pointer">
     {% if request.user.id == pk %}
-        <img src="{{ user.profile.image.url }}" alt="" class="img-responsive profile-photo" @click="profileImageChangeModal">
+        <img src="{{ user.profile.image.url }}" alt="" class="img-responsive profile-photo" @click="showModal('profile')">
     {% else %}
         <img src="{{ user.profile.image.url }}" alt="" class="img-responsive profile-photo">
     {% endif %}
