@@ -3,6 +3,8 @@
 {% load crispy_forms_tags %}
 
 {% block head %}
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/css/datepicker.min.css"/>
 
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@1.11.2/dist/style.css">
@@ -82,7 +84,7 @@
                                     {{ field|as_crispy_field }}
 
 
-                                    {% if field.name == "interest" or field.name == "expertise" or field.name == "offer" %}
+                                    {% if field.name == "interest" or field.name == "expertise" %}
                                         <div>
                                             {% for error in field.errors %}
                                                 <p class="invalid-feedback">{{ error }}</p>
@@ -92,9 +94,32 @@
 
                                 {% endfor %}
 
-                                <div>
 
-                                </div>
+{#                                <div id="div_id_offer" class="form-group">#}
+{##}
+{#                                    <label for="id_offer" class="col-form-label  requiredField">#}
+{#                                        Offer<span class="asteriskField">*</span>#}
+{#                                    </label>#}
+{##}
+{##}
+{#                                    <div class="">#}
+{#                                        <select name="offer" class="selectmultiple form-control selectpicker" required id="id_offer"#}
+{#                                                multiple>#}
+{#                                            <option value="1">Housing</option>#}
+{##}
+{#                                            <option value="2">Campus Tour</option>#}
+{##}
+{#                                            <option value="3">Books</option>#}
+{##}
+{#                                        </select>#}
+{##}
+{##}
+{#                                    </div>#}
+{##}
+{##}
+{#                                </div>#}
+
+
                             </fieldset>
 
 
@@ -127,6 +152,7 @@
 {% endblock body-content %}
 
 {% block script %}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/air-datepicker/2.2.3/js/datepicker.min.js"></script>
     <script type="text/javascript"

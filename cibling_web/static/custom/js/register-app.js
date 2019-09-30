@@ -13,8 +13,6 @@ var app = new Vue({
         existingExpertises:{},
         selectedInterests:[],
         existingInterests:{},
-        selectedOffers:[],
-        existingOffers:[]
 
     },
     created() {
@@ -22,7 +20,7 @@ var app = new Vue({
 
         var previous_expertises = document.getElementById("previous_expertise").value;
         var previous_interests = document.getElementById("previous_interest").value;
-        var previous_offers = document.getElementById("previous_offer").value;
+        //var previous_offers = document.getElementById("previous_offer").value;
 
         document.getElementById("id_offer").parentNode.innerHTML+='<small class="form-text text-muted" >Adding offers will increase your exposure to ciblings!</small>';
 
@@ -36,12 +34,6 @@ var app = new Vue({
         if(previous_interests.length !== 0 && previous_interests !== "None"){
         previous_interests.split(",").forEach((item)=>{
             this.selectedInterests.push(item);
-        });
-        }
-
-        if(previous_offers.length !== 0 && previous_offers !== "None"){
-        previous_offers.split(",").forEach((item)=>{
-            this.selectedOffers.push(item);
         });
         }
 
@@ -66,14 +58,7 @@ var app = new Vue({
             console.log(err);
         });
 
-        axios.get("/api/user/offers").then((response)=>{
-            response.data.forEach((item)=>{
-                self.existingOffers[item["offer"]] = item["offer"];
-            });
 
-        }).catch((err)=>{
-            console.log(err);
-        })
     },
     methods: {
         focused: function () {

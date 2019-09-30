@@ -40,28 +40,18 @@ class UserRegisterForm(UserCreationForm):
     interest = forms.CharField(
         widget=TagWidget(name="interest", selectedTagsModel="selectedInterests", existingTagsModel="existingInterests"))
 
-    offer = forms.CharField(widget=TagWidget(name="offer", selectedTagsModel="selectedOffers",
-                                             existingTagsModel="existingOffers"), required=False)
+
+    offer = forms.ModelMultipleChoiceField(queryset=Offer.objects.all(), required=False)
+
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'username', 'email', 'password1', 'password2', 'date_of_birth', 'country',
                   'institute', 'subject', 'expertise', 'interest', 'offer']
         widgets = {
-            'username': forms.fields.TextInput(attrs={'placeholder': '150 characters or fewer. Letters, digits and @/./+/-/_ only.'})
+            'username': forms.fields.TextInput(attrs={'placeholder': '150 characters or fewer. Letters, digits and @/./+/-/_ only.'}),
         }
 
-    '''
-    def is_valid(self):
-        valid = super(UserRegisterForm, self).is_valid()
-
-        if valid:
-            email = self.cleaned_data.get('email')
-            if email.find('.aac.') != -1:
-                return True
-        else:
-            return False
-    '''
 
     def clean_institute(self):
         data = self.cleaned_data["institute"]
@@ -123,14 +113,13 @@ class UserRegisterForm(UserCreationForm):
             except Exception as excptn:
                 print(excptn)
 
-        for o in offer.split(","):
+        for o in offer:
             try:
-                offr, _ = (Offer.objects.get(id=o),_) if o.isdigit() else Offer.objects.get_or_create(offer=o.title())
-                profile_info.offers.add(offr)
+                profile_info.offers.add(o)
             except Exception as excptn:
                 print(excptn)
 
-        #profile_info.save()
+        profile_info.save()
 
         return user
 
@@ -138,6 +127,7 @@ class UserRegisterForm(UserCreationForm):
         super(UserCreationForm, self).__init__(*args, **kwargs)
         self.fields['password1'].help_text = 'Enter a strong password containing at least 8 mixed character'
         self.fields['username'].help_text = ""
+        self.fields['offer'].widget.attrs = {"class":"selectpicker"}
 
 
 class UserLoginForm(forms.Form):
