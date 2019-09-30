@@ -123,7 +123,7 @@
              style="background: url({{ user.profile.cover_image.url }}) ">
 
             {% if request.user.id == pk %}
-                <div class="change-cover-overlay text-center" id="coverOverLay" style="cursor: pointer">
+                <div class="change-cover-overlay text-center" id="coverOverLay">
                     <p class="change-cover-text" @click="showModal('cover')"><b>Click to change cover
                         photo</b></p>
                 </div>

@@ -3309,6 +3309,7 @@ ul.nav.nav-pills.serch-result-nav {
 
 .image-container {
     position: relative;
+    cursor: pointer;
 
 }
 .image-container .after {
@@ -3324,7 +3325,7 @@ ul.nav.nav-pills.serch-result-nav {
 .image-container:hover .after {
     display: block;
     background: rgba(0, 0, 0, .6);
-    max-width: 100%;
+    max-width: 95%;
 }
 
 .cibling-cover{
@@ -3338,6 +3339,7 @@ ul.nav.nav-pills.serch-result-nav {
 
 .cibling-cover:hover .change-cover-overlay{
     display: block;
+    cursor: pointer;
 }
 
 .change-cover-overlay{
