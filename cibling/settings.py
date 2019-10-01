@@ -165,8 +165,8 @@ POSTMAN_DISALLOW_ANONYMOUS = True
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True
 POSTMAN_DISALLOW_COPIES_ON_REPLY = True
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-#EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 POSTMAN_AUTO_MODERATE_AS = True
 
