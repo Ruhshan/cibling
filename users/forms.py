@@ -174,6 +174,16 @@ class ProfileInfoUpdateForm(forms.ModelForm):
     subject = forms.CharField(
         widget=ListTextWidget(Subject.objects.all(), name='subject-list',
                               attrs={"placeholder": "Enter the subject of your study"}))
+
     class Meta:
         model = ProfileInfo
         fields = ['personal_info', 'subject', 'expertises', 'interests','offers', 'languages']
+
+    def clean_subject(self):
+        print("Calling clean method ")
+        data = self.cleaned_data["subject"]
+        subject, _ = Subject.objects.get_or_create(subject=data.title())
+        return subject
+
+    def __init__(self, *args, **kwargs):
+        super(ProfileInfoUpdateForm, self).__init__(*args, **kwargs)
