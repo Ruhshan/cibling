@@ -176,6 +176,8 @@ class ProfileInfoUpdateForm(forms.ModelForm):
                               attrs={"placeholder": "Enter the subject of your study"}))
     expertises = forms.CharField(widget=TagWidget(name="expertises", selectedTagsModel="selectedExpertises",
                                                  existingTagsModel="existingExpertises"))
+    interests = forms.CharField(
+        widget=TagWidget(name="interests", selectedTagsModel="selectedInterests", existingTagsModel="existingInterests"))
 
     class Meta:
         model = ProfileInfo
@@ -198,6 +200,19 @@ class ProfileInfoUpdateForm(forms.ModelForm):
             except Exception as excptn:
                 print(excptn)
         return expertises
+
+    def clean_interests(self):
+        interests = []
+        data = self.cleaned_data["interests"]
+        for i in data.split(","):
+            try:
+                intrst, _ = (Interest.objects.get(id=i), _) if i.isdigit() else Interest.objects.get_or_create(
+                    interest=i.title())
+                interests.append(intrst)
+            except Exception as excptn:
+                print(excptn)
+        return interests
+
 
     def __init__(self, *args, **kwargs):
         super(ProfileInfoUpdateForm, self).__init__(*args, **kwargs)
