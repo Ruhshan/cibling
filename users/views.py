@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from .forms import UserRegisterForm, CustomUserRegisterForm, UserLoginForm, UserUpdateForm, ProfileUpdateForm, ProfileInfoUpdateForm
+from .forms import UserRegisterForm, CustomUserRegisterForm, UserLoginForm, UserUpdateForm, ProfileUpdateForm, ProfileInfoUpdateForm, InstituteUpdateForm
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.models import User
@@ -146,14 +146,17 @@ def profileinfo_update(request):
 
         form = ProfileInfoUpdateForm(request.POST,instance=request.user.profile.profileinfo)
 
+
         if form.is_valid():
             form.save()
-
             messages.success(request, "Your Profile Info Has Been Updated")
 
 
     else:
-        form = ProfileInfoUpdateForm(instance=request.user.profile.profileinfo)
+        form = ProfileInfoUpdateForm(instance=request.user.profile.profileinfo,
+                                     initial={'country':request.user.profile.institute.country,
+                                              'institute':request.user.profile.institute})
+
 
     context={
         'form': form,

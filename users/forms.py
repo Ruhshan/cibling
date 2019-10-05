@@ -169,6 +169,12 @@ class ProfileUpdateForm(forms.ModelForm):
         model = Profile
         fields = ['image', 'cover_image', 'institute', 'date_of_birth']
 
+class InstituteUpdateForm(forms.ModelForm):
+    country = forms.ModelChoiceField(queryset=Country.objects, widget=forms.Select(attrs={"ref": "country"}))
+    class Meta:
+        model = Profile
+        fields = ['country']
+
 
 class ProfileInfoUpdateForm(forms.ModelForm):
     subject = forms.CharField(
@@ -178,11 +184,15 @@ class ProfileInfoUpdateForm(forms.ModelForm):
                                                  existingTagsModel="existingExpertises"))
     interests = forms.CharField(
         widget=TagWidget(name="interests", selectedTagsModel="selectedInterests", existingTagsModel="existingInterests"))
+    country = forms.ModelChoiceField(queryset=Country.objects,widget=forms.Select(attrs={"ref": "country"}))
 
+    institute = forms.CharField(
+        widget=ListTextWidgetDynamic("institute", name='institute-list', attrs={"v-on:focus": "focused", "placeholder":
+            "Enter official name of your institution"}))
 
     class Meta:
         model = ProfileInfo
-        fields = ['personal_info', 'subject', 'expertises', 'interests','offers', 'languages']
+        fields = ['personal_info', 'subject', 'expertises', 'interests','offers', 'languages','country','institute']
 
     def clean_subject(self):
         data = self.cleaned_data["subject"]
@@ -215,7 +225,25 @@ class ProfileInfoUpdateForm(forms.ModelForm):
         return interests
 
 
+    def save(self, commit=True):
+        profile_info = super(ProfileInfoUpdateForm, self).save(commit=False)
+        country = self.cleaned_data.get('country')
+        institute, _ = Institute.objects.get_or_create(institute=self.cleaned_data.get('institute').title(),
+                                                       country=Country.objects.get(country=country))
+        if commit:
+            profile = profile_info.profile
+            profile.institute = institute
+            profile.save()
+            profile_info.save()
+
+
+        return profile_info
+
+
     def __init__(self, *args, **kwargs):
         super(ProfileInfoUpdateForm, self).__init__(*args, **kwargs)
         self.fields['offers'].widget.attrs = {"class": "selectpicker"}
         self.fields['languages'].widget.attrs = {"class": "selectpicker"}
+
+
+

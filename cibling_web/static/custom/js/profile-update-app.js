@@ -6,6 +6,7 @@ var profileUpdateApp = new Vue({
         existingExpertises: {},
         selectedInterests: [],
         existingInterests: {},
+        institutes: [],
     },
     created() {
         var self = this;
@@ -44,5 +45,30 @@ var profileUpdateApp = new Vue({
         }).catch((err) => {
             console.log(err);
         });
+    },
+    methods:{
+        focused: function () {
+            var country = document.getElementById("id_country").value;
+
+            console.log("focused");
+
+            if (country) {
+                this.institutes = [];
+                var self = this;
+                axios.get("/api/user/institute/" + country).then((response) => {
+
+                    response.data.forEach((item)=>{
+                        self.institutes.push(item.institute);
+                    });
+
+                }).catch((err) => console.log(err));
+
+
+            } else {
+                alert("Enter country first!");
+                this.$refs.country.focus();
+
+            }
+        },
     }
 });
