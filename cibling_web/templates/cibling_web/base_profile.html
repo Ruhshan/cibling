@@ -24,6 +24,8 @@
     <!--Google Font-->
     <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@1.11.2/dist/style.css">
+
     <!--Favicon-->
     <link rel="shortcut icon" type="image/png" href="images/fav.png"/>
 
@@ -332,6 +334,7 @@
 
 <!-- Scripts
 ================================================= -->
+{% block scripts %}
 <script async defer
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTMXfmDn0VlqWIyoOxK8997L-amWbUPiQ&amp;callback=initMap"></script>
 
@@ -345,6 +348,6 @@
 <script src="{% static "js/script.js" %}"></script>
 <script src="{% static "js/profile_script.js" %}"></script>
 
-
+{% endblock scripts %}
 </body>
 </html>

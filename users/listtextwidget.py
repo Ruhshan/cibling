@@ -67,6 +67,7 @@ class TagWidget(forms.TextInput):
         text_html = super(TagWidget, self).render(name, value, attrs=attrs)
         text_html = text_html.replace("input","tags-input")
 
+
         text_html+='''<input type="hidden" name="previous_%s" id="previous_%s" value="%s">'''%(self._name,self._name, value)
 
 

@@ -174,16 +174,30 @@ class ProfileInfoUpdateForm(forms.ModelForm):
     subject = forms.CharField(
         widget=ListTextWidget(Subject.objects.all(), name='subject-list',
                               attrs={"placeholder": "Enter the subject of your study"}))
+    expertises = forms.CharField(widget=TagWidget(name="expertises", selectedTagsModel="selectedExpertises",
+                                                 existingTagsModel="existingExpertises"))
 
     class Meta:
         model = ProfileInfo
         fields = ['personal_info', 'subject', 'expertises', 'interests','offers', 'languages']
 
     def clean_subject(self):
-        print("Calling clean method ")
         data = self.cleaned_data["subject"]
         subject, _ = Subject.objects.get_or_create(subject=data.title())
         return subject
+
+    def clean_expertises(self):
+        expertises = []
+        data = self.cleaned_data["expertises"]
+        for e in data.split(","):
+            try:
+                exp, _ = (Expertise.objects.get(id=e), _) if e.isdigit() else Expertise.objects.get_or_create(
+                    expertise=e.title())
+
+                expertises.append(exp)
+            except Exception as excptn:
+                print(excptn)
+        return expertises
 
     def __init__(self, *args, **kwargs):
         super(ProfileInfoUpdateForm, self).__init__(*args, **kwargs)

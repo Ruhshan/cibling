@@ -8,18 +8,31 @@
             <div class="col-md-3"></div>
             <div class="col-md-9">
 
+                <div id="profileUpdateApp">
+
+
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     <fieldset class="form-group">
 {#                        {{ form|crispy }}#}
                         {% for field in form %}
                             {{ field|as_crispy_field }}
+
+                            {% if field.name == "expertise" %}
+                                        <div>
+                                            {% for error in field.errors %}
+                                                <p class="invalid-feedback">{{ error }}</p>
+                                            {% endfor %}
+                                        </div>
+                            {% endif %}
                         {% endfor %}
                     </fieldset>
                     <div class="form-group">
                         <button class="btn btn-outline-info" type="submit">Update</button>
                     </div>
                 </form>
+
+                </div>
             </div>
 
           </div>
@@ -28,3 +41,55 @@
     </div>
 
 {% endblock timeline-display-content %}
+
+{% block scripts %}
+
+<script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTMXfmDn0VlqWIyoOxK8997L-amWbUPiQ&amp;callback=initMap"></script>
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@1.8.0/dist/voerro-vue-tagsinput.js"></script>
+<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+<script src="{% static "js/jquery.sticky-kit.min.js" %}"></script>
+<script src="{% static "js/jquery.scrollbar.min.js" %}"></script>
+<script src="{% static "js/script.js" %}"></script>
+
+<script type="text/javascript">
+var profileUpdateApp = new Vue({
+    el:"#profileUpdateApp",
+    components: { "tags-input": VoerroTagsInput },
+    data: {
+        selectedExpertises: [],
+        existingExpertises: {},
+        selectedInterests: [],
+        existingInterests: {},
+    },
+    created(){
+        var self = this;
+        var previous_expertises = document.getElementById("previous_expertises").value;
+
+        console.log(previous_expertises);
+
+        if(previous_expertises.length !==0 && previous_expertises !== "None"){
+            previous_expertises.split(",").forEach((item)=>{
+                item = item.includes("Expertise: ") ? item.match(": (.*)>")[1]:item;
+                this.selectedExpertises.push(item);
+            });
+        }
+
+        axios.get("/api/user/expertises").then((response)=>{
+            response.data.forEach((item)=>{
+                self.existingExpertises[item["expertise"]] = item["expertise"];
+            });
+
+        }).catch((err)=>{
+            console.log(err);
+        });
+    }
+    });
+</script>
+
+{% endblock scripts %}
