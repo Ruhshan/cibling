@@ -1,5 +1,8 @@
 from django import forms
 
+from users.models import Subject
+
+
 class ListTextWidget(forms.TextInput):
     def __init__(self, data_list, name, *args, **kwargs):
         super(ListTextWidget, self).__init__(*args, **kwargs)
@@ -9,6 +12,8 @@ class ListTextWidget(forms.TextInput):
 
 
     def render(self, name, value, attrs=None, renderer=None):
+        if type(value) == int:
+            value = Subject.objects.get(id=value)
 
         text_html = super(ListTextWidget, self).render(name, value, attrs=attrs)
 

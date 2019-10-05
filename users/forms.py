@@ -171,6 +171,9 @@ class ProfileUpdateForm(forms.ModelForm):
 
 
 class ProfileInfoUpdateForm(forms.ModelForm):
+    subject = forms.CharField(
+        widget=ListTextWidget(Subject.objects.all(), name='subject-list',
+                              attrs={"placeholder": "Enter the subject of your study"}))
     class Meta:
         model = ProfileInfo
         fields = ['personal_info', 'subject', 'expertises', 'interests','offers', 'languages']
