@@ -179,6 +179,7 @@ class ProfileInfoUpdateForm(forms.ModelForm):
     interests = forms.CharField(
         widget=TagWidget(name="interests", selectedTagsModel="selectedInterests", existingTagsModel="existingInterests"))
 
+
     class Meta:
         model = ProfileInfo
         fields = ['personal_info', 'subject', 'expertises', 'interests','offers', 'languages']
@@ -216,3 +217,5 @@ class ProfileInfoUpdateForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(ProfileInfoUpdateForm, self).__init__(*args, **kwargs)
+        self.fields['offers'].widget.attrs = {"class": "selectpicker"}
+        self.fields['languages'].widget.attrs = {"class": "selectpicker"}
