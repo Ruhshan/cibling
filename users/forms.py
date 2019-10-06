@@ -171,9 +171,19 @@ class ProfileUpdateForm(forms.ModelForm):
 
 class InstituteUpdateForm(forms.ModelForm):
     country = forms.ModelChoiceField(queryset=Country.objects, widget=forms.Select(attrs={"ref": "country"}))
+    institute = forms.CharField(
+        widget=ListTextWidgetDynamic("institute", name='institute-list', attrs={"v-on:focus": "focused", "placeholder":
+            "Enter official name of your institution"}))
+
+    def clean_institute(self):
+        data = self.cleaned_data["institute"]
+        institute, _ = Institute.objects.get_or_create(institute=data.title(),
+                                                       country=Country.objects.get(country=self.cleaned_data["country"]))
+        return institute
+
     class Meta:
         model = Profile
-        fields = ['country']
+        fields = ['country','institute']
 
 
 class ProfileInfoUpdateForm(forms.ModelForm):
@@ -184,15 +194,10 @@ class ProfileInfoUpdateForm(forms.ModelForm):
                                                  existingTagsModel="existingExpertises"))
     interests = forms.CharField(
         widget=TagWidget(name="interests", selectedTagsModel="selectedInterests", existingTagsModel="existingInterests"))
-    country = forms.ModelChoiceField(queryset=Country.objects,widget=forms.Select(attrs={"ref": "country"}))
-
-    institute = forms.CharField(
-        widget=ListTextWidgetDynamic("institute", name='institute-list', attrs={"v-on:focus": "focused", "placeholder":
-            "Enter official name of your institution"}))
 
     class Meta:
         model = ProfileInfo
-        fields = ['personal_info', 'subject', 'expertises', 'interests','offers', 'languages','country','institute']
+        fields = ['personal_info', 'subject','offers', 'languages','expertises', 'interests',]
 
     def clean_subject(self):
         data = self.cleaned_data["subject"]
@@ -224,20 +229,6 @@ class ProfileInfoUpdateForm(forms.ModelForm):
                 print(excptn)
         return interests
 
-
-    def save(self, commit=True):
-        profile_info = super(ProfileInfoUpdateForm, self).save(commit=False)
-        country = self.cleaned_data.get('country')
-        institute, _ = Institute.objects.get_or_create(institute=self.cleaned_data.get('institute').title(),
-                                                       country=Country.objects.get(country=country))
-        if commit:
-            profile = profile_info.profile
-            profile.institute = institute
-            profile.save()
-            profile_info.save()
-
-
-        return profile_info
 
 
     def __init__(self, *args, **kwargs):

@@ -145,21 +145,25 @@ def profileinfo_update(request):
     if request.method=='POST':
 
         form = ProfileInfoUpdateForm(request.POST,instance=request.user.profile.profileinfo)
+        institute_form = InstituteUpdateForm(request.POST, instance=request.user.profile)
 
 
-        if form.is_valid():
+        if form.is_valid() and institute_form.is_valid():
             form.save()
+            institute_form.save()
+
             messages.success(request, "Your Profile Info Has Been Updated")
 
 
     else:
-        form = ProfileInfoUpdateForm(instance=request.user.profile.profileinfo,
-                                     initial={'country':request.user.profile.institute.country,
+        form = ProfileInfoUpdateForm(instance=request.user.profile.profileinfo)
+        institute_form = InstituteUpdateForm(instance=request.user.profile, initial={'country':request.user.profile.institute.country,
                                               'institute':request.user.profile.institute})
 
 
     context={
         'form': form,
+        'institute_form':institute_form,
         'pk': request.user.id
     }
 
