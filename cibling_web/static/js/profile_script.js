@@ -65,7 +65,7 @@ var profileImageApp = new Vue({
 
             var self=this;
 
-            axios.put("/api/user/update-profile-img/" + self.getIdFromPath(),
+            axios.put("/api/user/update-profile-img/" + document.getElementById("user_pk").value,
                 formData, this.get_axios_config("profileImage")).then((response) => {
                 console.log("Done");
                 this.imageUpdated=true;
@@ -79,7 +79,7 @@ var profileImageApp = new Vue({
             formData.append("cover_image", input.files[0]);
             var self = this;
 
-            axios.put("/api/user/update-cover-pic/" + self.getIdFromPath(),
+            axios.put("/api/user/update-cover-pic/" + document.getElementById("user_pk").value,
                 formData, this.get_axios_config('coverImage')).then((response)=>{
                     console.log("Done");
                     this.imageUpdated = true;

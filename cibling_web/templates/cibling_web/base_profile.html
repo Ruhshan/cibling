@@ -125,6 +125,7 @@
     {% include "cibling_web/fragment/profile_modals.html" %}
     <!-- Timeline
     ================================================= -->
+    <input type="hidden" value="{{ pk }}" id="user_pk">
     <div class="timeline">
         <div class="timeline-cover cibling-cover"
              style="background: url({{ user.profile.cover_image.url }}) ">
