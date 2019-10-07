@@ -123,83 +123,86 @@
     {% endfor %}
 {% endif %}
 <!--Header End-->
-<div class="container" id="profileApp">
-    {% include "cibling_web/fragment/profile_modals.html" %}
+<div class="container">
     <!-- Timeline
     ================================================= -->
     <input type="hidden" value="{{ pk }}" id="user_pk">
     <div class="timeline">
-        <div class="timeline-cover cibling-cover"
-             style="background: url({{ user.profile.cover_image.url }}) ">
+        <div id="profileApp">
+            {% include "cibling_web/fragment/profile_modals.html" %}
+            <div class="timeline-cover cibling-cover"
+                 style="background: url({{ user.profile.cover_image.url }}) ">
 
-            {% if request.user.id == pk %}
-                <div class="change-cover-overlay text-center" id="coverOverLay">
-                    <p class="change-cover-text" @click="showModal('cover')"><b>Click to change cover
-                        photo</b></p>
-                </div>
-            {% endif %}
+                {% if request.user.id == pk %}
+                    <div class="change-cover-overlay text-center" id="coverOverLay">
+                        <p class="change-cover-text" @click="showModal('cover')"><b>Click to change cover
+                            photo</b></p>
+                    </div>
+                {% endif %}
 
-            <div class="timeline-nav-bar hidden-sm hidden-xs">
-                <div class="row">
-                    <div class="col-md-3">
-                        <div class="profile-info">
-                            {% include "cibling_web/fragment/profile_image.html" %}
-                            <h3>{{ user.first_name }} {{ user.last_name }}</h3>
-                            <p class="text-muted">{{ user.profile.profileinfo.subject }}
-                                from {{ user.profile.institute.institute }}</p>
-                            {% if user.profile.profileinfo.offers.exists %}
-                                <div style="border-color: #00aae6; border-width: 1px" class="">
-                                    <b>Offers</b>
-                                    <br>
-                                    {% for offer in user.profile.profileinfo.offers.all %}
-                                        <span class="badge badge-pill">{{ offer }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% endif %}
+                <div class="timeline-nav-bar hidden-sm hidden-xs">
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="profile-info">
+                                {% include "cibling_web/fragment/profile_image.html" %}
+                                <h3>{{ user.first_name }} {{ user.last_name }}</h3>
+                                <p class="text-muted">{{ user.profile.profileinfo.subject }}
+                                    from {{ user.profile.institute.institute }}</p>
+                                {% if user.profile.profileinfo.offers.exists %}
+                                    <div style="border-color: #00aae6; border-width: 1px" class="">
+                                        <b>Offers</b>
+                                        <br>
+                                        {% for offer in user.profile.profileinfo.offers.all %}
+                                            <span class="badge badge-pill">{{ offer }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <ul class="list-inline profile-menu">
+                                <li><a href="{% url 'timeline-profile' user.id %}" class="active">Timeline</a></li>
+                                <li><a href="{% url 'timeline-profile-about' user.id %}">About</a></li>
+                                <li><a href="{% url 'timeline-album' user.id %}">Album</a></li>
+                                <li><a href="{% url 'timeline-ciblings' user.id %}">Ciblings</a></li>
+                            </ul>
+                            <ul class="follow-me list-inline">
+                                <!--<li><button class="btn-primary">Add Cibling</button></li>-->
+                                {% if cibling_status == -1 %}
+                                    <a class="btn btn-info" href="{% url 'add-cibling' pk %}">Add Cibling</a>
+                                {% elif cibling_status == 0 %}
+                                    <a class="btn btn-info" href="#">Request Sent</a>
+                                {% elif cibling_status == 1 %}
+                                    <a class="btn btn-info" href="#">Your Cibling</a>
+                                {% endif %}
+
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-md-9">
-                        <ul class="list-inline profile-menu">
+                </div><!--Timeline Menu for Large Screens End-->
+
+                <!--Timeline Menu for Small Screens-->
+                <div class="navbar-mobile hidden-lg hidden-md">
+                    <div class="profile-info">
+                        {% include "cibling_web/fragment/profile_image_mobile.html" %}
+                        <h4>{{ user }} </h4>
+                        <p class="text-muted">{{ user.profile.profileinfo.subject }}
+                            from {{ user.profile.institute.institute }}</p>
+                    </div>
+                    <div class="mobile-menu">
+                        <ul class="list-inline">
                             <li><a href="{% url 'timeline-profile' user.id %}" class="active">Timeline</a></li>
                             <li><a href="{% url 'timeline-profile-about' user.id %}">About</a></li>
                             <li><a href="{% url 'timeline-album' user.id %}">Album</a></li>
                             <li><a href="{% url 'timeline-ciblings' user.id %}">Ciblings</a></li>
                         </ul>
-                        <ul class="follow-me list-inline">
-                            <!--<li><button class="btn-primary">Add Cibling</button></li>-->
-                            {% if cibling_status == -1 %}
-                                <a class="btn btn-info" href="{% url 'add-cibling' pk %}">Add Cibling</a>
-                            {% elif cibling_status == 0 %}
-                                <a class="btn btn-info" href="#">Request Sent</a>
-                            {% elif cibling_status == 1 %}
-                                <a class="btn btn-info" href="#">Your Cibling</a>
-                            {% endif %}
-
-                        </ul>
+                        <a class="btn btn-info" href="{% url 'add-cibling' pk %}">Add Cibling</a>
                     </div>
-                </div>
-            </div><!--Timeline Menu for Large Screens End-->
+                </div><!--Timeline Menu for Small Screens End-->
 
-            <!--Timeline Menu for Small Screens-->
-            <div class="navbar-mobile hidden-lg hidden-md">
-                <div class="profile-info">
-                    {% include "cibling_web/fragment/profile_image_mobile.html" %}
-                    <h4>{{ user }} </h4>
-                    <p class="text-muted">{{ user.profile.profileinfo.subject }}
-                        from {{ user.profile.institute.institute }}</p>
-                </div>
-                <div class="mobile-menu">
-                    <ul class="list-inline">
-                        <li><a href="{% url 'timeline-profile' user.id %}" class="active">Timeline</a></li>
-                        <li><a href="{% url 'timeline-profile-about' user.id %}">About</a></li>
-                        <li><a href="{% url 'timeline-album' user.id %}">Album</a></li>
-                        <li><a href="{% url 'timeline-ciblings' user.id %}">Ciblings</a></li>
-                    </ul>
-                    <a class="btn btn-info" href="{% url 'add-cibling' pk %}">Add Cibling</a>
-                </div>
-            </div><!--Timeline Menu for Small Screens End-->
-
+            </div>
         </div>
+
         {% block timeline-display-content %}
 
             <div id="page-contents" style="position: relative;">
@@ -341,20 +344,23 @@
 <!-- Scripts
 ================================================= -->
 {% block scripts %}
-<script async defer
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTMXfmDn0VlqWIyoOxK8997L-amWbUPiQ&amp;callback=initMap"></script>
+    <script async defer
+            src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCTMXfmDn0VlqWIyoOxK8997L-amWbUPiQ&amp;callback=initMap"></script>
 
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 
-<script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
-<script src="{% static "js/bootstrap.min.js" %}"></script>
-<script src="{% static "js/jquery.sticky-kit.min.js" %}"></script>
-<script src="{% static "js/jquery.scrollbar.min.js" %}"></script>
-<script src="{% static "js/script.js" %}"></script>
-<script src="{% static "js/profile_script.js" %}"></script>
+    <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/jquery.sticky-kit.min.js" %}"></script>
+    <script src="{% static "js/jquery.scrollbar.min.js" %}"></script>
+    <script src="{% static "js/script.js" %}"></script>
+    <script src="{% static "js/profile_script.js" %}"></script>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js"></script>
+
+    {% block submodule_scripts %}
+    {% endblock submodule_scripts %}
 
 {% endblock scripts %}
 </body>
