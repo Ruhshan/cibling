@@ -51,6 +51,7 @@ var profileImageApp = new Vue({
             }
         },
         previewImageCover: function (event) {
+            $("#id_cover_preview").cropper('destroy');
             var input = event.target;
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
@@ -78,9 +79,9 @@ var profileImageApp = new Vue({
 
         },
         uploadCoverImg: function () {
-            var input = document.getElementById("coverImageInput");
+            var blob = this.b64ToBlob("#id_cover_preview");
             var formData = new FormData();
-            formData.append("cover_image", input.files[0]);
+            formData.append("cover_image", blob, this.getCoverImageName());
             var self = this;
 
             axios.put("/api/user/update-cover-pic/" + document.getElementById("user_pk").value,
@@ -137,9 +138,9 @@ var profileImageApp = new Vue({
 
             return cookieValue;
         },
-        enableCropper: function (id) {
+        enableCropper: function (id, ratio) {
             $(id).cropper({
-                aspectRatio: 1
+                aspectRatio: ratio
             });
         },
         b64ToBlob: function (id) {
@@ -176,7 +177,11 @@ var profileImageApp = new Vue({
         getProfileImageName(){
             var name = "profile_"+document.getElementById("user_pk").value+".png";
             return name;
-        }
+        },
+        getCoverImageName(){
+            var name = "cover_"+document.getElementById("user_pk").value+".png";
+            return name;
+        },
 
     },
     watch: {
@@ -184,7 +189,13 @@ var profileImageApp = new Vue({
             // this.enableCropper("#id_profile_preview");
             var self = this;
             setTimeout(function () {
-                self.enableCropper("#id_profile_preview");
+                self.enableCropper("#id_profile_preview", 1);
+            }, 1000);
+        },
+        coverimageData: function () {
+            var self = this;
+            setTimeout(function () {
+                self.enableCropper("#id_cover_preview", 2.8);
             }, 1000);
         }
     }
