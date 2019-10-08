@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.db import transaction
 
-from .models import CustomUser, Profile, Institute, ProfileInfo, Country, Subject, Expertise, Interest, Offer
+from .models import CustomUser, Profile, Institute, ProfileInfo, Country, Subject, Expertise, Interest, Offer, Language
 from .listtextwidget import ListTextWidget, ListTextWidgetDynamic, TagWidget
 # for writing validator
 from django.core.exceptions import ValidationError
@@ -194,10 +194,12 @@ class ProfileInfoUpdateForm(forms.ModelForm):
                                                  existingTagsModel="existingExpertises"))
     interests = forms.CharField(
         widget=TagWidget(name="interests", selectedTagsModel="selectedInterests", existingTagsModel="existingInterests"))
+    languages = forms.CharField(
+        widget=TagWidget(name="languages", selectedTagsModel="selectedLanguages", existingTagsModel="existingLanguages"))
 
     class Meta:
         model = ProfileInfo
-        fields = ['personal_info', 'subject','offers', 'languages','expertises', 'interests',]
+        fields = ['personal_info', 'subject','offers', 'languages','expertises', 'interests']
 
     def clean_subject(self):
         data = self.cleaned_data["subject"]
@@ -229,12 +231,23 @@ class ProfileInfoUpdateForm(forms.ModelForm):
                 print(excptn)
         return interests
 
+    def clean_languages(self):
+        languages = []
+        data = self.cleaned_data["languages"]
+        for l in data.split(","):
+            try:
+                lngz, _ = (Language.objects.get(id=l),_) if l.isdigit() else Language.objects.get_or_create(
+                    language = l.title())
+                languages.append(lngz)
+            except Exception as excptn:
+                print(excptn)
+        return languages
+
 
 
     def __init__(self, *args, **kwargs):
         super(ProfileInfoUpdateForm, self).__init__(*args, **kwargs)
         self.fields['offers'].widget.attrs = {"class": "selectpicker"}
-        self.fields['languages'].widget.attrs = {"class": "selectpicker"}
 
 
 

@@ -6,12 +6,16 @@ var profileUpdateApp = new Vue({
         existingExpertises: {},
         selectedInterests: [],
         existingInterests: {},
+        selectedLanguages: [],
+        existingLanguages: {},
         institutes: [],
     },
     created() {
         var self = this;
         var previous_expertises = document.getElementById("previous_expertises").value;
         var previous_interests = document.getElementById("previous_interests").value;
+        var previous_languages = document.getElementById("previous_languages").value;
+
 
 
         if (previous_expertises.length !== 0 && previous_expertises !== "None") {
@@ -28,6 +32,13 @@ var profileUpdateApp = new Vue({
             });
         }
 
+        if (previous_languages.length !== 0 && previous_languages !== "None") {
+            previous_languages.split(",").forEach((item) => {
+                item = item.includes("Language: ") ? item.match(": (.*)>")[1] : item;
+                this.selectedLanguages.push(item);
+            });
+        }
+
         axios.get("/api/user/expertises").then((response) => {
             response.data.forEach((item) => {
                 self.existingExpertises[item["expertise"]] = item["expertise"];
@@ -40,6 +51,14 @@ var profileUpdateApp = new Vue({
         axios.get("/api/user/interests").then((response) => {
             response.data.forEach((item) => {
                 self.existingInterests[item["interest"]] = item["interest"];
+            });
+
+        }).catch((err) => {
+            console.log(err);
+        });
+        axios.get("/api/user/languages").then((response) => {
+            response.data.forEach((item) => {
+                self.existingLanguages[item["language"]] = item["language"];
             });
 
         }).catch((err) => {

@@ -1,12 +1,13 @@
 from django.urls import path
 from .apis import ListInstitutes, ListExpertise, ListInterests, ListProfiles, SendMessage, ListCountries, ListSubjects, Me, RetrieveProfile, ListCiblings
-from .apis import UpdateProfilePic , UpdateCoverPic, ListOffer
+from .apis import UpdateProfilePic , UpdateCoverPic, ListOffer, ListLanguage
 from .forgot_password_view import ForgotPasswordView
 
 urlpatterns = [
     path('institute/<int:country>', ListInstitutes.as_view(), name="list-institutes"),
     path('expertises', ListExpertise.as_view(), name="list-expertise"),
     path('interests', ListInterests.as_view(), name="list-interest"),
+    path('languages', ListLanguage.as_view(), name="list-languages"),
     path('offers', ListOffer.as_view(), name="list-offer"),
     path('profiles', ListProfiles.as_view(), name="list-profiles"),
     path('profile/<str:user>', RetrieveProfile.as_view(), name="list-profiles"),
