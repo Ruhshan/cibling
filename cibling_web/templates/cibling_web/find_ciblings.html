@@ -78,7 +78,9 @@
 
 
                 <div class="card-info text-center" style="width: 25rem;">
-                    <img :src="cibling.image" :alt="cibling.user.first_name" class="profile-photo-lg">
+                    <a :href="cibling.user.profile_url">
+                        <img :src="cibling.image" :alt="cibling.user.first_name" class="profile-photo-lg">
+                    </a>
                     <div class="Cibling-info">
                         <h5><a :href="cibling.user.profile_url" class="profile-link">{{ cibling.user.first_name }} {{
                             cibling.user.last_name }}</a></h5>

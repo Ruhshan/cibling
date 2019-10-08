@@ -44,7 +44,9 @@
                         </div><!--Post Date End-->
 
                       <div class="post-container">
-                        <img src="{{ post.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
+                        <a href="{% url 'timeline-profile' post.author.id %}">
+                            <img src="{{ post.author.profile.image.url }}" alt="user" class="profile-photo-md pull-left" />
+                        </a>
                         <div class="post-detail">
                           <div class="user-info" onclick="location.href='{% url 'post-detail-view' post.id %}';" style="cursor: pointer;">
                             <h5><a href="{% url 'timeline-profile' post.author.id %}" class="profile-link">{{ post.author }}</a> <span class="following"> </span></h5>
@@ -65,7 +67,9 @@
                           {% for comment in comments %}
                               {% if comment.post == post %}
                                   <div class="post-comment">
-                                    <img src="{{ comment.author.profile.image.url }}" alt="" class="profile-photo-sm" />
+                                    <a href="{% url 'timeline-profile' comment.author.id %}">
+                                        <img src="{{ comment.author.profile.image.url }}" alt="" class="profile-photo-sm" />
+                                    </a>
                                     <p><a href="{% url 'timeline-profile' comment.author.id %}" class="profile-link">{{ comment.author }}    </a><i class="em em-laughing"></i>{{ comment.text|urlize }}</p>
                                   </div>
                               {% endif %}
@@ -76,7 +80,9 @@
 
                                     <div class="form-row">
                                       <div class="form-group col-md-1 mb-0">
-                                        <img src="{{ user.profile.image.url }}" alt="" class="profile-photo-sm" />
+                                       <a href="{% url 'timeline-profile' request.user.id %}">
+                                          <img src="{{ request.user.profile.image.url }}" alt="" class="profile-photo-sm" />
+                                       </a>
                                       </div>
                                       <div class="form-group col-md-11 mb-0">
                                         {{ comment_form.text }}

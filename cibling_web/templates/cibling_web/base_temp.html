@@ -127,7 +127,7 @@
                 <div class="col-md-3 static">
 
                     <div class="profile-card">
-                        <img src="{{ user.profile.image.url }}" alt="user" class="profile-photo"/>
+                        <a href="{% url 'timeline-profile' user.id %}"><img src="{{ user.profile.image.url }}" alt="user" class="profile-photo"/></a>
                         <h5><a href="{% url 'timeline-profile' user.id %}" class="text-white">{{ user }}</a></h5>
                         <a href="{% url 'timeline-ciblings' user.id %}" class="text-white"><i
                                 class="ion ion-android-person-add"></i> {{ number_of_ciblings }} Ciblings</a>
@@ -169,7 +169,9 @@
                         {% for cib in cib_sug %}
                             {% if cib %}
                                 <div class="follow-user">
-                                    <img src="{{ cib.profile.image.url }}" alt="" class="profile-photo-sm pull-left"/>
+                                    <a href="{% url 'timeline-profile' cib.id %}">
+                                        <img src="{{ cib.profile.image.url }}" alt="" class="profile-photo-sm pull-left"/>
+                                    </a>
                                     <div>
                                         <h5>
                                             <a href="{% url 'timeline-profile' cib.id %}">{{ cib.first_name }} {{ cib.last_name }}</a>

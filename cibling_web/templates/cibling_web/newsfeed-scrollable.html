@@ -79,8 +79,8 @@
         <div id="all-posts">
             <div v-for="(post, index) in posts" class="post-content">
                 <div class="post-container">
-                    <img :src="post.author.profile_image" alt="user"
-                         class="profile-photo-md pull-left"/>
+                    <a :href="post.author.profile_url"><img :src="post.author.profile_image" alt="user"
+                            class="profile-photo-md pull-left"/></a>
                     <div class="post-detail">
                         <div class="user-info"
                              @click="post_detail(post.detail_url)"
@@ -108,7 +108,7 @@
 
                         </div>
                         <div v-for="comment in post.comments" class="post-comment">
-                            <img :src="comment.author.profile_image" alt="" class="profile-photo-sm"/>
+                            <a :href="comment.author.profile_url"><img :src="comment.author.profile_image" alt="" class="profile-photo-sm"/></a>
                             <p><a :href="comment.author.profile_url"
                                   class="profile-link">{{ comment.author.first_name }} {{ comment.author.last_name
                                 }} </a><i
@@ -130,7 +130,7 @@
                                 </div>
                             </div>
 
-                        </div>
+                        </div>F
 
 
                     </div>
