@@ -3329,10 +3329,11 @@ ul.nav.nav-pills.serch-result-nav {
 }
 
 .cibling-cover{
-    background-repeat: no-repeat;
+    background-repeat: no-repeat !important;
     background-position: center;
-    background-size: cover;
-    min-height: 360px;
+    background-size: cover !important;
+    width:1030px;
+    height: 360px;
     border-radius: 0 0 4px 4px;
     position: relative
 }
