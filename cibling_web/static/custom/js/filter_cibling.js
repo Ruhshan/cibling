@@ -10,10 +10,12 @@ new Vue({
         institute: null,
         subject: null,
         expertise: null,
+        offer: null,
         countries: [],
         subjects: [],
         expertises: [],
         institutes: [],
+        offers: [],
         ciblings: [],
         searching: false,
         message: ""
@@ -25,7 +27,9 @@ new Vue({
         this.fetchData("countries");
         this.fetchData("subjects");
         this.fetchData("expertises");
-        this.fetchData("ciblings");
+        this.fetchData("offers");
+
+        this.checkUrlpath();
 
 
     },
@@ -61,18 +65,70 @@ new Vue({
                         self.institutes.push(item)
 
                     }
-                    if (name === "ciblings"){
+                    if (name === "ciblings") {
                         self.ciblings.push(item)
+                    }
+                    if (name == "offers") {
+                        self.offers.push(item)
                     }
 
 
                 });
-            self.searching = false
+                self.searching = false
             }).catch((err) => {
                 self.searching = false
                 console.log(err)
             })
 
+        },
+        checkUrlpath: function () {
+            var splitted_path = window.location.pathname.split("/");
+            target = splitted_path[2];
+            id = splitted_path[3];
+
+            if (target === "offer") {
+                this.directSearch("offer", parseInt(id));
+            }
+            else{
+                this.fetchData("ciblings")
+            }
+        },
+        directSearch: function (target, value) {
+            var csrftoken = this.getCookie('csrftoken');
+            var self = this;
+            data = {
+                country: null,
+                institute: null,
+                subject: null,
+                expertise: null,
+                offer: value
+            }
+
+            axios.post("/api/user/profiles",
+                data,
+                {
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    }
+                }
+            ).then((response) => {
+                if (response.status === 204) {
+
+                    self.message = "No one available!"
+                } else {
+                    console.log(response.data)
+
+                    self.ciblings = response.data
+
+
+                }
+                self.searching = false
+            }).catch((err) => {
+                self.searching = false
+                console.log(err)
+            });
         },
         search: function () {
             console.log("searching...");
@@ -86,12 +142,13 @@ new Vue({
                 country: this.country ? this.country.id : null,
                 institute: this.institute ? this.institute.id : null,
                 subject: this.subject ? this.subject.id : null,
-                expertise: this.expertise ? this.expertise.id : null
+                expertise: this.expertise ? this.expertise.id : null,
+                offer: this.offer ? this.offer.id : null
             }
 
             console.log(this.country || this.institute || this.subject || this.expertise != null);
 
-            if (this.country || this.institute || this.subject || this.expertise != null) {
+            if (this.country || this.institute || this.subject || this.expertise != null || this.offer != null) {
                 axios.post("/api/user/profiles",
                     data,
                     {
@@ -108,6 +165,7 @@ new Vue({
 
                         self.message = "No one available!"
                     } else {
+                        console.log(response.data)
                         self.ciblings = response.data
 
                     }
@@ -117,7 +175,7 @@ new Vue({
                     self.searching = false
                     console.log(err)
                 })
-            }else{
+            } else {
                 self.message = "Please select at least one search criteria!"
                 self.searching = false
             }

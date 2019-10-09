@@ -62,6 +62,7 @@ class ListProfiles(APIView):
         institute = self.request.data.get("institute")
         subject = self.request.data.get("subject")
         expertise = self.request.data.get("expertise")
+        offer = self.request.data.get("offer")
 
         if country:
             profiles = profiles.filter(institute__country=country)
@@ -71,6 +72,8 @@ class ListProfiles(APIView):
             profiles = profiles.filter(profileinfo__subject=subject)
         if expertise:
             profiles = profiles.filter(profileinfo__expertises=expertise)
+        if offer:
+            profiles = profiles.filter(profileinfo__offers=offer)
 
         serialized = ProfileSerializer(profiles, many=True, context={'request': request})
 

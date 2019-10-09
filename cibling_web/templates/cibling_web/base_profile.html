@@ -153,7 +153,7 @@
                                         <b>Offers</b>
                                         <br>
                                         {% for offer in user.profile.profileinfo.offers.all %}
-                                            <span class="badge badge-pill">{{ offer }}</span>
+                                            <a href="{% url 'search-ciblings-by-offer' offer.id %}" class="badge badge-pill">{{ offer }}</a>
                                         {% endfor %}
                                     </div>
                                 {% endif %}

@@ -19,7 +19,7 @@
 
 
         <div class="row">
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="form-group">
                     <label>Country*</label>
                     <v-select :options="countries" v-model="country" label="country" placeholder="Select Country">
@@ -27,7 +27,7 @@
                     <small class="form-text text-muted"></small>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="form-group">
                     <label>Institute*</label>
                     <v-select :options="institutes" placeholder="Select Institute" label="institute"
@@ -36,7 +36,7 @@
                     <small class="form-text text-muted">Select country first</small>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="form-group">
                     <label>Subject*</label>
                     <v-select :options="subjects" placeholder="Select Subject" v-model="subject" label="subject">
@@ -44,11 +44,20 @@
                     <small class="form-text text-muted"></small>
                 </div>
             </div>
-            <div class="col-sm-3">
+            <div class="col-sm-2">
                 <div class="form-group">
                     <label>Expertise*</label>
                     <v-select :options="expertises" placeholder="Select Expertise" v-model="expertise"
                               label="expertise">
+                    </v-select>
+                    <small class="form-text text-muted"></small>
+                </div>
+            </div>
+            <div class="col-sm-2">
+                <div class="form-group">
+                    <label>Offers*</label>
+                    <v-select :options="offers" placeholder="Select Offers" v-model="offer"
+                              label="offer">
                     </v-select>
                     <small class="form-text text-muted"></small>
                 </div>

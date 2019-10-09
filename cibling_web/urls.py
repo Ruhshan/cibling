@@ -27,6 +27,7 @@ urlpatterns=[
     path('about/', views.about, name='about'),
     path('find-ciblings/<int:pk>', views.find_ciblings, name='find-ciblings'),
     path('search-ciblings/', FindCiblingPageView.as_view(), name='search-ciblings'),
+    path('search-ciblings/offer/<int:pk>', FindCiblingPageView.as_view(), name='search-ciblings-by-offer'),
     #path('search/<slug:pk>/', views.search_result, name='search-result'),
     path('search/', views.search_result, name='search-result'),
     path('forgot-password', ForgotPasswordView.as_view(), name="forgot-password")
