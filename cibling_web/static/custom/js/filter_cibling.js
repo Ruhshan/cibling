@@ -88,6 +88,10 @@ new Vue({
 
             if (target === "offer") {
                 this.directSearch("offer", parseInt(id));
+            }else if(target === "expertise"){
+                this.directSearch("expertise", parseInt(id));
+            }else if(target === "interest"){
+                this.directSearch("interest", parseInt(id));
             }
             else{
                 this.fetchData("ciblings")
@@ -100,8 +104,9 @@ new Vue({
                 country: null,
                 institute: null,
                 subject: null,
-                expertise: null,
-                offer: value
+                expertise: target === "expertise" ? value :null,
+                offer: target === "offer" ? value : null,
+                interest: target === "interest" ? value : null
             }
 
             axios.post("/api/user/profiles",
