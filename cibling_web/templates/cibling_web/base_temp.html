@@ -118,7 +118,7 @@
 </header>
 <!--Header End-->
 
-
+{% block dialog_content %}
 <div id="page-contents">
     <div class="container">
         <div class="row">
@@ -190,6 +190,7 @@
 </div>
 
 
+
 <!-- Footer
 ================================================= -->
 
@@ -254,6 +255,7 @@
     <div class="spinner"></div>
 </div>
 
+{% endblock %}
 <!-- Scripts
 ================================================= -->
 <script async defer
@@ -275,4 +277,5 @@
 {% endblock script %}
 </body>
 {% endwith %}
+{% block extra_js %}{% endblock extra_js %}
 </html>
