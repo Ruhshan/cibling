@@ -45,8 +45,8 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'postman',
-    'django_private_chat',
     'django.contrib.postgres',
+    'django_private_chat',
 ]
 
 MIDDLEWARE = [
