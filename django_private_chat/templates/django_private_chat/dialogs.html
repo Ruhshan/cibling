@@ -1,4 +1,5 @@
-{% extends "base.html" %}
+{% extends "cibling_web/base_temp.html" %}
+{#{% extends "base.html" %}#}
 {% load static %}
 {% load i18n %}
 {% block css %}
@@ -6,11 +7,19 @@
     <link href="{% static "django_private_chat/css/django_private_chat.css" %}" rel="stylesheet" type="text/css" media="all">
 {% endblock css %}
 
-{% block content %}
+{% block dialog_content %}
     <input id="owner_username" type="hidden" value="{{ request.user.username }}">
-    <div class="container">
-        <div class="col-md-3">
+
+        <div class="col-md-3" >
             <div class="user-list-div">
+                <div class="row">
+                    <div class="col-md-3" style="padding: 10px">
+                        <img src="{{ request.user.profile.image.url }}" style="border-radius: 50%;" height="50px" width="50px">
+                    </div>
+                    <div class="col-md-5">
+                        World
+                    </div>
+                </div>
                 <ul>
                     {% for dialog in object_list %}
                         <li>
@@ -30,6 +39,7 @@
                 </ul>
             </div>
         </div>
+
         <div class="col-md-9">
             <div class="row">
                 <div class="col-md-3 col-md-offset-9">
@@ -75,7 +85,7 @@
             </div>
         </div>
 
-    </div>
+
 {% endblock %}
 
 {% block extra_js %}
