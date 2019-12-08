@@ -14,4 +14,9 @@ urlpatterns = [
         view=views.DialogListView.as_view(),
         name='dialogs'
     ),
+    url(
+        regex=r'^dialogs-new/$',
+        view=views.DialogNewListView.as_view(),
+        name='dialogs-new'
+    )
 ]
