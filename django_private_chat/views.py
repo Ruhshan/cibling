@@ -47,7 +47,7 @@ class DialogListView(LoginRequiredMixin, generic.ListView):
         return context
 
 class DialogNewListView(LoginRequiredMixin, generic.ListView):
-    template_name = 'django_private_chat/dialogs-new.html'
+    template_name = 'django_private_chat/dialogs-flex.html'
     model = models.Dialog
     ordering = 'modified'
 

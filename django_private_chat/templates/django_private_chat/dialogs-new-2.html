@@ -1,41 +1,24 @@
+{% extends "cibling_web/base_temp.html" %}
+{#{% extends "base.html" %}#}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <!-- This file has been downloaded from Bootsnipp.com. Enjoy! -->
-    <title>Message Chat Box - Bootsnipp.com</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+{% load i18n %}
+{% block head %}
+    {{ block.super }}
+
     <link href="{% static "django_private_chat/css/chat.css" %}" rel="stylesheet">
 
     <script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
 
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" type="text/css"
           rel="stylesheet">
-</head>
-<body>
+{% endblock head %}
 
-
-
+{% block dialog_content %}
 
 <div class="messaging">
     <div class="inbox_msg">
         <div class="inbox_people">
-            <div class="headind_srch">
-                <div class="recent_heading">
-                    <h4>Recent</h4>
-                </div>
-                <div class="srch_bar">
-                    <div class="stylish-input-group">
-                        <input type="text" class="search-bar" placeholder="Search">
-                        <span class="input-group-addon">
-                <button type="button"> <i class="fa fa-search" aria-hidden="true"></i> </button>
-                </span></div>
-                </div>
-            </div>
             <div class="inbox_chat">
                 <div class="chat_list active_chat">
                     <div class="chat_people">
@@ -247,9 +230,4 @@
 
 </div>
 
-
-<script type="text/javascript">
-
-</script>
-</body>
-</html>
+{% endblock %}
