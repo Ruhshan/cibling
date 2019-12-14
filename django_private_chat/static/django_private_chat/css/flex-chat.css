@@ -78,9 +78,9 @@ body {
   margin-left: 10px;
   border: 1px solid #e6e6e6;
   background-color: #00b0ff;
-  background-image: url("https://s11.postimg.org/dpuahewmn/name_type.png");
+  background-image: url("https://img.icons8.com/pastel-glyph/64/000000/search--v2.png");
   background-repeat: no-repeat;
-  background-position: top 12px left 14px;
+  /*background-position: top 12px left 14px;*/
   border-radius: 50%;
 }
 .chatcontent .left .people {
@@ -188,7 +188,7 @@ body {
   border-width: 1px 1px 1px 0;
   border-style: solid;
   border-color: #e6e6e6;
-  height: calc(100% - 148px);
+  height: calc(100% - 170px);
   flex-direction: column;
 }
 .chatcontent .right .chat.active-chat {
@@ -196,7 +196,7 @@ body {
 }
 .chatcontent .right .write {
   position: absolute;
-  bottom: 50px;
+  bottom: 65px;
   left: 30px;
   padding-left: 8px;
   border: 1px solid #e6e6e6;
