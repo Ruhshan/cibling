@@ -7,13 +7,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
     <link rel="stylesheet" href="{% static 'django_private_chat/css/flex-chat.css' %}">
 
-      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
 {% endblock head %}
 
 {% block dialog_content %}
-<div class="wrapper">
+    <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
+    <input type="hidden" id="opponentUserName" value="{{ active_dialog.opponent.username }}">
+<div class="wrapper" id="chat-app">
     <div class="chatcontent">
         <div class="left">
             <div class="top">
@@ -123,3 +128,9 @@ $('.left .person').mousedown(function(){
     </script>
 
 {% endblock dialog_content %}
+
+{% block extra_js %}
+
+<script src="{% static 'django_private_chat/js/chat-app.js' %}"></script>
+
+{% endblock extra_js %}
