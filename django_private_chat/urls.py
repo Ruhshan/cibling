@@ -15,6 +15,11 @@ urlpatterns = [
         name='dialogs'
     ),
     url(
+        regex=r'^dialogs-new/(?P<username>[\w.@+-]+)$',
+        view=views.DialogNewListView.as_view(),
+        name='dialogs-new'
+    ),
+    url(
         regex=r'^dialogs-new/$',
         view=views.DialogNewListView.as_view(),
         name='dialogs-new'
