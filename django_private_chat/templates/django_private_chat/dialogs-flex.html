@@ -11,6 +11,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-chat-scroll/dist/vue-chat-scroll.min.js"></script>
 
 
 {% endblock head %}
@@ -59,7 +60,7 @@
         </div>
         <div class="right">
             <div class="top"><span>To: <span class="name">{{ active_dialog.opponent.username }}</span></span></div>
-            <div class="chat" data-chat="activeChat">
+            <div class="chat" data-chat="activeChat" id="activeChat" v-chat-scroll>
                 {% for msg in active_dialog.messages.all %}
                     {% if msg.sender == request.user %}
                         <div class="bubble me">
@@ -71,6 +72,11 @@
                         </div>
                     {% endif %}
                 {% endfor %}
+                {% verbatim %}
+                    <div v-for="message in messages" class="bubble you">
+                        {{ message.message }}
+                    </div>
+                {% endverbatim %}
 
 
             </div>
