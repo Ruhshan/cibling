@@ -24,6 +24,19 @@ var app = new Vue({
         addNewMessage:function (packet) {
           this.messages.push(packet);
         },
+        sendMessage:function () {
+
+            var newMessagePacket = JSON.stringify({
+                    type: 'new-message',
+                    session_key: this.getRequestSessionId(),
+                    username: this.getOpponentUserName(),
+                    message: document.getElementById("newMessageTextBox").value
+            });
+
+            this.websocket.send(newMessagePacket);
+
+            document.getElementById("newMessageTextBox").value=""
+        },
         socketOnMessage:function(event){
 
             var packet;

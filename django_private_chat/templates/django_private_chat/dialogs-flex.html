@@ -72,40 +72,21 @@
                         </div>
                     {% endif %}
                 {% endfor %}
+
                 {% verbatim %}
-                    <div v-for="message in messages" class="bubble you">
-                        {{ message.message }}
+                    <div v-for="message in messages" class="bubble" :class="[ message.sender_name == getOpponentUserName() ? 'you' : 'me' ]">
+                       {{ message.message }}
                     </div>
                 {% endverbatim %}
 
 
             </div>
 
-            <div class="chat" data-chat="person6">
-                <div class="conversation-start">
-                    <span>Monday, 1:27 PM</span>
-                </div>
-                <div class="bubble you">
-                    So, how's your new phone?
-                </div>
-                <div class="bubble you">
-                    You finally have a smartphone :D
-                </div>
-                <div class="bubble me">
-                    Drake?
-                </div>
-                <div class="bubble me">
-                    Why aren't you answering?
-                </div>
-                <div class="bubble you">
-                    howdoyoudoaspace
-                </div>
-            </div>
+
             <div class="write">
-                <a href="javascript:;" class="write-link attach"></a>
-                <input type="text" />
-                <a href="javascript:;" class="write-link send"></a>
-                <a href="javascript:;" class="write-link smiley"></a>
+
+                <input type="text" id="newMessageTextBox" v-on:keyup.enter="sendMessage"/>
+
             </div>
         </div>
     </div>
@@ -114,7 +95,6 @@
     <script type="text/javascript">
 
     $('.chat[data-chat=activeChat]').addClass('active-chat');
-{#$('.person[data-chat=person2]').addClass('active');#}
 
 $('.left .person').mousedown(function(){
     if ($(this).hasClass('.active')) {

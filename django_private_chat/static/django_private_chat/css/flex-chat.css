@@ -147,7 +147,7 @@ body {
   margin-left: -1px;
   padding-top: 13px;
   border: 0;
-  background-color: #00b0ff;
+  background-color: #A74AC7;
   width: calc(100% + 2px);
   padding-left: calc(10% + 1px);
 }
@@ -272,14 +272,14 @@ body {
 .chatcontent .right .bubble.you {
   float: left;
   color: #fff;
-  background-color: #00b0ff;
+  background-color: #A74AC7;
   align-self: flex-start;
   -webkit-animation-name: slideFromLeft;
   animation-name: slideFromLeft;
 }
 .chatcontent .right .bubble.you:before {
   left: -3px;
-  background-color: #00b0ff;
+  background-color: #A74AC7;
 }
 .chatcontent .right .bubble.me {
   float: right;
