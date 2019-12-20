@@ -18,11 +18,10 @@
 
 {% block dialog_content %}
     <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
-    {% if active_dialog.owner == request.user %}
-        <input type="hidden" id="opponentUserName" value="{{ active_dialog.opponent.username }}">
-    {% else %}
-        <input type="hidden" id="opponentUserName" value="{{ active_dialog.owner.username }}">
-    {% endif %}
+    <input type="hidden" id="opponentUserName" value="{{ opponent_username }}">
+    <input type="hidden" id="requestUserId" value="{{ request.user.id }}">
+    <input type="hidden" id="activeDialogId" value="{{ active_dialog.id }}">
+
 <div class="wrapper" id="chat-app">
     <div class="chatcontent">
         <div class="left">
@@ -31,37 +30,19 @@
                 <a href="javascript:;" class="search"></a>
             </div>
             <ul class="people">
-                {% for dialog in object_list %}
-                    {% if dialog.opponent.username == active_dialog.opponent.username %}
-                        <li class="person active">
-                    {% else %}
-                        <li class="person">
-                    {% endif %}
-                        {% if dialog.owner == request.user %}
-                            <img src="{{ dialog.opponent.profile.image.url }}">
-                            <span class="name">{{ dialog.opponent.username }}</span>
-                            <span class="time">{{ dialog.messages.last.get_formatted_create_datetime }}</span>
-                            <span class="preview">{{ dialog.messages.last.text }}</span>
-                        {% else %}
-                            <img src="{{ dialog.owner.profile.image.url }}">
-                            <span class="name">{{ dialog.owner.username }}</span>
-                            <span class="time">{{ dialog.messages.last.get_formatted_create_datetime }}</span>
-                            <span class="preview">{{ dialog.messages.last.text }}</span>
-                        {% endif %}
+
+                {% verbatim %}
+                    <li v-for="dialog in dialogs"
+                        class="person"
+                        :class="[ dialog.id == getActiveDialogId() ? 'active' : '' ]"
+                        v-on:click="openDetails(dialog)"
+                    >
+                        <img :src="getIconForDialog(dialog)">
+                        <span class="name">{{ getNameForDialog(dialog) }}</span>
+                        <!--span class="time">{{ dialog.last_message_time }}</span-->
+                        <span class="preview">{{ dialog.last_message }}</span>
                     </li>
-                {% endfor %}
-                <li class="person" data-chat="person1">
-                    <img src="https://s13.postimg.org/ih41k9tqr/img1.jpg" alt="" />
-                    <span class="name">Thomas Bangalter</span>
-                    <span class="time">2:09 PM</span>
-                    <span class="preview">I was wondering...</span>
-                </li>
-                <li class="person" data-chat="person2">
-                    <img src="https://s3.postimg.org/yf86x7z1r/img2.jpg" alt="" />
-                    <span class="name">Dog Woofson</span>
-                    <span class="time">1:44 PM</span>
-                    <span class="preview">I've forgotten how it felt before</span>
-                </li>
+                {% endverbatim %}
             </ul>
         </div>
         <div class="right">

@@ -46,14 +46,11 @@ class DialogListView(LoginRequiredMixin, generic.ListView):
         )
         return context
 
+
 class DialogNewListView(LoginRequiredMixin, generic.ListView):
     template_name = 'django_private_chat/dialogs-flex.html'
     model = models.Dialog
     ordering = 'modified'
-
-    def get_queryset(self):
-        dialogs = models.Dialog.objects.filter(Q(owner=self.request.user) | Q(opponent=self.request.user))
-        return dialogs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()

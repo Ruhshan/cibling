@@ -13,6 +13,14 @@ class Dialog(TimeStampedModel):
                               on_delete=models.CASCADE)
     opponent = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Dialog opponent"), on_delete=models.CASCADE)
 
+    @property
+    def last_message(self):
+        return self.messages.last().text
+
+    @property
+    def last_message_time(self):
+        return self.messages.last().get_formatted_create_datetime
+
     def __str__(self):
         return _("Chat with ") + self.opponent.username
 
@@ -27,6 +35,7 @@ class Message(TimeStampedModel, SoftDeletableModel):
 
     def get_formatted_create_datetime(self):
         return dj_date(localtime(self.created), settings.DATETIME_FORMAT)
+
 
     def __str__(self):
         return self.sender.username + "(" + self.get_formatted_create_datetime() + ") - '" + self.text + "'"
