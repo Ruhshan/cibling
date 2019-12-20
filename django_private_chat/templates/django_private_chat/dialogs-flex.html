@@ -18,7 +18,11 @@
 
 {% block dialog_content %}
     <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
-    <input type="hidden" id="opponentUserName" value="{{ active_dialog.opponent.username }}">
+    {% if active_dialog.owner == request.user %}
+        <input type="hidden" id="opponentUserName" value="{{ active_dialog.opponent.username }}">
+    {% else %}
+        <input type="hidden" id="opponentUserName" value="{{ active_dialog.owner.username }}">
+    {% endif %}
 <div class="wrapper" id="chat-app">
     <div class="chatcontent">
         <div class="left">
@@ -29,20 +33,22 @@
             <ul class="people">
                 {% for dialog in object_list %}
                     {% if dialog.opponent.username == active_dialog.opponent.username %}
-                    <li class="person active">
-                        <img src="{{ dialog.opponent.profile.image.url }}">
-                        <span class="name">{{ dialog.opponent.username }}</span>
-                        <span class="time">{{ dialog.messages.last.get_formatted_create_datetime }}</span>
-                        <span class="preview">{{ dialog.messages.last.text }}</span>
-                    </li>
+                        <li class="person active">
                     {% else %}
                         <li class="person">
-                        <img src="{{ dialog.opponent.profile.image.url }}">
-                        <span class="name">{{ dialog.opponent.username }}</span>
-                        <span class="time">{{ dialog.messages.last.get_formatted_create_datetime }}</span>
-                        <span class="preview">{{ dialog.messages.last.text }}</span>
-                    </li>
                     {% endif %}
+                        {% if dialog.owner == request.user %}
+                            <img src="{{ dialog.opponent.profile.image.url }}">
+                            <span class="name">{{ dialog.opponent.username }}</span>
+                            <span class="time">{{ dialog.messages.last.get_formatted_create_datetime }}</span>
+                            <span class="preview">{{ dialog.messages.last.text }}</span>
+                        {% else %}
+                            <img src="{{ dialog.owner.profile.image.url }}">
+                            <span class="name">{{ dialog.owner.username }}</span>
+                            <span class="time">{{ dialog.messages.last.get_formatted_create_datetime }}</span>
+                            <span class="preview">{{ dialog.messages.last.text }}</span>
+                        {% endif %}
+                    </li>
                 {% endfor %}
                 <li class="person" data-chat="person1">
                     <img src="https://s13.postimg.org/ih41k9tqr/img1.jpg" alt="" />
@@ -59,7 +65,11 @@
             </ul>
         </div>
         <div class="right">
+        {% if active_dialog.owner == request.user %}
             <div class="top"><span>To: <span class="name">{{ active_dialog.opponent.username }}</span></span></div>
+        {% else %}
+            <div class="top"><span>To: <span class="name">{{ active_dialog.owner.username }}</span></span></div>
+        {% endif %}
             <div class="chat" data-chat="activeChat" id="activeChat" v-chat-scroll>
                 {% for msg in active_dialog.messages.all %}
                     {% if msg.sender == request.user %}
