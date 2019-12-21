@@ -151,6 +151,8 @@ body {
   width: calc(100% + 2px);
   padding-left: calc(10% + 1px);
 }
+
+
 .chatcontent .left .people .person.active span, .chatcontent .left .people .person:hover span {
   color: #fff;
   background: transparent;
@@ -201,14 +203,28 @@ body {
   padding-left: 8px;
   border: 1px solid #e6e6e6;
   background-color: #eceff1;
-  width: calc(100% - 58px);
+  width: calc(100% - 100px);
   border-radius: 5px;
 }
+
+.chatcontent .right .send-button {
+  position: absolute;
+  bottom: 75px;
+  left: calc(100% - 60px);
+  padding-right: 8px;
+  border-radius: 5px;
+  color: #c794c0;
+}
+
+.chatcontent .right .send-button:hover{
+  color: #A74AC7;
+}
+
 .chatcontent .right .write input {
   font-size: 16px;
   float: left;
   width: calc(100% - 90px);
-  height: 40px;
+  height: 50px;
   padding: 0 10px;
   color: #1a1a1a;
   border: 0;
@@ -217,6 +233,24 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 400;
 }
+
+.chatcontent .right .write textarea {
+  font-size: 16px;
+  float: left;
+  /*width: calc(100% - 90px);*/
+  height: 40px;
+  padding: 0 10px;
+  color: #1a1a1a;
+  border: 0;
+  outline: none;
+  background-color: #eceff1;
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: 400;
+  margin-top: 10px;
+}
+
+
+
 .chatcontent .right .write .write-link.attach:before {
   display: inline-block;
   float: left;
@@ -258,6 +292,7 @@ body {
   padding: 13px 14px;
   vertical-align: top;
   border-radius: 5px;
+
 }
 .chatcontent .right .bubble:before {
   position: absolute;
@@ -318,6 +353,11 @@ body {
 }
 .chatcontent .right .conversation-start span:after {
   right: 0;
+}
+
+textarea
+{
+   resize: none;
 }
 
 @keyframes slideFromLeft {

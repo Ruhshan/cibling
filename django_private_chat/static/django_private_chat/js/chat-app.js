@@ -3,7 +3,8 @@ var app = new Vue({
     el: "#chat-app",
     data:{
       messages:[],
-      dialogs:[]
+      dialogs:[],
+
     },
     created(){
         this.fetchDialogHistory();
@@ -29,6 +30,15 @@ var app = new Vue({
         },
         getRequestUserId:function () {
           return parseInt(document.getElementById("requestUserId").value);
+        },
+        adjustTextAreaSize:function(){
+            var enteredText = document.getElementById("newMessageTextBox").value;
+            var enteredTextLen = enteredText.length
+            var width =  document.getElementById("newMessageTextBox").clientWidth
+
+            var ratio = enteredTextLen / width
+
+            console.log(ratio)
         },
         openDetails:function (dialog) {
             if(dialog.owner.id === this.getRequestUserId()){
@@ -78,6 +88,7 @@ var app = new Vue({
             this.websocket.send(newMessagePacket);
 
             document.getElementById("newMessageTextBox").value=""
+
         },
         socketOnMessage:function(event){
 

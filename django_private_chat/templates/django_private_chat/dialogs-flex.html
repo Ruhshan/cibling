@@ -75,10 +75,13 @@
 
 
             <div class="write">
-
-                <input type="text" id="newMessageTextBox" v-on:keyup.enter="sendMessage"/>
-
+                <textarea type="text" id="newMessageTextBox" v-on:keyup.enter="sendMessage" v-on:keydown="adjustTextAreaSize"></textarea>
             </div>
+
+            <div class="send-button" v-on:click="sendMessage">
+                <i class="fa fa-paper-plane fa-2x" aria-hidden="true"></i>
+            </div>
+
         </div>
     </div>
 </div>
