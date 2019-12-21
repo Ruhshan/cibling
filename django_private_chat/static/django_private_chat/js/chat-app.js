@@ -28,17 +28,30 @@ var app = new Vue({
         addNewMessage:function (packet) {
           this.messages.push(packet);
         },
+        addNewMessageIndialogPreview:function (packet) {
+            var opponent = ""
+
+            if(packet.username === this.getRequestUserName()){
+                opponent = packet.sender_name;
+            }else{
+                opponent = packet.username;
+            }
+
+            this.dialogs.forEach((obj)=>{
+                if(obj.opponent.username === this.getRequestUserName() && obj.owner.username === opponent){
+                    obj.last_message = packet.message
+                }
+                if(obj.owner.username === this.getRequestUserName() && obj.opponent.username === opponent){
+                    obj.last_message = packet.message
+                }
+
+            })
+        },
         getRequestUserId:function () {
           return parseInt(document.getElementById("requestUserId").value);
         },
-        adjustTextAreaSize:function(){
-            var enteredText = document.getElementById("newMessageTextBox").value;
-            var enteredTextLen = enteredText.length
-            var width =  document.getElementById("newMessageTextBox").clientWidth
-
-            var ratio = enteredTextLen / width
-
-            console.log(ratio)
+        getRequestUserName: function () {
+          return document.getElementById("requestUserName").value
         },
         openDetails:function (dialog) {
             if(dialog.owner.id === this.getRequestUserId()){
@@ -103,6 +116,7 @@ var app = new Vue({
             switch (packet.type) {
                 case "new-message":
                     this.addNewMessage(packet);
+                    this.addNewMessageIndialogPreview(packet)
                     break;
             }
         }

@@ -21,6 +21,7 @@
     <input type="hidden" id="opponentUserName" value="{{ opponent_username }}">
     <input type="hidden" id="requestUserId" value="{{ request.user.id }}">
     <input type="hidden" id="activeDialogId" value="{{ active_dialog.id }}">
+    <input type="hidden" id="requestUserName" value="{{ request.user.username }}">
 
 <div class="wrapper" id="chat-app">
     <div class="chatcontent">
@@ -75,7 +76,7 @@
 
 
             <div class="write">
-                <textarea type="text" id="newMessageTextBox" v-on:keyup.enter="sendMessage" v-on:keydown="adjustTextAreaSize"></textarea>
+                <textarea type="text" id="newMessageTextBox" v-on:keyup.enter="sendMessage" ></textarea>
             </div>
 
             <div class="send-button" v-on:click="sendMessage">
