@@ -28,7 +28,10 @@
         <div class="left">
             <div class="top">
                 <input type="text" />
-                <a href="javascript:;" class="search"></a>
+                <span data-toggle="tooltip" data-placement="top" title="New Message">
+                    <i class="new-message-icon fa fa-edit fa-2x" aria-hidden="true"></i>
+                </span>
+
             </div>
             <ul class="people">
 
@@ -47,19 +50,26 @@
             </ul>
         </div>
         <div class="right">
+
+
+        <div v-if="new_message" class="top"><span>To:</span><span>New haha</span></div>
+
         {% if active_dialog.owner == request.user %}
-            <div class="top"><span>To: <span class="name">{{ active_dialog.opponent.username }}</span></span></div>
+            <div v-else class="top"><span>To: <span class="name">{{ active_dialog.opponent.first_name }} {{ active_dialog.opponent.last_name }}</span></span></div>
         {% else %}
-            <div class="top"><span>To: <span class="name">{{ active_dialog.owner.username }}</span></span></div>
+            <div v-else class="top"><span>To: <span class="name">{{ active_dialog.owner.first_name }} {{ active_dialog.opponent.last_name }}</span></span></div>
         {% endif %}
+
+
+
             <div class="chat" data-chat="activeChat" id="activeChat" v-chat-scroll>
                 {% for msg in active_dialog.messages.all %}
                     {% if msg.sender == request.user %}
-                        <div class="bubble me">
+                        <div class="bubble me" data-toggle="tooltip" data-placement="top" title="{{ msg.get_formatted_create_datetime }}">
                             {{ msg.text }}
                         </div>
                      {% else %}
-                        <div class="bubble you">
+                        <div class="bubble you" data-toggle="tooltip" data-placement="top" title="{{ msg.get_formatted_create_datetime }}">
                             {{ msg.text }}
                         </div>
                     {% endif %}

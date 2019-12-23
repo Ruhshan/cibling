@@ -355,6 +355,13 @@ body {
   right: 0;
 }
 
+.new-message-icon{
+  padding-left: 14px;
+  margin-top: 7px;
+  color: #A74AC7;
+  cursor: pointer;
+}
+
 textarea
 {
    resize: none;

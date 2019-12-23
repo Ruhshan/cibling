@@ -4,6 +4,7 @@ var app = new Vue({
     data:{
       messages:[],
       dialogs:[],
+      new_message:true
 
     },
     created(){
@@ -15,6 +16,8 @@ var app = new Vue({
 
 
     },
+
+
     methods:{
         getRequestSessionId:()=>{
             return document.getElementById("requestSessionId").value;
