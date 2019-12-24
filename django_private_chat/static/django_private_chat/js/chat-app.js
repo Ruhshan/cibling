@@ -4,7 +4,9 @@ var app = new Vue({
     data:{
       messages:[],
       dialogs:[],
-      new_message:true
+      new_chat_users:[],
+      loading:false
+
 
     },
     created(){
@@ -19,6 +21,52 @@ var app = new Vue({
 
 
     methods:{
+        startNewChat:function(name){
+            window.location = "/chat/dialogs-new/"+name;
+        },
+        openNewChatModal:function(){
+            $("#new-chat-modal").modal('show')
+        },
+        search:function(){
+
+          var query = document.getElementById("new-chat-name").value;
+
+          var self = this
+
+          if (query.length !== 0) {
+                self.loading = true
+                axios.get("/api/user/profiles?q=" + query).then((response) => {
+
+                    var fetched_users = []
+
+                    response.data.forEach((user) => {
+
+                        var entry = {
+                            "title": user.user.first_name + " " + user.user.last_name,
+                            "image": user.image,
+                            "id": user.user.id,
+                            "institute":user.institute.institute,
+                            "username":user.user.username
+                        };
+                        console.log(entry)
+
+                        fetched_users.push(entry);
+                    });
+
+                    self.new_chat_users = fetched_users.splice(0,5);
+
+                    self.loading=false;
+
+
+                }).catch((err) => {
+                    console.log(err);
+                    self.loading = false;
+                })
+            } else {
+                self.new_chat_users=[]
+                self.loading=false
+            }
+        },
         getRequestSessionId:()=>{
             return document.getElementById("requestSessionId").value;
         },

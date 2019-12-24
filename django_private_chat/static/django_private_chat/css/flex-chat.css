@@ -355,6 +355,12 @@ body {
   right: 0;
 }
 
+.new-chat-row{
+  margin:10px;
+  background-color: #eceff1;
+  border-radius: 5px;
+  padding: 5px
+}
 .new-message-icon{
   padding-left: 14px;
   margin-top: 7px;
