@@ -12,7 +12,7 @@ var app = new Vue({
     },
     created(){
         this.fetchDialogHistory();
-        this.websocket = new WebSocket('ws://localhost:5002/'+this.getRequestSessionId()+'/'+this.getOpponentUserName());
+        this.websocket = new WebSocket('ws://www.cibling.ac:5002/'+this.getRequestSessionId()+'/'+this.getOpponentUserName());
 
         this.websocket.onopen = this.socketOnOpen;
         this.websocket.onmessage = this.socketOnMessage;
