@@ -5,7 +5,8 @@ var app = new Vue({
       messages:[],
       dialogs:[],
       new_chat_users:[],
-      loading:false
+      loading:false,
+      show_suggestion:false
 
 
     },
@@ -33,8 +34,10 @@ var app = new Vue({
 
           var self = this
 
-          if (query.length !== 0) {
+
+          if (query.length > 1) {
                 self.loading = true
+                self.show_suggestion = true
                 axios.get("/api/user/profiles?q=" + query).then((response) => {
 
                     var fetched_users = []
@@ -48,7 +51,6 @@ var app = new Vue({
                             "institute":user.institute.institute,
                             "username":user.user.username
                         };
-                        console.log(entry)
 
                         fetched_users.push(entry);
                     });
@@ -57,14 +59,15 @@ var app = new Vue({
 
                     self.loading=false;
 
-
                 }).catch((err) => {
                     console.log(err);
                     self.loading = false;
+                    self.show_suggestion = false;
                 })
             } else {
+                self.loading=false;
+                self.show_suggestion=false
                 self.new_chat_users=[]
-                self.loading=false
             }
         },
         getRequestSessionId:()=>{
