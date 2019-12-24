@@ -64,7 +64,11 @@ class DialogNewListView(LoginRequiredMixin, generic.ListView):
                 dialog = dialog[0]
             context['active_dialog'] = dialog
         else:
-            context['active_dialog'] = self.object_list[0]
+            if self.object_list:
+                context['active_dialog'] = self.object_list[0]
+            else:
+                context["no_dialog"] = True
+                return context
         if self.request.user == context['active_dialog'].owner:
             context['opponent_username'] = context['active_dialog'].opponent.username
         else:
