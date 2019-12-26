@@ -305,7 +305,7 @@ body {
           transform: rotate(29deg) skew(-35deg);
 }
 .chatcontent .right .bubble.you {
-  float: left;
+  /*float: left;*/
   color: #fff;
   background-color: #A74AC7;
   align-self: flex-start;
@@ -315,6 +315,19 @@ body {
 .chatcontent .right .bubble.you:before {
   left: -3px;
   background-color: #A74AC7;
+  /*margin-left: 10px;*/
+}
+
+.bubble-you{
+  margin-left: 10px;
+  max-width: calc(100% - 40px);
+}
+
+.bubble-you-image{
+  height: 20px;
+  width: 20px;
+  border-radius: 50%;
+  margin-top: 10px;
 }
 .chatcontent .right .bubble.me {
   float: right;

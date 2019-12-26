@@ -10,7 +10,7 @@
     <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
-{#    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>#}
+    {#    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>#}
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-chat-scroll/dist/vue-chat-scroll.min.js"></script>
     <script src="https://unpkg.com/@saeris/vue-spinners"></script>
@@ -25,6 +25,7 @@
     <input type="hidden" id="requestUserId" value="{{ request.user.id }}">
     <input type="hidden" id="activeDialogId" value="{{ active_dialog.id }}">
     <input type="hidden" id="requestUserName" value="{{ request.user.username }}">
+    <input type="hidden" id="opponentProfileImage" value="{{ opponent_profile_image }}">
 
     <div class="wrapper" id="chat-app">
         <div class="chatcontent">
@@ -92,7 +93,8 @@
                                         </br> {{ user.institute }}
                                     </div>
                                     <div class="col-sm-3 pull-right" style="padding-left:78px">
-                                        <button class="btn btn-default" @click="startNewChat( user.username )">Start</button>
+                                        <button class="btn btn-default" @click="startNewChat( user.username )">Start
+                                        </button>
                                     </div>
                                 </div>
 
@@ -119,9 +121,10 @@
                                 {{ msg.text }}
                             </div>
                         {% else %}
-                            <div class="bubble you" data-toggle="tooltip" data-placement="top"
+                            <div data-toggle="tooltip" data-placement="top"
                                  title="{{ msg.get_formatted_create_datetime }}">
-                                {{ msg.text }}
+                                <span><img src="{{ opponent_profile_image }}" class="bubble-you-image"></span>
+                                <p class="bubble you bubble-you">{{ msg.text }}</p>
                             </div>
                         {% endif %}
                     {% endfor %}

@@ -71,8 +71,10 @@ class DialogNewListView(LoginRequiredMixin, generic.ListView):
                 return context
         if self.request.user == context['active_dialog'].owner:
             context['opponent_username'] = context['active_dialog'].opponent.username
+            context['opponent_profile_image'] = context['active_dialog'].opponent.profile.image.url
         else:
             context['opponent_username'] = context['active_dialog'].owner.username
+            context['opponent_profile_image'] = context['active_dialog'].owner.profile.image.url
         context['ws_server_path'] = '{}://{}:{}/'.format(
             settings.CHAT_WS_SERVER_PROTOCOL,
             settings.CHAT_WS_SERVER_HOST,
