@@ -28,6 +28,15 @@ var app = new Vue({
         openNewChatModal:function(){
             $("#new-chat-modal").modal('show')
         },
+        getOpponentProfileImage:function () {
+          return document.getElementById("opponentProfileImage").value;
+        },
+        getBubbleClass:function(message){
+            return message.sender_name === this.getOpponentUserName() ? 'bubble you bubble-you' : 'bubble me';
+        },
+        isOpponent:function (message) {
+          return message.sender_name === this.getOpponentUserName();
+        },
         search:function(){
 
           var query = document.getElementById("new-chat-name").value;

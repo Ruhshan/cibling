@@ -31,7 +31,7 @@
         <div class="chatcontent">
             <div class="left">
                 <div class="top">
-                    <input type="text"/>
+                    <input type="text" placeholder="Search dialogs"/>
                     <span data-toggle="tooltip" data-placement="top" title="New Message">
                     <i class="new-message-icon fa fa-edit fa-2x" aria-hidden="true" v-on:click="openNewChatModal"></i>
                 </span>
@@ -130,9 +130,13 @@
                     {% endfor %}
 
                     {% verbatim %}
-                    <div v-for="message in messages" class="bubble"
-                         :class="[ message.sender_name == getOpponentUserName() ? 'you' : 'me' ]">
-                        {{ message.message }}
+                    <div v-for="message in messages">
+                        <span v-if="isOpponent(message)">
+                            <img :src="getOpponentProfileImage()" class="bubble-you-image">
+                        </span>
+                        <p :class="getBubbleClass(message)">
+                            {{ message.message }}
+                        </p>
                     </div>
                     {% endverbatim %}
 
