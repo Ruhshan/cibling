@@ -31,7 +31,7 @@
         <div class="chatcontent">
             <div class="left">
                 <div class="top">
-                    <input type="text" placeholder="Search dialogs"/>
+                    <input type="text" placeholder="Search dialogs" id="dialogSearch" @input="searchDialog"/>
                     <span data-toggle="tooltip" data-placement="top" title="New Message">
                     <i class="new-message-icon fa fa-edit fa-2x" aria-hidden="true" v-on:click="openNewChatModal"></i>
                 </span>
@@ -44,7 +44,7 @@
                         class="person"
                         :class="[ dialog.id == getActiveDialogId() ? 'active' : '' ]"
                         v-on:click="openDetails(dialog)"
-                        v-if="dialog.last_message"
+                        v-if="dialog.last_message && dialog.hide !== true"
                     >
                         <img :src="getIconForDialog(dialog)">
                         <span class="name">{{ getNameForDialog(dialog) }}</span>

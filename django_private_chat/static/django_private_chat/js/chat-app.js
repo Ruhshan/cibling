@@ -37,6 +37,25 @@ var app = new Vue({
         isOpponent:function (message) {
           return message.sender_name === this.getOpponentUserName();
         },
+        searchDialog:function () {
+            var query = document.getElementById("dialogSearch").value;
+
+            var dialog_subset = []
+
+            this.dialogs.forEach((dialog)=>{
+               var name = this.getNameForDialog(dialog)
+
+                if(name.includes(query)){
+                    dialog["hide"] = false
+                }else{
+                    dialog["hide"] = true
+                }
+                dialog_subset.push(dialog)
+
+            });
+
+            this.dialogs = dialog_subset
+        },
         search:function(){
 
           var query = document.getElementById("new-chat-name").value;
