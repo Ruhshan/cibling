@@ -65,7 +65,7 @@ class DialogNewListView(LoginRequiredMixin, generic.ListView):
             context['active_dialog'] = dialog
         else:
             if self.object_list:
-                context['active_dialog'] = self.object_list[0]
+                context['active_dialog'] = self.object_list.last()
             else:
                 context["no_dialog"] = True
                 return context

@@ -5,16 +5,16 @@ from . import views
 from .apis import DialogHistoryApiView
 
 urlpatterns = [
-    url(
-        regex=r'^dialogs/(?P<username>[\w.@+-]+)$',
-        view=views.DialogListView.as_view(),
-        name='dialogs_detail'
-    ),
-    url(
-        regex=r'^dialogs/$',
-        view=views.DialogListView.as_view(),
-        name='dialogs'
-    ),
+    # url(
+    #     regex=r'^dialogs/(?P<username>[\w.@+-]+)$',
+    #     view=views.DialogListView.as_view(),
+    #     name='dialogs_detail'
+    # ),
+    # url(
+    #     regex=r'^dialogs/$',
+    #     view=views.DialogListView.as_view(),
+    #     name='dialogs'
+    # ),
     url(
         regex=r'^dialogs-new/(?P<username>[\w.@+-]+)$',
         view=views.DialogNewListView.as_view(),
