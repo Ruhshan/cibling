@@ -81,3 +81,7 @@ class DialogNewListView(LoginRequiredMixin, generic.ListView):
             settings.CHAT_WS_SERVER_PORT,
         )
         return context
+
+class DialogSideBarView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'django_private_chat/dialog-sidebar.html'
+

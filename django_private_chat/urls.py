@@ -29,5 +29,11 @@ urlpatterns = [
         regex=r'^api/dialog-history/$',
         view=DialogHistoryApiView.as_view(),
         name='dialogs-history'
-    )
+    ),
+    url(
+        regex=r'^dialogs-sidebar/$',
+        view=views.DialogSideBarView.as_view(),
+        name='dialogs-sidebar'
+    ),
+
 ]
