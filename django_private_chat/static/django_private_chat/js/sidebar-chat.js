@@ -75,3 +75,44 @@ $(document).ready(function(){
 
 
 });
+
+var app = new Vue({
+    el: "#chat-sidebar",
+	data:{
+      dialogs:[],
+    },
+	created(){
+    	this.fetchDialogHistory();
+	},
+	methods:{
+    	getRequestUserId:function () {
+          return parseInt(document.getElementById("requestUserId").value);
+        },
+		getIconForDialog:function (dialog) {
+
+            if(dialog.owner.id === this.getRequestUserId()){
+                return dialog.opponent.profile_image;
+            }else{
+                return dialog.owner.profile_image;
+            }
+
+        },
+		getNameForDialog:function(dialog){
+            if(dialog.owner.id === this.getRequestUserId()){
+                return dialog.opponent.first_name+" "+dialog.opponent.last_name;
+            }else{
+                return dialog.owner.first_name+" "+dialog.owner.last_name;
+            }
+        },
+    	fetchDialogHistory:function () {
+          var self = this;
+
+            axios.get("/chat/api/dialog-history/").then((result)=>{
+            	console.log(result)
+                self.dialogs=result.data
+            }).catch((err)=>{
+                console.log(err)
+            })
+        }
+	}
+});

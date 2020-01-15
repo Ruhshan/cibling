@@ -99,7 +99,7 @@
 }
 
  #slider-username{
-     float:left;
+     /*float:right;*/
      line-height:30px;
      margin-left:5px;
 }
