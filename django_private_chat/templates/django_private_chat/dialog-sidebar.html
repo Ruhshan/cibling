@@ -26,7 +26,8 @@
 {#        <span id="slider-username">Sumit Kumar Pradhan </span>#}
 {#    </div>#}
     {% verbatim %}
-    <div id="sidebar-user-box" :class="getOpponentIdForDialog(dialog)" v-for="dialog in dialogs">
+    <div id="sidebar-user-box" :class="getOpponentIdForDialog(dialog)" v-for="dialog in dialogs"
+         @click="showMessageBox(getOpponentIdForDialog(dialog), getNameForDialog(dialog) )">
         <input type="hidden" :value="dialog.id" :id="setDialogId(dialog)">
         <img :src="getIconForDialog(dialog)" height="30px" width="30px"/>
         <span id="slider-username">{{ getNameForDialog(dialog) }}</span>

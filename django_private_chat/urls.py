@@ -2,7 +2,7 @@
 from django.conf.urls import url
 
 from . import views
-from .apis import DialogHistoryApiView
+from .apis import DialogHistoryApiView, MessagesApiView
 
 urlpatterns = [
     # url(
@@ -29,6 +29,11 @@ urlpatterns = [
         regex=r'^api/dialog-history/$',
         view=DialogHistoryApiView.as_view(),
         name='dialogs-history'
+    ),
+    url(
+        regex=r'^api/message-in-dialog/(?P<dialog_id>\d+)/$',
+        view=MessagesApiView.as_view(),
+        name='messages-in-dialog'
     ),
     url(
         regex=r'^dialogs-sidebar/$',
