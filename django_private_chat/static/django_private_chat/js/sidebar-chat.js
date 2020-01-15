@@ -22,6 +22,10 @@ $(document).ready(function(){
 	 var userID = $(this).attr("class");
 	 var username = $(this).children().text() ;
 
+	 var dialogId = $('input#dialogId-'+userID).val();
+
+	 console.log(dialogId);
+
 	 if ($.inArray(userID, arr) != -1)
 	 {
       arr.splice($.inArray(userID, arr), 1);
@@ -31,10 +35,9 @@ $(document).ready(function(){
 	 chatPopup =  '<div class="msg_box" style="right:270px" rel="'+ userID+'">'+
 					'<div class="msg_head">'+username +
 					'<div class="close">x</div> </div>'+
-					'<div class="msg_wrap"> <div class="msg_body">	<div class="msg_push"></div> </div>'+
+					'<div class="msg_wrap"> <div class="msg_body"><div class="msg_push"></div> </div>'+
 					'<div class="msg_footer"><textarea class="msg_input" rows="4"></textarea></div> 	</div> 	</div>' ;
 
-	 console.log(chatPopup)
 
      $("body").append(  chatPopup  );
 	 displayChatBox();
@@ -103,6 +106,16 @@ var app = new Vue({
             }else{
                 return dialog.owner.first_name+" "+dialog.owner.last_name;
             }
+        },
+        getOpponentIdForDialog:function(dialog){
+    	    if(dialog.owner.id === this.getRequestUserId()){
+                return dialog.opponent.id.toString();
+            }else{
+                return dialog.owner.id.toString();
+            }
+        },
+        setDialogId:function(dialog){
+    	  return "dialogId-"+this.getOpponentIdForDialog(dialog);
         },
     	fetchDialogHistory:function () {
           var self = this;
