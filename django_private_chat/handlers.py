@@ -145,11 +145,11 @@ def new_messages_handler(stream):
                     # Send the message
                     connections = []
                     # Find socket of the user which sent the message
-                    if (user_owner.username, user_opponent.username) in ws_connections:
-                        connections.append(ws_connections[(user_owner.username, user_opponent.username)])
+                    if (user_owner.username) in ws_connections:
+                        connections.append(ws_connections[(user_owner.username)])
                     # Find socket of the opponent
-                    if (user_opponent.username, user_owner.username) in ws_connections:
-                        connections.append(ws_connections[(user_opponent.username, user_owner.username)])
+                    if (user_opponent.username) in ws_connections:
+                        connections.append(ws_connections[(user_opponent.username)])
                     else:
                         # Find sockets of people who the opponent is talking with
                         opponent_connections = list(filter(lambda x: x[0] == user_opponent.username, ws_connections))
@@ -254,13 +254,15 @@ def main_handler(websocket, path):
 
     # Get users name from the path
     path = path.split('/')
-    username = path[2]
+    #username = path[2]
     session_id = path[1]
     user_owner = get_user_from_session(session_id)
     if user_owner:
         user_owner = user_owner.username
         # Persist users connection, associate user w/a unique ID
-        ws_connections[(user_owner, username)] = websocket
+        ws_connections[(user_owner)] = websocket
+
+        print(ws_connections)
 
         # While the websocket is open, listen for incoming messages/events
         # if unable to listening for messages/events, then disconnect the client
