@@ -19,6 +19,8 @@
 
 <div id="chat-sidebar">
     <input type="hidden" id="requestUserId" value="{{ request.user.id }}">
+    <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
+    <input type="hidden" id="requestUserName" value="{{ request.user.username }}">
 
 
 {#    <div id="sidebar-user-box" class="100">#}

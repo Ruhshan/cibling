@@ -12,7 +12,7 @@ $(document).ready(function () {
 
     $(document).on('click', '.close', function () {
         var chatbox = $(this).parents().parents().attr("rel");
-        $('[rel="' + chatbox + '"]').hide();
+        $('[rel="' + chatbox + '"]').remove();
         arr.splice($.inArray(chatbox, arr), 1);
         app.displayChatBox();
         return false;
@@ -40,10 +40,49 @@ var app = new Vue({
         dialogs: [],
     },
     created() {
+        this.websocket = new WebSocket('ws://'+location.hostname+':5002/'+this.getRequestSessionId());
+        this.websocket.onopen = this.socketOnOpen;
+        this.websocket.onmessage = this.socketOnMessage;
+
         this.fetchDialogHistory();
         this.fetchMessagesByDialog(3);
     },
     methods: {
+        socketOnMessage:function(event){
+
+            var packet;
+
+            try {
+                packet = JSON.parse(event.data);
+            } catch (e) {
+                console.log(e);
+            }
+
+            switch (packet.type) {
+                case "new-message":
+                    this.addMessageInMessageBox(packet)
+            }
+        },
+
+        socketOnOpen:(event)=>{
+            console.log("connection success!!!")
+        },
+        addMessageInMessageBox:function (message) {
+            var targetMessageBox = $("#dialog-" + message.dialog_id);
+            var rel = targetMessageBox.parent().parent().attr("rel");
+
+            if(message.sender_name !== this.getRequestUserName()) {
+                  $('<div class="msg-left">' + message.message + '</div>').insertBefore('[rel="' + rel + '"] .msg_push');
+                  targetMessageBox.scrollTop(targetMessageBox[0].scrollHeight);
+                  this.autoScroll(rel);
+              }
+        },
+        getRequestSessionId:()=>{
+            return document.getElementById("requestSessionId").value;
+        },
+        getRequestUserName: function () {
+          return document.getElementById("requestUserName").value
+        },
         showMessageBox:async function (userID, userName) {
 
             var dialogId = $('input#dialogId-' + userID).val();
@@ -61,13 +100,15 @@ var app = new Vue({
             chatPopup = '<div class="msg_box" style="right:270px" rel="' + userID + '">' +
                 '<div class="msg_head">' + userName +
                 '<div class="close">x</div> </div>' +
-                '<div class="msg_wrap"> <div class="msg_body">' +
+                '<div class="msg_wrap"> <div class="msg_body"' + ' id = ' + "dialog-"+dialogId + '>' +
                     previous_messages+
                 '<div class="msg_push"></div> </div>'+
                 '<div class="msg_footer"><textarea class="msg_input" rows="4"></textarea></div> 	</div> 	</div>';
 
+            if($('[rel="' + userID + '"]').length === 0){
+                $("body").append(chatPopup);
+            }
 
-            $("body").append(chatPopup);
             this.displayChatBox();
             this.autoScroll(userID);
 
