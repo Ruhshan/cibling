@@ -5,12 +5,17 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook like chat popup layout</title>
+
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}"/>
     <link href="{% static 'django_private_chat/css/sidebar-chat.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/ionicons.min.css" %}"/>
     <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
 </head>
 
 <body>
+
 <div style="position:fixed;left:10px;width:200px;background-color:#7ec0ee;padding:10px;text-align:center;color:white;font-weight:bold;">
     <a href="http://www.skptricks.com/2018/03/facebook-style-chat-application-with-jquery-and-css.html"> Download
         Now </a></div>
@@ -18,15 +23,14 @@
 
 
 <div id="chat-sidebar">
+
+
     <input type="hidden" id="requestUserId" value="{{ request.user.id }}">
     <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
     <input type="hidden" id="requestUserName" value="{{ request.user.username }}">
 
+    <div>CHAT</div>
 
-{#    <div id="sidebar-user-box" class="100">#}
-{#        <img src="user.png"/>#}
-{#        <span id="slider-username">Sumit Kumar Pradhan </span>#}
-{#    </div>#}
     {% verbatim %}
     <div id="sidebar-user-box" :class="getOpponentIdForDialog(dialog)" v-for="dialog in dialogs"
          @click="showMessageBox(getOpponentIdForDialog(dialog), getNameForDialog(dialog) ,getOpponentUserNameForDialog(dialog))">
@@ -36,11 +40,14 @@
     </div>
     {% endverbatim %}
 
+    <div><input id="ip2" placeholder="Search"></div>
+
+
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script src="{% static "django_private_chat/js/sidebar-chat.js" %}"></script>
-
+<script src="{% static "js/bootstrap.min.js" %}"></script>
 </body>
 </html>

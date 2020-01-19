@@ -37,6 +37,8 @@ var app = new Vue({
     el: "#chat-sidebar",
     data: {
         dialogs: [],
+        new_chat_users: [],
+        loading: false
     },
     created() {
         this.websocket = new WebSocket('ws://'+location.hostname+':5002/'+this.getRequestSessionId());
@@ -216,6 +218,12 @@ var app = new Vue({
             scrollable = $('div[rel='+relId+']').find(".msg_body");
             scrollable.scrollTop(scrollable[0].scrollHeight);
 
-        }
+        },
+        openNewChatModal:function(){
+            $("#new-chat-modal").modal('show')
+        },
+        search:function(){
+
+        },
     }
 });

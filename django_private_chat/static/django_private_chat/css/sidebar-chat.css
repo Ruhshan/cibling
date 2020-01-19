@@ -75,9 +75,10 @@
      height: 100%;
      right: 0px;
      top: 0px;
+     /*bottom: 0px;*/
      padding-top: 10px;
      padding-bottom: 10px;
-     border: 1px solid #b2b2b2;
+     border: 1px solid black;
 }
  #sidebar-user-box {
      padding: 4px;
@@ -105,7 +106,13 @@
 }
 
 
-
+#ip2 {
+    border-radius: 25px;
+    border: 2px solid #609;
+    padding: 20px;
+    width: 200px;
+    height: 15px;
+}
 
 
 
