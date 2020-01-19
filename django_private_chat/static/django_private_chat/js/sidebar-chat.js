@@ -24,9 +24,8 @@ $(document).ready(function () {
             var msg = $(this).val();
             $(this).val('');
             if (msg.trim().length != 0) {
-                var chatbox = $(this).parents().parents().parents().attr("rel");
-                $('<div class="msg-right">' + msg + '</div>').insertBefore('[rel="' + chatbox + '"] .msg_push');
-                $('.msg_body').scrollTop($('.msg_body')[0].scrollHeight);
+                var chatboxId = $(this).parents().parents().parents().attr("rel");
+                app.sendMessage(chatboxId, msg);
             }
         }
     });
@@ -48,6 +47,18 @@ var app = new Vue({
         this.fetchMessagesByDialog(3);
     },
     methods: {
+        sendMessage:function(chatboxID, msg){
+            var username = $('[rel='+chatboxID+']').find('#opponentName')[0].value
+
+            var newMessagePacket = JSON.stringify({
+                    type: 'new-message',
+                    session_key: this.getRequestSessionId(),
+                    username: username,
+                    message: msg
+            });
+
+            this.websocket.send(newMessagePacket);
+        },
         socketOnMessage:function(event){
 
             var packet;
@@ -75,15 +86,20 @@ var app = new Vue({
                   $('<div class="msg-left">' + message.message + '</div>').insertBefore('[rel="' + rel + '"] .msg_push');
                   targetMessageBox.scrollTop(targetMessageBox[0].scrollHeight);
                   this.autoScroll(rel);
-              }
-        },
+              }else{
+                $('<div class="msg-right">' + message.message + '</div>').insertBefore('[rel="' + rel + '"] .msg_push');
+                  targetMessageBox.scrollTop(targetMessageBox[0].scrollHeight);
+                  this.autoScroll(rel);
+            }
+        }
+        ,
         getRequestSessionId:()=>{
             return document.getElementById("requestSessionId").value;
         },
         getRequestUserName: function () {
           return document.getElementById("requestUserName").value
         },
-        showMessageBox:async function (userID, userName) {
+        showMessageBox:async function (userID, userName, opponentUserName) {
 
             var dialogId = $('input#dialogId-' + userID).val();
 
@@ -98,6 +114,7 @@ var app = new Vue({
 
 
             chatPopup = '<div class="msg_box" style="right:270px" rel="' + userID + '">' +
+                '<input type="hidden"'+ ' id="opponentName" value=' + opponentUserName + '>'+
                 '<div class="msg_head">' + userName +
                 '<div class="close">x</div> </div>' +
                 '<div class="msg_wrap"> <div class="msg_body"' + ' id = ' + "dialog-"+dialogId + '>' +
@@ -151,6 +168,13 @@ var app = new Vue({
                 return dialog.opponent.id.toString();
             } else {
                 return dialog.owner.id.toString();
+            }
+        },
+        getOpponentUserNameForDialog: function(dialog){
+            if (dialog.owner.id === this.getRequestUserId()) {
+                return dialog.opponent.username;
+            } else {
+                return dialog.owner.username;
             }
         },
         setDialogId: function (dialog) {
