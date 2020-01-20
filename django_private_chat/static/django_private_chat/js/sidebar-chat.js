@@ -38,7 +38,8 @@ var app = new Vue({
     data: {
         dialogs: [],
         new_chat_users: [],
-        loading: false
+        loading: false,
+        show_suggestion:false,
     },
     created() {
         this.websocket = new WebSocket('ws://'+location.hostname+':5002/'+this.getRequestSessionId());
@@ -223,7 +224,64 @@ var app = new Vue({
             $("#new-chat-modal").modal('show')
         },
         search:function(){
+            var query = document.getElementById("search-chat").value;
+            var self = this
 
+            if (query.length > 1) {
+                self.loading = true
+                self.show_suggestion = true
+                axios.get("/api/user/profiles?q=" + query).then((response) => {
+
+                    var fetched_users = []
+
+                    response.data.forEach((user) => {
+
+                        var entry = {
+                            "title": user.user.first_name + " " + user.user.last_name,
+                            "image": user.image,
+                            "id": user.user.id,
+                            "institute":user.institute.institute,
+                            "username":user.user.username
+                        };
+
+                        if(!self.existsInDialog(entry)){
+                            fetched_users.push(entry);
+                        }
+
+
+                    });
+
+                    self.new_chat_users = fetched_users.splice(0,5);
+
+
+                    self.loading=false;
+
+                }).catch((err) => {
+                    console.log(err);
+                    self.loading = false;
+                    self.show_suggestion = false;
+                })
+            } else {
+                self.loading=false;
+                self.show_suggestion=false
+                self.new_chat_users=[]
+            }
         },
+
+        existsInDialog:function (user) {
+            var userId = user.id;
+
+            return this.dialogs.some((dialog)=>{
+
+                if(parseInt(userId) === parseInt(this.getOpponentIdForDialog(dialog))){
+                    return true;
+
+                }
+                return false;
+
+            });
+
+
+        }
     }
 });
