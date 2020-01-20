@@ -263,8 +263,6 @@ def main_handler(websocket, path):
         # Persist users connection, associate user w/a unique ID
         ws_connections[(user_owner)] = websocket
 
-        print(ws_connections)
-
         # While the websocket is open, listen for incoming messages/events
         # if unable to listening for messages/events, then disconnect the client
         try:
@@ -281,6 +279,6 @@ def main_handler(websocket, path):
         except websockets.exceptions.InvalidState:  # User disconnected
             pass
         finally:
-            del ws_connections[(user_owner, username)]
+            del ws_connections[(user_owner)]
     else:
         logger.info("Got invalid session_id attempt to connect " + session_id)

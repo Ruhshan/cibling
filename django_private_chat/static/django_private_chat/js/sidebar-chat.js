@@ -24,11 +24,24 @@ $(document).ready(function () {
             var msg = $(this).val();
             $(this).val('');
             if (msg.trim().length != 0) {
-                var chatboxId = $(this).parents().parents().parents().attr("rel");
-                app.sendMessage(chatboxId, msg);
+
+                if(e.target.className === "msg_input"){
+                    var chatboxId = $(this).parents().parents().parents().attr("rel");
+                    app.sendMessage(chatboxId, msg);
+                }
+
+                if(e.target.className === "msg_input_new"){
+                    var chatboxId = $(this).parents().parents().parents().attr("rel");
+                    var username = $(this).parents().find('.msg_box').find('#opponentName')[0].value
+
+                    app.sendNewMessage(chatboxId, msg, username)
+                }
+
             }
         }
     });
+
+
 
 
 });
@@ -50,6 +63,50 @@ var app = new Vue({
         this.fetchMessagesByDialog(3);
     },
     methods: {
+        getCookie: function (name) {
+            var cookieValue = null;
+
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+
+            return cookieValue;
+        },
+        sendNewMessage:function(chatBoxID, msg,username){
+            var csrftoken = this.getCookie('csrftoken');
+            var self = this;
+
+            axios.post("/chat/api/dialog-create/",
+                {
+                    opponent:username
+                },
+                {headers: {'Accept': 'application/json', 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken}}
+            ).then((response) => {
+
+                console.log(response)
+                var dialogId = response.data.id;
+
+                self.dialogs.push(response.data);
+
+                var target_msg_body = $('[rel='+chatBoxID+']').find(".msg_body");
+                target_msg_body.attr("id", "dialog-"+dialogId);
+
+                var target_msg_input = $('[rel='+chatBoxID+']').find(".msg_input_new");
+
+                target_msg_input.removeClass("msg_input_new");
+                target_msg_input.addClass("msg_input");
+
+                self.sendMessage(chatBoxID, msg);
+
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
         sendMessage:function(chatboxID, msg){
             var username = $('[rel='+chatboxID+']').find('#opponentName')[0].value
 
@@ -81,9 +138,16 @@ var app = new Vue({
         socketOnOpen:(event)=>{
             console.log("connection success!!!")
         },
-        addMessageInMessageBox:function (message) {
+        addMessageInMessageBox:async function (message) {
             var targetMessageBox = $("#dialog-" + message.dialog_id);
             var rel = targetMessageBox.parent().parent().attr("rel");
+
+
+            if(targetMessageBox.length === 0){
+
+                this.fetchDialogHistory();
+
+            }
 
             if(message.sender_name !== this.getRequestUserName()) {
                   $('<div class="msg-left">' + message.message + '</div>').insertBefore('[rel="' + rel + '"] .msg_push');
@@ -94,14 +158,41 @@ var app = new Vue({
                   targetMessageBox.scrollTop(targetMessageBox[0].scrollHeight);
                   this.autoScroll(rel);
             }
-        }
-        ,
+        },
         getRequestSessionId:()=>{
             return document.getElementById("requestSessionId").value;
         },
         getRequestUserName: function () {
           return document.getElementById("requestUserName").value
         },
+        showNewMessageBox:function(user){
+            userID = user.id;
+            opponentUserName = user.username;
+            userName = user.title;
+
+            if ($.inArray(userID, arr) != -1) {
+                arr.splice($.inArray(userID, arr), 1);
+            }
+
+            arr.unshift(userID);
+
+            chatPopup = '<div class="msg_box" style="right:270px" rel="' + userID + '">' +
+                '<input type="hidden"'+ ' id="opponentName" value=' + opponentUserName + '>'+
+                '<div class="msg_head">' + userName +
+                '<div class="close">x</div> </div>' +
+                '<div class="msg_wrap"> <div class="msg_body" >' +
+                '<div class="msg_push"></div> </div>'+
+                '<div class="msg_footer"><textarea class="msg_input_new" rows="4"></textarea></div> 	</div> 	</div>';
+
+            if($('[rel="' + userID + '"]').length === 0){
+                $("body").append(chatPopup);
+            }
+
+            this.displayChatBox();
+
+
+        },
+
         showMessageBox:async function (userID, userName, opponentUserName) {
 
             var dialogId = $('input#dialogId-' + userID).val();
@@ -188,6 +279,8 @@ var app = new Vue({
 
             axios.get("/chat/api/dialog-history/").then((result) => {
                 self.dialogs = result.data
+
+                console.log("Fetching complete")
             }).catch((err) => {
                 console.log(err)
             })

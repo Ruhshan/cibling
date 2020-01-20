@@ -12,11 +12,16 @@ class DialogSerializer(ModelSerializer):
     last_message = ReadOnlyField()
     last_message_time = ReadOnlyField()
 
+    unread = SerializerMethodField()
 
     class Meta:
         model = Dialog
         depth =1
         fields = '__all__'
+
+    def get_unread(self, obj):
+        res = obj.messages.filter(read=False).exclude(sender=self.context['request'].user).count()
+        return res
 
 
 class MessageSerializer(ModelSerializer):

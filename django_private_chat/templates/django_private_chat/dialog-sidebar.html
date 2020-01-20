@@ -43,7 +43,7 @@
     {% verbatim %}
     <div style="position: fixed; bottom: 30px">
         <div v-if="new_chat_users.length > 0">New Chat</div>
-        <div id="sidebar-user-box-new" v-for="user in new_chat_users">
+        <div id="sidebar-user-box-new" v-for="user in new_chat_users" @click="showNewMessageBox(user)">
             <img :src="user.image" height="30px" width="30px"/>
             <span id="slider-username">{{ user.title }}</span>
         </div>
