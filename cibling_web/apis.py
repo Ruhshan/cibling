@@ -51,3 +51,4 @@ class CommentView(APIView):
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
