@@ -192,10 +192,20 @@ var app = new Vue({
 
 
         },
+        clearUnread:function (dialogId) {
+            this.dialogs.forEach((dialog)=>{
 
+                if(dialog.id === parseInt(dialogId)){
+                    dialog.unread = 0;
+                }
+
+            });
+        },
         showMessageBox:async function (userID, userName, opponentUserName) {
 
             var dialogId = $('input#dialogId-' + userID).val();
+
+            this.clearUnread(dialogId);
 
 
             if ($.inArray(userID, arr) != -1) {
