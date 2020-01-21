@@ -143,7 +143,7 @@ var app = new Vue({
         socketOnOpen:(event)=>{
             console.log("connection success!!!")
         },
-        addMessageInMessageBox:async function (message) {
+        addMessageInMessageBox: function (message) {
             var targetMessageBox = $("#dialog-" + message.dialog_id);
             var rel = targetMessageBox.parent().parent().attr("rel");
 
@@ -154,15 +154,27 @@ var app = new Vue({
 
             }
 
+
             if(message.sender_name !== this.getRequestUserName()) {
                   $('<div class="msg-left">' + message.message + '</div>').insertBefore('[rel="' + rel + '"] .msg_push');
                   targetMessageBox.scrollTop(targetMessageBox[0].scrollHeight);
                   this.autoScroll(rel);
+                  this.notifyRead(message);
               }else{
                 $('<div class="msg-right">' + message.message + '</div>').insertBefore('[rel="' + rel + '"] .msg_push');
                   targetMessageBox.scrollTop(targetMessageBox[0].scrollHeight);
                   this.autoScroll(rel);
             }
+        },
+        notifyRead:function(message){
+            var newMessagePacket = JSON.stringify({
+                    type: 'read_message',
+                    session_key: this.getRequestSessionId(),
+                    username: message.sender_name,
+                    message_id: message.message_id
+            });
+
+            this.websocket.send(newMessagePacket);
         },
         getRequestSessionId:()=>{
             return document.getElementById("requestSessionId").value;

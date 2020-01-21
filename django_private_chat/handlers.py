@@ -232,7 +232,7 @@ def read_message_handler(stream):
                     message.read = True
                     message.save()
                     logger.debug('Message ' + str(message_id) + ' is now read')
-                    opponent_socket = ws_connections.get((user_opponent, user_owner.username))
+                    opponent_socket = ws_connections.get((user_opponent))
                     if opponent_socket:
                         yield from target_message(opponent_socket,
                                                   {'type': 'opponent-read-message',
