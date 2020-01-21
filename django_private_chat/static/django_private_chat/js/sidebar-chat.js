@@ -131,7 +131,12 @@ var app = new Vue({
 
             switch (packet.type) {
                 case "new-message":
-                    this.addMessageInMessageBox(packet)
+                    this.addMessageInMessageBox(packet);
+                    break;
+                case "unread-cleared":
+                    console.log(packet)
+                    break;
+
             }
         },
 
@@ -200,6 +205,17 @@ var app = new Vue({
                 }
 
             });
+
+            var newMessagePacket = JSON.stringify({
+                    type: 'clear-unread',
+                    session_key: this.getRequestSessionId(),
+                    dialog: dialogId,
+                    username: this.getRequestUserName()
+            });
+
+            this.websocket.send(newMessagePacket);
+
+
         },
         showMessageBox:async function (userID, userName, opponentUserName) {
 

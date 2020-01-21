@@ -2,7 +2,7 @@ import asyncio
 import json
 import logging
 
-from .channels import new_messages, users_changed, online, offline, check_online, is_typing, read_unread
+from .channels import new_messages, users_changed, online, offline, check_online, is_typing, read_unread, clear_unread
 
 logger = logging.getLogger('django-private-dialog')
 
@@ -15,7 +15,8 @@ class MessageRouter(object):
         'offline': offline,
         'check-online': check_online,
         'is-typing': is_typing,
-        'read_message': read_unread
+        'read_message': read_unread,
+        'clear-unread': clear_unread
     }
 
     def __init__(self, data):

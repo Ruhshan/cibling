@@ -242,6 +242,22 @@ def read_message_handler(stream):
         else:
             pass  # no session id or user_opponent or typing
 
+@asyncio.coroutine
+def clear_unread_handler(stream):
+    while True:
+        packet = yield from stream.get()
+        session_id = packet.get('session_key')
+        username = packet.get('username')
+        dialogId = packet.get('dialog')
+
+        if session_id and username and dialogId is not None:
+            user_socket = ws_connections.get(username)
+            if user_socket:
+                yield from target_message(user_socket, {
+                    'type': 'unread-cleared',
+                    'dialogId': dialogId
+                })
+
 
 @asyncio.coroutine
 def main_handler(websocket, path):
