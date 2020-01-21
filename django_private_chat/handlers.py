@@ -3,6 +3,8 @@ import json
 import logging
 import websockets
 from django.contrib.auth import get_user_model
+from django_private_chat.models import Dialog
+
 from . import models, router
 from .utils import get_user_from_session, get_dialogs_with_user
 
@@ -251,6 +253,7 @@ def clear_unread_handler(stream):
         dialogId = packet.get('dialog')
 
         if session_id and username and dialogId is not None:
+            Dialog.objects.get(id=dialogId).clear_unread(username)
             user_socket = ws_connections.get(username)
             if user_socket:
                 yield from target_message(user_socket, {

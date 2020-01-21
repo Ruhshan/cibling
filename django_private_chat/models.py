@@ -21,6 +21,9 @@ class Dialog(TimeStampedModel):
     def last_message_time(self):
         return self.messages.last().get_formatted_create_datetime
 
+    def clear_unread(self, username):
+        return self.messages.filter(read=False).exclude(sender__username = username).update(read=True)
+
     def __str__(self):
         return _("Chat with ") + self.opponent.username
 
