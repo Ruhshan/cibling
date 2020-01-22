@@ -22,7 +22,7 @@
 
 
 
-<div id="chat-sidebar" style="background-color: antiquewhite">
+<div id="chat-sidebar" style="background-color: snow">
 
 
     <input type="hidden" id="requestUserId" value="{{ request.user.id }}">
@@ -32,10 +32,10 @@
     <div>CHAT</div>
 
     {% verbatim %}
-    <div id="sidebar-user-box" :class="getOpponentIdForDialog(dialog)" v-for="dialog in dialogs"
-         @click="showMessageBox(getOpponentIdForDialog(dialog), getNameForDialog(dialog) ,getOpponentUserNameForDialog(dialog))">
+    <div class="sidebar-user-box" v-for="dialog in dialogs"
+         @click="showMessageBox(dialog)">
         <input type="hidden" :value="dialog.id" :id="setDialogId(dialog)">
-        <img :src="getIconForDialog(dialog)" height="30px" width="30px"/>
+        <img :src="getIconForDialog(dialog)" class="dialog-icon"/>
         <span id="slider-username">{{ getNameForDialog(dialog) }}</span> <span v-if="dialog.unread != 0">({{ dialog.unread }})</span>
     </div>
     {% endverbatim %}
@@ -44,7 +44,7 @@
     <div style="position: fixed; bottom: 30px">
         <div v-if="new_chat_users.length > 0">New Chat</div>
         <div id="sidebar-user-box-new" v-for="user in new_chat_users" @click="showNewMessageBox(user)">
-            <img :src="user.image" height="30px" width="30px"/>
+            <img :src="user.image" />
             <span id="slider-username">{{ user.title }} </span>
         </div>
     </div>

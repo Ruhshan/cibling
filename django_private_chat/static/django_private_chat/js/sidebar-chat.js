@@ -229,7 +229,10 @@ var app = new Vue({
 
 
         },
-        showMessageBox:async function (userID, userName, opponentUserName) {
+        showMessageBox:async function (dialog) {
+            userID = this.getOpponentIdForDialog(dialog);
+            userName = this.getNameForDialog(dialog);
+            opponentUserName = this.getOpponentUserNameForDialog(dialog);
 
             var dialogId = $('input#dialogId-' + userID).val();
 
