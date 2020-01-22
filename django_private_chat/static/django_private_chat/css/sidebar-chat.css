@@ -28,6 +28,10 @@
 	padding:15px;
 	overflow:auto;
 	overflow-x: hidden;
+	display: flex;
+	flex: 1 1px;
+	flex-direction: column;
+	/*flex-flow: column;*/
 }
 .msg_input{
 	width:100%;
@@ -70,6 +74,10 @@
 	margin-right:10px;
 	border-radius:5px;
 	word-break: break-all;
+	align-self: flex-start;
+	display: inline-block;
+
+
 }
 
 .msg-right{
@@ -81,6 +89,9 @@
 	margin-left:10px;
 	border-radius:5px;
 	word-break: break-all;
+	align-self: flex-end;
+	display: inline-block;
+
 }
 /**** Slider Layout Popup *********/
 

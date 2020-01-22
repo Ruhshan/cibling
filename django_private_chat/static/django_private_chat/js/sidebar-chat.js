@@ -156,12 +156,12 @@ var app = new Vue({
 
 
             if(message.sender_name !== this.getRequestUserName()) {
-                  $('<div class="msg-left">' + message.message + '</div>').insertBefore('[rel="' + rel + '"] .msg_push');
+                  $('<div><p class="msg-left">' + message.message + '</p></div>').insertBefore('[rel="' + rel + '"] .msg_push');
                   targetMessageBox.scrollTop(targetMessageBox[0].scrollHeight);
                   this.autoScroll(rel);
                   this.notifyRead(message);
               }else{
-                $('<div class="msg-right">' + message.message + '</div>').insertBefore('[rel="' + rel + '"] .msg_push');
+                $('<div><p class="msg-right pull-right">' + message.message + '</p> </div>').insertBefore('[rel="' + rel + '"] .msg_push');
                   targetMessageBox.scrollTop(targetMessageBox[0].scrollHeight);
                   this.autoScroll(rel);
             }
@@ -338,9 +338,9 @@ var app = new Vue({
             resp.data.forEach((message)=>{
 
                 if(parseInt(message.sender.id)== this.getRequestUserId()){
-                    previousMessages+= `<div class="msg-right">${message.text}</div>`
+                    previousMessages+= `<div><p class="msg-right pull-right ">${message.text}</p></div>`
                 }else{
-                    previousMessages+= `<div class="msg-left">${message.text}</div>`
+                    previousMessages+= `<div><p class="msg-left">${message.text}</p> </div>`
                 }
 
 
