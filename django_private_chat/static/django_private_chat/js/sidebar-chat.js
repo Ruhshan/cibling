@@ -6,6 +6,7 @@ $(document).ready(function () {
     $(document).on('click', '.msg_head', function () {
         var chatbox = $(this).parents().attr("rel");
         $('[rel="' + chatbox + '"] .msg_wrap').slideToggle('slow');
+        app.autoScroll(chatbox);
         return false;
     });
 
