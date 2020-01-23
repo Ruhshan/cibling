@@ -1,4 +1,70 @@
 var arr = [];
+
+
+let ChatBox = {
+  template: `
+    <div class="msg_box" style="right:270px"><input type="hidden" id="opponentName" :value="opponentUserName">
+        <div class="msg_head">{{ userName }}
+            <div class="close">x</div>
+        </div>
+        <div class="msg_wrap">
+            <div class="msg_body" id="dialog-{{ dialogId }}">
+                <div><p class="msg-right pull-right "></p></div>
+                <div v-for="message in messages">
+                    <p :class="getMessageClass(message)"> {{ message.text }} </p>
+                </div>
+                <div class="msg_push"></div>
+            </div>
+            <div class="msg_footer"><textarea class="msg_input" rows="4"></textarea></div>
+        </div>
+    </div>
+  `,
+    created:function(){
+       this.fetchMessages()
+    },
+    props:{
+      relId: String,
+      userName: String,
+      opponentUserName : String,
+      dialogId: String,
+      requestUserId: String
+    },
+
+  data () {
+    return {
+      messages: []
+    }
+  },
+
+  methods: {
+      fetchMessages:async function () {
+          var self = this;
+          await axios.get("/chat/api/message-in-dialog/"+this.dialogId).then((result=>{
+              self.messages = result.data;
+          })).catch((err)=>{
+              console.log(err)
+          });
+
+          this.autoScroll();
+      },
+      getMessageClass: function (message) {
+
+          if(message.sender.id === this.requestUserId){
+              return "msg-right pull-right"
+          }else{
+              return "msg-left"
+          }
+      },
+      autoScroll:function () {
+            scrollable = $('div[rel='+this.relId+']').find(".msg_body");
+            scrollable.scrollTop(scrollable[0].scrollHeight);
+
+        },
+  }
+}
+
+
+
 $(document).ready(function () {
 
     // List of users
@@ -48,12 +114,13 @@ $(document).ready(function () {
 });
 
 var app = new Vue({
-    el: "#chat-sidebar",
+    el: "#chat-sidebar-app",
     data: {
         dialogs: [],
         new_chat_users: [],
         loading: false,
         show_suggestion:false,
+        chatBoxes: [],
     },
     created() {
         this.websocket = new WebSocket('ws://'+location.hostname+':5002/'+this.getRequestSessionId());
@@ -246,24 +313,21 @@ var app = new Vue({
 
             arr.unshift(userID);
 
-            var previous_messages = await this.fetchMessagesByDialog(dialogId.replace("dialogId-",""))
-
-
-            chatPopup = '<div class="msg_box" style="right:270px" rel="' + userID + '">' +
-                '<input type="hidden"'+ ' id="opponentName" value=' + opponentUserName + '>'+
-                '<div class="msg_head">' + userName +
-                '<div class="close">x</div> </div>' +
-                '<div class="msg_wrap"> <div class="msg_body"' + ' id = ' + "dialog-"+dialogId + '>' +
-                    previous_messages+
-                '<div class="msg_push"></div> </div>'+
-                '<div class="msg_footer"><textarea class="msg_input" rows="4"></textarea></div> 	</div> 	</div>';
 
             if($('[rel="' + userID + '"]').length === 0){
-                $("body").append(chatPopup);
+
+                var chatBoxObj = { userId: userID,
+                    userName: userName,
+                    opponentUserName:opponentUserName,
+                    chatBoxComp : ChatBox,
+                    dialogId:dialogId,
+                    requestUserId: this.getRequestUserId()}
+                //$("body").append(chatPopup);
+                this.chatBoxes.push(chatBoxObj);
             }
 
             this.displayChatBox();
-            this.autoScroll(userID);
+            //this.autoScroll(userID);
 
         },
         displayChatBox: function () {
@@ -327,36 +391,10 @@ var app = new Vue({
                 console.log(err)
             })
         },
-        fetchMessagesByDialog:async function (dialog_id) {
-            //<div class="msg-right">asdf</div>
-
-
-            var previousMessages = ""
-
-
-            let resp = await axios.get("/chat/api/message-in-dialog/"+dialog_id);
-
-            resp.data.forEach((message)=>{
-
-                if(parseInt(message.sender.id)== this.getRequestUserId()){
-                    previousMessages+= `<div><p class="msg-right pull-right ">${message.text}</p></div>`
-                }else{
-                    previousMessages+= `<div><p class="msg-left">${message.text}</p> </div>`
-                }
-
-
-            })
-
-            return previousMessages
-
-        },
         autoScroll:function (relId) {
             scrollable = $('div[rel='+relId+']').find(".msg_body");
             scrollable.scrollTop(scrollable[0].scrollHeight);
 
-        },
-        openNewChatModal:function(){
-            $("#new-chat-modal").modal('show')
         },
         search:function(){
             var query = document.getElementById("search-chat").value;
