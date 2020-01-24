@@ -51,6 +51,6 @@ class Command(BaseCommand):
         ensure_future(handlers.gone_offline(channels.offline))
         ensure_future(handlers.is_typing_handler(channels.is_typing))
         ensure_future(handlers.read_message_handler(channels.read_unread))
-        ensure_future(handlers.clear_unread_handler(channels.clear_unread))
+        # ensure_future(handlers.clear_unread_handler(channels.clear_unread))
         loop = asyncio.get_event_loop()
         loop.run_forever()

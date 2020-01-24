@@ -1,68 +1,5 @@
+
 var arr = [];
-
-
-let ChatBox = {
-  template: `
-    <div class="msg_box" style="right:270px"><input type="hidden" id="opponentName" :value="opponentUserName">
-        <div class="msg_head">{{ userName }}
-            <div class="close">x</div>
-        </div>
-        <div class="msg_wrap">
-            <div class="msg_body" id="dialog-{{ dialogId }}">
-                <div><p class="msg-right pull-right "></p></div>
-                <div v-for="message in messages">
-                    <p :class="getMessageClass(message)"> {{ message.text }} </p>
-                </div>
-                <div class="msg_push"></div>
-            </div>
-            <div class="msg_footer"><textarea class="msg_input" rows="4"></textarea></div>
-        </div>
-    </div>
-  `,
-    created:function(){
-       this.fetchMessages()
-    },
-    props:{
-      relId: String,
-      userName: String,
-      opponentUserName : String,
-      dialogId: String,
-      requestUserId: String
-    },
-
-  data () {
-    return {
-      messages: []
-    }
-  },
-
-  methods: {
-      fetchMessages:async function () {
-          var self = this;
-          await axios.get("/chat/api/message-in-dialog/"+this.dialogId).then((result=>{
-              self.messages = result.data;
-          })).catch((err)=>{
-              console.log(err)
-          });
-
-          this.autoScroll();
-      },
-      getMessageClass: function (message) {
-
-          if(message.sender.id === this.requestUserId){
-              return "msg-right pull-right"
-          }else{
-              return "msg-left"
-          }
-      },
-      autoScroll:function () {
-            scrollable = $('div[rel='+this.relId+']').find(".msg_body");
-            scrollable.scrollTop(scrollable[0].scrollHeight);
-
-        },
-  }
-}
-
 
 
 $(document).ready(function () {
@@ -86,27 +23,27 @@ $(document).ready(function () {
     });
 
 
-    $(document).on('keypress', 'textarea', function (e) {
-        if (e.keyCode == 13) {
-            var msg = $(this).val();
-            $(this).val('');
-            if (msg.trim().length != 0) {
-
-                if(e.target.className === "msg_input"){
-                    var chatboxId = $(this).parents().parents().parents().attr("rel");
-                    app.sendMessage(chatboxId, msg);
-                }
-
-                if(e.target.className === "msg_input_new"){
-                    var chatboxId = $(this).parents().parents().parents().attr("rel");
-                    var username = $(this).parents().find('.msg_box').find('#opponentName')[0].value
-
-                    app.sendNewMessage(chatboxId, msg, username)
-                }
-
-            }
-        }
-    });
+    // $(document).on('keypress', 'textarea', function (e) {
+    //     if (e.keyCode == 13) {
+    //         var msg = $(this).val();
+    //         $(this).val('');
+    //         if (msg.trim().length != 0) {
+    //
+    //             if(e.target.className === "msg_input"){
+    //                 var chatboxId = $(this).parents().parents().parents().attr("rel");
+    //                 app.sendMessage(chatboxId, msg);
+    //             }
+    //
+    //             if(e.target.className === "msg_input_new"){
+    //                 var chatboxId = $(this).parents().parents().parents().attr("rel");
+    //                 var username = $(this).parents().find('.msg_box').find('#opponentName')[0].value
+    //
+    //                 app.sendNewMessage(chatboxId, msg, username)
+    //             }
+    //
+    //         }
+    //     }
+    // });
 
 
 
@@ -123,12 +60,11 @@ var app = new Vue({
         chatBoxes: [],
     },
     created() {
-        this.websocket = new WebSocket('ws://'+location.hostname+':5002/'+this.getRequestSessionId());
-        this.websocket.onopen = this.socketOnOpen;
-        this.websocket.onmessage = this.socketOnMessage;
+        // this.websocket = new WebSocket('ws://'+location.hostname+':5002/'+this.getRequestSessionId());
+        // this.websocket.onopen = this.socketOnOpen;
+        // this.websocket.onmessage = this.socketOnMessage;
 
         this.fetchDialogHistory();
-        this.fetchMessagesByDialog(3);
     },
     methods: {
         getCookie: function (name) {
@@ -187,53 +123,7 @@ var app = new Vue({
 
             this.websocket.send(newMessagePacket);
         },
-        socketOnMessage:function(event){
 
-            var packet;
-
-            try {
-                packet = JSON.parse(event.data);
-            } catch (e) {
-                console.log(e);
-            }
-
-            switch (packet.type) {
-                case "new-message":
-                    this.addMessageInMessageBox(packet);
-                    break;
-                case "unread-cleared":
-                    console.log(packet)
-                    break;
-
-            }
-        },
-
-        socketOnOpen:(event)=>{
-            console.log("connection success!!!")
-        },
-        addMessageInMessageBox: function (message) {
-            var targetMessageBox = $("#dialog-" + message.dialog_id);
-            var rel = targetMessageBox.parent().parent().attr("rel");
-
-
-            if(targetMessageBox.length === 0){
-
-                this.fetchDialogHistory();
-
-            }
-
-
-            if(message.sender_name !== this.getRequestUserName()) {
-                  $('<div><p class="msg-left">' + message.message + '</p></div>').insertBefore('[rel="' + rel + '"] .msg_push');
-                  targetMessageBox.scrollTop(targetMessageBox[0].scrollHeight);
-                  this.autoScroll(rel);
-                  this.notifyRead(message);
-              }else{
-                $('<div><p class="msg-right pull-right">' + message.message + '</p> </div>').insertBefore('[rel="' + rel + '"] .msg_push');
-                  targetMessageBox.scrollTop(targetMessageBox[0].scrollHeight);
-                  this.autoScroll(rel);
-            }
-        },
         notifyRead:function(message){
             var newMessagePacket = JSON.stringify({
                     type: 'read_message',
@@ -244,9 +134,7 @@ var app = new Vue({
 
             this.websocket.send(newMessagePacket);
         },
-        getRequestSessionId:()=>{
-            return document.getElementById("requestSessionId").value;
-        },
+
         getRequestUserName: function () {
           return document.getElementById("requestUserName").value
         },
@@ -304,7 +192,6 @@ var app = new Vue({
 
             var dialogId = $('input#dialogId-' + userID).val();
 
-            this.clearUnread(dialogId);
 
 
             if ($.inArray(userID, arr) != -1) {

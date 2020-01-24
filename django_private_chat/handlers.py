@@ -4,7 +4,6 @@ import logging
 import websockets
 from django.contrib.auth import get_user_model
 from django_private_chat.models import Dialog
-
 from . import models, router
 from .utils import get_user_from_session, get_dialogs_with_user
 
@@ -140,19 +139,23 @@ def new_messages_handler(stream):
                         text=packet['message'],
                         read=False
                     )
-                    packet['created'] = msg.get_formatted_create_datetime()
-                    packet['sender_name'] = msg.sender.username
-                    packet['message_id'] = msg.id
-                    packet['dialog_id'] = dialog[0].id
+
+                    print(msg.sender.id)
+
+                    packet['id'] = msg.id
+                    packet['sender'] = {'id':msg.sender.id,'username': msg.sender.username}
+                    packet['text'] = msg.text
+                    packet['type'] = 'new-message'
+
 
                     # Send the message
                     connections = []
                     # Find socket of the user which sent the message
-                    if (user_owner.username) in ws_connections:
-                        connections.append(ws_connections[(user_owner.username)])
+                    if (user_owner.username, user_opponent.username) in ws_connections:
+                        connections.append(ws_connections[(user_owner.username, user_opponent.username)])
                     # Find socket of the opponent
-                    if (user_opponent.username) in ws_connections:
-                        connections.append(ws_connections[(user_opponent.username)])
+                    if (user_opponent.username, user_owner.username) in ws_connections:
+                        connections.append(ws_connections[(user_opponent.username, user_owner.username)])
                     else:
                         # Find sockets of people who the opponent is talking with
                         opponent_connections = list(filter(lambda x: x[0] == user_opponent.username, ws_connections))
@@ -232,7 +235,7 @@ def read_message_handler(stream):
                     message.read = True
                     message.save()
                     logger.debug('Message ' + str(message_id) + ' is now read')
-                    opponent_socket = ws_connections.get((user_opponent))
+                    opponent_socket = ws_connections.get((user_opponent, user_owner.username))
                     if opponent_socket:
                         yield from target_message(opponent_socket,
                                                   {'type': 'opponent-read-message',
@@ -244,22 +247,25 @@ def read_message_handler(stream):
         else:
             pass  # no session id or user_opponent or typing
 
-@asyncio.coroutine
-def clear_unread_handler(stream):
-    while True:
-        packet = yield from stream.get()
-        session_id = packet.get('session_key')
-        username = packet.get('username')
-        dialogId = packet.get('dialog')
 
-        if session_id and username and dialogId is not None:
-            Dialog.objects.get(id=dialogId).clear_unread(username)
-            user_socket = ws_connections.get(username)
-            if user_socket:
-                yield from target_message(user_socket, {
-                    'type': 'unread-cleared',
-                    'dialogId': dialogId
-                })
+
+# @asyncio.coroutine
+# def clear_unread_handler(stream):
+#     while True:
+#         packet = yield from stream.get()
+#         session_id = packet.get('session_key')
+#         username = packet.get('username')
+#         dialogId = packet.get('dialog')
+#
+#         if session_id and username and dialogId is not None:
+#             Dialog.objects.get(id=dialogId).clear_unread(username)
+#             user_socket = ws_connections.get(username)
+#             if user_socket:
+#                 yield from target_message(user_socket, {
+#                     'type': 'unread-cleared',
+#                     'dialogId': dialogId
+#                 })
+
 
 
 @asyncio.coroutine
@@ -274,13 +280,13 @@ def main_handler(websocket, path):
 
     # Get users name from the path
     path = path.split('/')
-    #username = path[2]
+    username = path[2]
     session_id = path[1]
     user_owner = get_user_from_session(session_id)
     if user_owner:
         user_owner = user_owner.username
         # Persist users connection, associate user w/a unique ID
-        ws_connections[(user_owner)] = websocket
+        ws_connections[(user_owner, username)] = websocket
 
         # While the websocket is open, listen for incoming messages/events
         # if unable to listening for messages/events, then disconnect the client
@@ -298,6 +304,9 @@ def main_handler(websocket, path):
         except websockets.exceptions.InvalidState:  # User disconnected
             pass
         finally:
-            del ws_connections[(user_owner)]
+            del ws_connections[(user_owner, username)]
     else:
         logger.info("Got invalid session_id attempt to connect " + session_id)
+
+
+

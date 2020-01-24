@@ -21,7 +21,7 @@ class MessagesApiView(ListAPIView):
 
     def get_queryset(self):
         dialog_id = self.kwargs['dialog_id']
-        return Message.objects.filter(dialog=dialog_id)
+        return Message.objects.filter(dialog=dialog_id).order_by('id')
 
 
 class DialogCreateApiView(APIView):
@@ -31,3 +31,7 @@ class DialogCreateApiView(APIView):
 
         serialized = DialogSerializer(dialog,context={'request': request}).data
         return Response(data=serialized, status=status.HTTP_200_OK)
+
+
+
+
