@@ -24,6 +24,8 @@ let ChatBox = {
 
         if(this.dialogId){
             this.fetchMessages(this.dialogId);
+        }else{
+            this.hasDialogId = false
         }
 
     },
@@ -38,7 +40,8 @@ let ChatBox = {
 
     data() {
         return {
-            messages: []
+            messages: [],
+            hasDialogId : true
         }
     },
 
@@ -85,7 +88,7 @@ let ChatBox = {
                         message: msg
                     });
 
-                    if(this.dialogId){
+                    if(this.hasDialogId){
 
                         this.websocket.send(newMessagePacket);
                     }else{
@@ -109,7 +112,7 @@ let ChatBox = {
                 },
                 {headers: {'Accept': 'application/json', 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken}}
             ).then((response) => {
-                    self.dialogId = response.data.id;
+                    self.hasDialogId = true;
                     self.websocket.send(newMessagePacket);
                     self.refetchDialogHistory();
 

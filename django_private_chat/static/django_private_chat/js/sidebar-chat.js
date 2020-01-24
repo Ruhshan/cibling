@@ -1,5 +1,23 @@
 var arr = [];
 
+// const worker = new SharedWorker("/chat/worker.js");
+//
+// console.log(worker)
+//
+// worker.port.start();
+
+//worker.port.postMessage({from:"1",sessionId:document.getElementById("requestSessionId").value});
+
+
+function setCookie(cname, cvalue, exdays) {
+  var d = new Date();
+  d.setTime(d.getTime() + (exdays*24*60*60*1000));
+  var expires = "expires="+ d.toUTCString();
+  document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+
+setCookie("djsess", document.getElementById("requestSessionId").value,1);
+
 
 $(document).ready(function () {
 

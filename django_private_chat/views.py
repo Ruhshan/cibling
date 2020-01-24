@@ -85,3 +85,7 @@ class DialogNewListView(LoginRequiredMixin, generic.ListView):
 class DialogSideBarView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'django_private_chat/dialog-sidebar.html'
 
+
+class WorkerJsView(LoginRequiredMixin, generic.TemplateView):
+    template_name = 'django_private_chat/worker.js'
+    content_type = 'application/javascript'

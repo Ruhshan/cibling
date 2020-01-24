@@ -41,6 +41,11 @@ urlpatterns = [
         name='dialogs-sidebar'
     ),
     url(
+        regex=r'^worker.js',
+        view=views.WorkerJsView.as_view(),
+        name='worker-js'
+    ),
+    url(
         regex=r'^api/dialog-create/$',
         view=DialogCreateApiView.as_view(),
         name='dialog-create'
