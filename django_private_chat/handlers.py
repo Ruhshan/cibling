@@ -9,6 +9,7 @@ from .utils import get_user_from_session, get_dialogs_with_user
 
 logger = logging.getLogger('django-private-dialog')
 ws_connections = {}
+ws_solo_connections = {}
 
 
 @asyncio.coroutine
@@ -159,10 +160,14 @@ def new_messages_handler(stream):
                     if (user_opponent.username, user_owner.username) in ws_connections:
                         connections.append(ws_connections[(user_opponent.username, user_owner.username)])
                     else:
-                        # Find sockets of people who the opponent is talking with
-                        opponent_connections = list(filter(lambda x: x[0] == user_opponent.username, ws_connections))
-                        opponent_connections_sockets = [ws_connections[i] for i in opponent_connections]
-                        connections.extend(opponent_connections_sockets)
+                        # Find solo connections of the opponent
+                        if user_opponent.username in ws_solo_connections:
+                            solo_connection = ws_solo_connections[user_opponent.username]
+                            connections.append(solo_connection)
+
+                            print("Solo connection appended")
+
+
 
                     yield from fanout_message(connections, packet)
                 else:
@@ -283,6 +288,8 @@ def main_handler(websocket, path):
         user_owner = user_owner.username
         # Persist users connection, associate user w/a unique ID
         ws_connections[(user_owner, username)] = websocket
+        if username == session_id:
+            ws_solo_connections[user_owner] = websocket
 
         # While the websocket is open, listen for incoming messages/events
         # if unable to listening for messages/events, then disconnect the client

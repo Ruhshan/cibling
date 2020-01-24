@@ -1,4 +1,3 @@
-
 var arr = [];
 
 
@@ -46,8 +45,6 @@ $(document).ready(function () {
     // });
 
 
-
-
 });
 
 var app = new Vue({
@@ -56,26 +53,51 @@ var app = new Vue({
         dialogs: [],
         new_chat_users: [],
         loading: false,
-        show_suggestion:false,
+        show_suggestion: false,
         chatBoxes: [],
     },
-    mounted(){
-      this.$root.$on('refetchDialogHistory',()=>{
-          this.fetchDialogHistory();
-      });
+    mounted() {
+        this.$root.$on('refetchDialogHistory', () => {
+            this.fetchDialogHistory();
+        });
 
-      this.$root.$on('clearUnread',(dialogId)=>{
-         this.clearUnread(dialogId);
-      });
+        this.$root.$on('clearUnread', (dialogId) => {
+            this.clearUnread(dialogId);
+        });
     },
     created() {
-        // this.websocket = new WebSocket('ws://'+location.hostname+':5002/'+this.getRequestSessionId());
-        // this.websocket.onopen = this.socketOnOpen;
-        // this.websocket.onmessage = this.socketOnMessage;
+        this.websocket = new WebSocket('ws://' + location.hostname + ':5002/' + this.getRequestSessionId() + '/' + this.getRequestSessionId());
+        this.websocket.onopen = this.socketOnOpen;
+        this.websocket.onmessage = this.socketOnMessage;
 
         this.fetchDialogHistory();
     },
+
     methods: {
+        getRequestSessionId: () => {
+            return document.getElementById("requestSessionId").value;
+        },
+        socketOnOpen: (event) => {
+            console.log("connection success master!!!")
+        },
+        socketOnMessage: function (event) {
+
+            var packet;
+
+            try {
+                packet = JSON.parse(event.data);
+            } catch (e) {
+                console.log(e);
+            }
+
+            var self = this;
+
+            switch (packet.type) {
+                case 'new-message':
+                    self.fetchDialogHistory();
+                    break;
+            }
+        },
         getCookie: function (name) {
             var cookieValue = null;
 
@@ -90,13 +112,13 @@ var app = new Vue({
 
             return cookieValue;
         },
-        sendNewMessage:function(chatBoxID, msg,username){
+        sendNewMessage: function (chatBoxID, msg, username) {
             var csrftoken = this.getCookie('csrftoken');
             var self = this;
 
             axios.post("/chat/api/dialog-create/",
                 {
-                    opponent:username
+                    opponent: username
                 },
                 {headers: {'Accept': 'application/json', 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken}}
             ).then((response) => {
@@ -106,10 +128,10 @@ var app = new Vue({
 
                 self.dialogs.push(response.data);
 
-                var target_msg_body = $('[rel='+chatBoxID+']').find(".msg_body");
-                target_msg_body.attr("id", "dialog-"+dialogId);
+                var target_msg_body = $('[rel=' + chatBoxID + ']').find(".msg_body");
+                target_msg_body.attr("id", "dialog-" + dialogId);
 
-                var target_msg_input = $('[rel='+chatBoxID+']').find(".msg_input_new");
+                var target_msg_input = $('[rel=' + chatBoxID + ']').find(".msg_input_new");
 
                 target_msg_input.removeClass("msg_input_new");
                 target_msg_input.addClass("msg_input");
@@ -120,34 +142,12 @@ var app = new Vue({
                 console.log(err);
             })
         },
-        sendMessage:function(chatboxID, msg){
-            var username = $('[rel='+chatboxID+']').find('#opponentName')[0].value
 
-            var newMessagePacket = JSON.stringify({
-                    type: 'new-message',
-                    session_key: this.getRequestSessionId(),
-                    username: username,
-                    message: msg
-            });
-
-            this.websocket.send(newMessagePacket);
-        },
-
-        notifyRead:function(message){
-            var newMessagePacket = JSON.stringify({
-                    type: 'read_message',
-                    session_key: this.getRequestSessionId(),
-                    username: message.sender_name,
-                    message_id: message.message_id
-            });
-
-            this.websocket.send(newMessagePacket);
-        },
 
         getRequestUserName: function () {
-          return document.getElementById("requestUserName").value
+            return document.getElementById("requestUserName").value
         },
-        showNewMessageBox:function(user){
+        showNewMessageBox: function (user) {
             userID = user.id;
             opponentUserName = user.username;
             userName = user.title;
@@ -158,14 +158,16 @@ var app = new Vue({
 
             arr.unshift(userID);
 
-            if($('[rel="' + userID + '"]').length === 0){
+            if ($('[rel="' + userID + '"]').length === 0) {
 
-                var chatBoxObj = { userId: userID,
+                var chatBoxObj = {
+                    userId: userID,
                     userName: userName,
-                    opponentUserName:opponentUserName,
-                    chatBoxComp : ChatBox,
-                    dialogId:null,
-                    requestUserId: this.getRequestUserId()}
+                    opponentUserName: opponentUserName,
+                    chatBoxComp: ChatBox,
+                    dialogId: null,
+                    requestUserId: this.getRequestUserId()
+                }
                 //$("body").append(chatPopup);
                 this.chatBoxes.push(chatBoxObj);
             }
@@ -174,10 +176,10 @@ var app = new Vue({
 
 
         },
-        clearUnread:function (dialogId) {
-            this.dialogs.forEach((dialog)=>{
+        clearUnread: function (dialogId) {
+            this.dialogs.forEach((dialog) => {
 
-                if(dialog.id === parseInt(dialogId)){
+                if (dialog.id === parseInt(dialogId)) {
                     dialog.unread = 0;
                 }
 
@@ -185,13 +187,12 @@ var app = new Vue({
 
 
         },
-        showMessageBox:async function (dialog) {
+        showMessageBox: async function (dialog) {
             userID = this.getOpponentIdForDialog(dialog);
             userName = this.getNameForDialog(dialog);
             opponentUserName = this.getOpponentUserNameForDialog(dialog);
 
             var dialogId = $('input#dialogId-' + userID).val();
-
 
 
             if ($.inArray(userID, arr) != -1) {
@@ -201,14 +202,16 @@ var app = new Vue({
             arr.unshift(userID);
 
 
-            if($('[rel="' + userID + '"]').length === 0){
+            if ($('[rel="' + userID + '"]').length === 0) {
 
-                var chatBoxObj = { userId: userID,
+                var chatBoxObj = {
+                    userId: userID,
                     userName: userName,
-                    opponentUserName:opponentUserName,
-                    chatBoxComp : ChatBox,
-                    dialogId:dialogId,
-                    requestUserId: this.getRequestUserId()}
+                    opponentUserName: opponentUserName,
+                    chatBoxComp: ChatBox,
+                    dialogId: dialogId,
+                    requestUserId: this.getRequestUserId()
+                }
                 //$("body").append(chatPopup);
                 this.chatBoxes.push(chatBoxObj);
 
@@ -258,7 +261,7 @@ var app = new Vue({
                 return dialog.owner.id.toString();
             }
         },
-        getOpponentUserNameForDialog: function(dialog){
+        getOpponentUserNameForDialog: function (dialog) {
             if (dialog.owner.id === this.getRequestUserId()) {
                 return dialog.opponent.username;
             } else {
@@ -281,12 +284,12 @@ var app = new Vue({
                 console.log(err)
             })
         },
-        autoScroll:function (relId) {
-            scrollable = $('div[rel='+relId+']').find(".msg_body");
+        autoScroll: function (relId) {
+            scrollable = $('div[rel=' + relId + ']').find(".msg_body");
             scrollable.scrollTop(scrollable[0].scrollHeight);
 
         },
-        search:function(){
+        search: function () {
             var query = document.getElementById("search-chat").value;
             var self = this
 
@@ -303,21 +306,21 @@ var app = new Vue({
                             "title": user.user.first_name + " " + user.user.last_name,
                             "image": user.image,
                             "id": user.user.id,
-                            "institute":user.institute.institute,
-                            "username":user.user.username
+                            "institute": user.institute.institute,
+                            "username": user.user.username
                         };
 
-                        if(!self.existsInDialog(entry)){
+                        if (!self.existsInDialog(entry)) {
                             fetched_users.push(entry);
                         }
 
 
                     });
 
-                    self.new_chat_users = fetched_users.splice(0,5);
+                    self.new_chat_users = fetched_users.splice(0, 5);
 
 
-                    self.loading=false;
+                    self.loading = false;
 
                 }).catch((err) => {
                     console.log(err);
@@ -325,18 +328,18 @@ var app = new Vue({
                     self.show_suggestion = false;
                 })
             } else {
-                self.loading=false;
-                self.show_suggestion=false
-                self.new_chat_users=[]
+                self.loading = false;
+                self.show_suggestion = false
+                self.new_chat_users = []
             }
         },
 
-        existsInDialog:function (user) {
+        existsInDialog: function (user) {
             var userId = user.id;
 
-            return this.dialogs.some((dialog)=>{
+            return this.dialogs.some((dialog) => {
 
-                if(parseInt(userId) === parseInt(this.getOpponentIdForDialog(dialog))){
+                if (parseInt(userId) === parseInt(this.getOpponentIdForDialog(dialog))) {
                     return true;
 
                 }

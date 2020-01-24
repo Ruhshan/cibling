@@ -119,7 +119,6 @@ let ChatBox = {
         refetchDialogHistory:function(){
           this.$root.$emit('refetchDialogHistory')
         },
-
         getRequestSessionId: () => {
             return document.getElementById("requestSessionId").value;
         },
