@@ -20,14 +20,20 @@ let ChatBox = {
         this.websocket = new WebSocket('ws://' + location.hostname + ':5002/' + this.getRequestSessionId() + '/' + this.opponentUserName);
         this.websocket.onopen = this.socketOnOpen;
         this.websocket.onmessage = this.socketOnMessage;
-        this.fetchMessages(this.dialogId);
+
+
+        if(this.dialogId){
+            this.fetchMessages(this.dialogId);
+        }
+
     },
     props: {
         relId: String,
         userName: String,
         opponentUserName: String,
         dialogId: String,
-        requestUserId: String
+        requestUserId: String,
+
     },
 
     data() {
@@ -37,6 +43,20 @@ let ChatBox = {
     },
 
     methods: {
+        getCookie: function (name) {
+            var cookieValue = null;
+
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+
+            return cookieValue;
+        },
         sendMessage: function (e) {
 
             if (e.key === 'Enter') {
@@ -46,17 +66,45 @@ let ChatBox = {
                     var newMessagePacket = JSON.stringify({
                         type: 'new-message',
                         session_key: this.getRequestSessionId(),
-                        username: opponentUserName,
+                        username: this.opponentUserName,
                         message: msg
                     });
 
+                    if(this.dialogId){
 
-                    this.websocket.send(newMessagePacket);
+                        this.websocket.send(newMessagePacket);
+                    }else{
+                        this.createDialogThenSend(newMessagePacket);
+                    }
+
+
 
                 }
             }
 
         },
+        createDialogThenSend:function(newMessagePacket){
+            var csrftoken = this.getCookie('csrftoken');
+            var self = this;
+
+
+            axios.post("/chat/api/dialog-create/",
+                {
+                    opponent:self.opponentUserName
+                },
+                {headers: {'Accept': 'application/json', 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken}}
+            ).then((response) => {
+                    self.dialogId = response.data.id;
+                    self.websocket.send(newMessagePacket);
+                    self.refetchDialogHistory();
+
+
+            })
+        },
+        refetchDialogHistory:function(){
+          this.$root.$emit('refetchDialogHistory')
+        },
+
         getRequestSessionId: () => {
             return document.getElementById("requestSessionId").value;
         },
@@ -75,6 +123,7 @@ let ChatBox = {
 
             var self = this;
 
+
             switch (packet.type) {
                 case 'new-message':
                     this.appendNewMessage(packet);
@@ -82,6 +131,11 @@ let ChatBox = {
             }
         },
         appendNewMessage:function(packet){
+
+            if(this.dialogId === null){
+                this.dialogId = packet.dialog.id;
+            }
+
 
             new Promise((resolve, reject)=>{
                         this.messages.push(packet);

@@ -131,6 +131,7 @@ def new_messages_handler(stream):
             if user_owner:
                 user_opponent = get_user_model().objects.get(username=username_opponent)
                 dialog = get_dialogs_with_user(user_owner, user_opponent)
+
                 if len(dialog) > 0:
                     # Save the message
                     msg = models.Message.objects.create(
@@ -146,6 +147,7 @@ def new_messages_handler(stream):
                     packet['sender'] = {'id':msg.sender.id,'username': msg.sender.username}
                     packet['text'] = msg.text
                     packet['type'] = 'new-message'
+                    packet['dialog'] = { 'id' : dialog[0].id, 'owner': dialog[0].owner.id, 'opponent' : dialog[0].opponent.id}
 
 
                     # Send the message

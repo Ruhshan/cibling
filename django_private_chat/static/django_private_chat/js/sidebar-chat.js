@@ -59,6 +59,11 @@ var app = new Vue({
         show_suggestion:false,
         chatBoxes: [],
     },
+    mounted(){
+      this.$root.$on('refetchDialogHistory',()=>{
+          this.fetchDialogHistory();
+      })
+    },
     created() {
         // this.websocket = new WebSocket('ws://'+location.hostname+':5002/'+this.getRequestSessionId());
         // this.websocket.onopen = this.socketOnOpen;
@@ -149,16 +154,16 @@ var app = new Vue({
 
             arr.unshift(userID);
 
-            chatPopup = '<div class="msg_box" style="right:270px" rel="' + userID + '">' +
-                '<input type="hidden"'+ ' id="opponentName" value=' + opponentUserName + '>'+
-                '<div class="msg_head">' + userName +
-                '<div class="close">x</div> </div>' +
-                '<div class="msg_wrap"> <div class="msg_body" >' +
-                '<div class="msg_push"></div> </div>'+
-                '<div class="msg_footer"><textarea class="msg_input_new" rows="4"></textarea></div> 	</div> 	</div>';
-
             if($('[rel="' + userID + '"]').length === 0){
-                $("body").append(chatPopup);
+
+                var chatBoxObj = { userId: userID,
+                    userName: userName,
+                    opponentUserName:opponentUserName,
+                    chatBoxComp : ChatBox,
+                    dialogId:null,
+                    requestUserId: this.getRequestUserId()}
+                //$("body").append(chatPopup);
+                this.chatBoxes.push(chatBoxObj);
             }
 
             this.displayChatBox();
@@ -269,6 +274,8 @@ var app = new Vue({
         },
         fetchDialogHistory: function () {
             var self = this;
+
+            console.log("Fetching history")
 
             axios.get("/chat/api/dialog-history/").then((result) => {
                 self.dialogs = result.data

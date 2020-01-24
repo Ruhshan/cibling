@@ -29,6 +29,7 @@
                    :opponent-user-name="child.opponentUserName"
                    :dialog-id="child.dialogId"
                    :request-user-id="child.requestUserId"
+                   v-on:refetchDialogHistory="fetchDialogHistory"
         ></component>
     </template>
 
@@ -56,7 +57,7 @@
         <div style="position: fixed; bottom: 30px">
             <div v-if="new_chat_users.length > 0">New Chat</div>
             <div id="sidebar-user-box-new" v-for="user in new_chat_users" @click="showNewMessageBox(user)">
-                <img :src="user.image"/>
+                <img :src="user.image" class="dialog-icon"/>
                 <span id="slider-username">{{ user.title }} </span>
             </div>
         </div>
