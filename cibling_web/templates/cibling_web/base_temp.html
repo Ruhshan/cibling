@@ -127,186 +127,198 @@
 
 
 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-10">
-                <div id="page-contents">
-                    <div class="container">
-                        <div class="row">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-10">
+                    <div id="page-contents">
+                        <div class="container">
+                            <div class="row">
 
-                            {% block sidebar_left %}
-                                <div class="col-md-3 static">
+                                {% block sidebar_left %}
+                                    <div class="col-md-3 static">
 
-                                    <div class="profile-card">
-                                        <a href="{% url 'timeline-profile' user.id %}"><img
-                                                src="{{ user.profile.image.url }}" alt="user"
-                                                class="profile-photo"/></a>
-                                        <h5><a href="{% url 'timeline-profile' user.id %}"
-                                               class="text-white">{{ user }}</a></h5>
-                                        <a href="{% url 'timeline-ciblings' user.id %}" class="text-white"><i
-                                                class="ion ion-android-person-add"></i> {{ number_of_ciblings }}
-                                            Ciblings</a>
-                                    </div><!--profile card ends-->
-                                    <ul class="nav-news-feed">
-                                        <li><i class="icon ion-ios-paper"></i>
-                                            <div><a href="{% url 'timeline-profile' user.id %}">My Timeline</a>
-                                            </div>
-                                        </li>
-                                        <li><i class="icon ion-ios-people-outline"></i>
-                                            <div><a href="{% url 'timeline-ciblings' user.id %}">My Ciblings</a>
-                                            </div>
-                                        </li>
-                                    </ul><!--news-feed links ends-->
-                                    <div id="chat-block">
-                                        <div class="title">Message to Ciblings</div>
-                                        <ul class="online-users list-inline">
-                                            {% for userc in user_ciblings %}
-                                                <li><a href="{% url 'postman:write' userc %}"
-                                                       title="{{ userc }}"><img
-                                                        src="{{ userc.profile.image.url }}" alt="user"
-                                                        class="img-responsive profile-photo"/><span
-                                                        class="online-dot"></span></a></li>
-                                            {% endfor %}
-                                        </ul>
-                                    </div><!--chat block ends-->
-                                </div>
-                            {% endblock sidebar_left %}
-
-
-
-                            {% block page_content %}
-
-
-
-
-                            {% endblock page_content %}
-
-                            {% block sidebar_right %}
-                                <div class="col-md-2 static">
-                                    <div class="suggestions" id="sticky-sidebar">
-                                        <h4 class="grey">Add More Ciblings</h4>
-                                        {% for cib in cib_sug %}
-                                            {% if cib %}
-                                                <div class="follow-user">
-                                                    <a href="{% url 'timeline-profile' cib.id %}">
-                                                        <img src="{{ cib.profile.image.url }}" alt=""
-                                                             class="profile-photo-sm pull-left"/>
-                                                    </a>
-                                                    <div>
-                                                        <h5>
-                                                            <a href="{% url 'timeline-profile' cib.id %}">{{ cib.first_name }} {{ cib.last_name }}</a>
-                                                        </h5>
-                                                        <a href="{% url 'add-cibling' cib.id %}" class="text-green">Add
-                                                            cibling</a>
-                                                    </div>
+                                        <div class="profile-card">
+                                            <a href="{% url 'timeline-profile' user.id %}"><img
+                                                    src="{{ user.profile.image.url }}" alt="user"
+                                                    class="profile-photo"/></a>
+                                            <h5><a href="{% url 'timeline-profile' user.id %}"
+                                                   class="text-white">{{ user }}</a></h5>
+                                            <a href="{% url 'timeline-ciblings' user.id %}" class="text-white"><i
+                                                    class="ion ion-android-person-add"></i> {{ number_of_ciblings }}
+                                                Ciblings</a>
+                                        </div><!--profile card ends-->
+                                        <ul class="nav-news-feed">
+                                            <li><i class="icon ion-ios-paper"></i>
+                                                <div><a href="{% url 'timeline-profile' user.id %}">My Timeline</a>
                                                 </div>
-                                            {% endif %}
-                                        {% endfor %}
+                                            </li>
+                                            <li><i class="icon ion-ios-people-outline"></i>
+                                                <div><a href="{% url 'timeline-ciblings' user.id %}">My Ciblings</a>
+                                                </div>
+                                            </li>
+                                        </ul><!--news-feed links ends-->
+                                        <div id="chat-block">
+                                            <div class="title">Message to Ciblings</div>
+                                            <ul class="online-users list-inline">
+                                                {% for userc in user_ciblings %}
+                                                    <li><a href="{% url 'postman:write' userc %}"
+                                                           title="{{ userc }}"><img
+                                                            src="{{ userc.profile.image.url }}" alt="user"
+                                                            class="img-responsive profile-photo"/><span
+                                                            class="online-dot"></span></a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div><!--chat block ends-->
+                                    </div>
+                                {% endblock sidebar_left %}
 
+
+
+                                {% block page_content %}
+
+
+
+
+                                {% endblock page_content %}
+
+                                {% block sidebar_right %}
+                                    <div class="col-md-2 static">
+                                        <div class="suggestions" id="sticky-sidebar">
+                                            <h4 class="grey">Add More Ciblings</h4>
+                                            {% for cib in cib_sug %}
+                                                {% if cib %}
+                                                    <div class="follow-user">
+                                                        <a href="{% url 'timeline-profile' cib.id %}">
+                                                            <img src="{{ cib.profile.image.url }}" alt=""
+                                                                 class="profile-photo-sm pull-left"/>
+                                                        </a>
+                                                        <div>
+                                                            <h5>
+                                                                <a href="{% url 'timeline-profile' cib.id %}">{{ cib.first_name }} {{ cib.last_name }}</a>
+                                                            </h5>
+                                                            <a href="{% url 'add-cibling' cib.id %}" class="text-green">Add
+                                                                cibling</a>
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+
+                                        </div>
+                                    </div>
+                                {% endblock sidebar_right %}
+
+
+                            </div>
+                        </div>
+                    </div>
+                    <footer id="footer">
+                        <div class="container ">
+                            <div class="row">
+                                <div class="footer-wrapper ">
+                                    <div class="col-md-3 col-sm-3">
+                                        <a href="#"><img src="{% static "images/logo-black.png" %}" alt=""
+                                                         class="footer-logo"></a>
+                                        <div id="fb-root"></div>
+                                        <script async defer crossorigin="anonymous"
+                                                src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2"></script>
+                                        <ul class="list-inline social-icons">
+                                            <!--
+                                              <div class="fb-share-button" data-href="https://www.cibling.ac" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.cibling.ac%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+                                            <-->
+                                            <li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
+                                            <li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
+
+
+                                            <li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+
+                                        <ul class="footer-links">
+                                            <li><a href="{% url 'about' %}">About us</a></li>
+                                            <li><a href="#">Contact us</a></li>
+
+
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+
+                                        <ul class="footer-links">
+
+
+                                            <li><a href="#">Privacy Policy</a></li>
+                                            <li><a href="#">Terms</a></li>
+
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-3 col-sm-3">
+                                        <h5>Contact Us</h5>
+                                        <ul class="contact">
+                                            <li><i class="icon ion-ios-telephone-outline"></i>+1 (234) 222 0754</li>
+                                            <li><i class="icon ion-ios-email-outline"></i>info@cibling.ac</li>
+                                            <li><i class="icon ion-ios-location-outline"></i>Bangladesh</li>
+                                        </ul>
                                     </div>
                                 </div>
-                            {% endblock sidebar_right %}
-
-
+                            </div>
                         </div>
-                    </div>
-                </div>
-                <footer id="footer">
-            <div class="container ">
-                <div class="row">
-                    <div class="footer-wrapper ">
-                        <div class="col-md-3 col-sm-3">
-                            <a href="#"><img src="{% static "images/logo-black.png" %}" alt="" class="footer-logo"></a>
-                            <div id="fb-root"></div>
-                            <script async defer crossorigin="anonymous"
-                                    src="https://connect.facebook.net/en_GB/sdk.js#xfbml=1&version=v3.2"></script>
-                            <ul class="list-inline social-icons">
-                                <!--
-                                  <div class="fb-share-button" data-href="https://www.cibling.ac" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fwww.cibling.ac%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
-                                <-->
-                                <li><a href="#"><i class="icon ion-social-facebook"></i></a></li>
-                                <li><a href="#"><i class="icon ion-social-twitter"></i></a></li>
-
-
-                                <li><a href="#"><i class="icon ion-social-linkedin"></i></a></li>
-                            </ul>
+                        <div class="copyright">
+                            <p>CIBLINGS Team © 2019. All rights reserved</p>
                         </div>
-                        <div class="col-md-3 col-sm-3">
-
-                            <ul class="footer-links">
-                                <li><a href="{% url 'about' %}">About us</a></li>
-                                <li><a href="#">Contact us</a></li>
-
-
-                            </ul>
-                        </div>
-                        <div class="col-md-3 col-sm-3">
-
-                            <ul class="footer-links">
-
-
-                                <li><a href="#">Privacy Policy</a></li>
-                                <li><a href="#">Terms</a></li>
-
-                            </ul>
-                        </div>
-                        <div class="col-md-3 col-sm-3">
-                            <h5>Contact Us</h5>
-                            <ul class="contact">
-                                <li><i class="icon ion-ios-telephone-outline"></i>+1 (234) 222 0754</li>
-                                <li><i class="icon ion-ios-email-outline"></i>info@cibling.ac</li>
-                                <li><i class="icon ion-ios-location-outline"></i>Bangladesh</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="copyright">
-                <p>CIBLINGS Team © 2019. All rights reserved</p>
-            </div>
-        </footer>
-            </div>
-
-            <div class="col-md-2">
-                <div id="chat-sidebar">
-
-
-                    <input type="hidden" id="requestUserId" value="{{ request.user.id }}">
-                    <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
-                    <input type="hidden" id="requestUserName" value="{{ request.user.username }}">
-
-                    <div>CHAT</div>
-
-                    {% verbatim %}
-                    <div class="sidebar-user-box" v-for="dialog in dialogs"
-                         @click="showMessageBox(dialog)">
-                        <input type="hidden" :value="dialog.id" :id="setDialogId(dialog)">
-                        <img :src="getIconForDialog(dialog)" class="dialog-icon"/>
-                        <span id="slider-username">{{ getNameForDialog(dialog) }}</span> <span
-                            v-if="dialog.unread != 0">({{ dialog.unread }})</span>
-                    </div>
-                    {% endverbatim %}
-
-                    {% verbatim %}
-                    <div style="position: fixed; bottom: 30px">
-                        <div v-if="new_chat_users.length > 0">New Chat</div>
-                        <div id="sidebar-user-box-new" v-for="user in new_chat_users"
-                             @click="showNewMessageBox(user)">
-                            <img :src="user.image"/>
-                            <span id="slider-username">{{ user.title }} </span>
-                        </div>
-                    </div>
-                    {% endverbatim %}
-
-                    <div style="background-color: white"><input id="search-chat" placeholder="Search"
-                                                                @input="search"></div>
-
-
+                    </footer>
                 </div>
 
+                <div class="col-md-2" id="chat-sidebar-app">
+
+                    <template v-for="(child, index) in chatBoxes">
+                        <component :is="child.chatBoxComp" :rel="child.userId" :rel-id="child.userId"
+                                   :user-name="child.userName"
+                                   :opponent-user-name="child.opponentUserName"
+                                   :dialog-id="child.dialogId"
+                                   :request-user-id="child.requestUserId"
+                                   v-on:refetchDialogHistory="fetchDialogHistory"
+                        ></component>
+                    </template>
+
+                    <div id="chat-sidebar">
+
+
+                        <input type="hidden" id="requestUserId" value="{{ request.user.id }}">
+                        <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
+                        <input type="hidden" id="requestUserName" value="{{ request.user.username }}">
+
+                        <div>CHAT</div>
+
+                        {% verbatim %}
+                        <div class="sidebar-user-box" v-for="dialog in dialogs"
+                             @click="showMessageBox(dialog)">
+                            <input type="hidden" :value="dialog.id" :id="setDialogId(dialog)">
+                            <img :src="getIconForDialog(dialog)" class="dialog-icon"/>
+                            <span id="slider-username">{{ getNameForDialog(dialog) }}</span> <span
+                                v-if="dialog.unread != 0">({{ dialog.unread }})</span>
+                        </div>
+                        {% endverbatim %}
+
+                        {% verbatim %}
+                        <div style="position: fixed; bottom: 30px">
+                            <div v-if="new_chat_users.length > 0">New Chat</div>
+                            <div id="sidebar-user-box-new" v-for="user in new_chat_users"
+                                 @click="showNewMessageBox(user)">
+                                <img :src="user.image" class="dialog-icon"/>
+                                <span id="slider-username">{{ user.title }} </span>
+                            </div>
+                        </div>
+                        {% endverbatim %}
+
+                        <div style="background-color: white"><input id="search-chat" placeholder="Search"
+                                                                    @input="search"></div>
+
+
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
         <!--preloader-->
         <div id="spinner-wrapper">
             <div class="spinner"></div>
@@ -334,6 +346,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="{% static "django_private_chat/js/chat_box_component.js" %}"></script>
     <script src="{% static "django_private_chat/js/sidebar-chat.js" %}"></script>
 
 
