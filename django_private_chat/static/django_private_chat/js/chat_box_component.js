@@ -43,6 +43,21 @@ let ChatBox = {
     },
 
     methods: {
+        clearUnreadParent:function(){
+            this.$root.$emit('clearUnread', this.dialogId);
+
+            var newMessagePacket = JSON.stringify({
+                    type: 'clear-unread',
+                    session_key: this.getRequestSessionId(),
+                    dialog: this.dialogId,
+                    username: this.getRequestUserName()
+            });
+
+            this.websocket.send(newMessagePacket);
+        },
+        getRequestUserName: function () {
+          return document.getElementById("requestUserName").value
+        },
         getCookie: function (name) {
             var cookieValue = null;
 
@@ -148,6 +163,7 @@ let ChatBox = {
             var self = this;
             await axios.get("/chat/api/message-in-dialog/" + this.dialogId).then((result => {
                 self.messages = result.data;
+                self.clearUnreadParent();
             })).catch((err) => {
                 console.log(err)
             });

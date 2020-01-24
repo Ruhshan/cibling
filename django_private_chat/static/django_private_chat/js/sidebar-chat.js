@@ -62,7 +62,11 @@ var app = new Vue({
     mounted(){
       this.$root.$on('refetchDialogHistory',()=>{
           this.fetchDialogHistory();
-      })
+      });
+
+      this.$root.$on('clearUnread',(dialogId)=>{
+         this.clearUnread(dialogId);
+      });
     },
     created() {
         // this.websocket = new WebSocket('ws://'+location.hostname+':5002/'+this.getRequestSessionId());
@@ -179,15 +183,6 @@ var app = new Vue({
 
             });
 
-            var newMessagePacket = JSON.stringify({
-                    type: 'clear-unread',
-                    session_key: this.getRequestSessionId(),
-                    dialog: dialogId,
-                    username: this.getRequestUserName()
-            });
-
-            this.websocket.send(newMessagePacket);
-
 
         },
         showMessageBox:async function (dialog) {
@@ -216,6 +211,7 @@ var app = new Vue({
                     requestUserId: this.getRequestUserId()}
                 //$("body").append(chatPopup);
                 this.chatBoxes.push(chatBoxObj);
+
             }
 
             this.displayChatBox();
