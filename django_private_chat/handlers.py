@@ -142,34 +142,13 @@ def new_messages_handler(stream):
                         read=False
                     )
 
-                    print(msg.sender.id)
-
                     packet['id'] = msg.id
                     packet['sender'] = {'id':msg.sender.id,'username': msg.sender.username}
                     packet['text'] = msg.text
                     packet['type'] = 'new-message'
                     packet['dialog'] = { 'id' : dialog[0].id, 'owner': dialog[0].owner.id, 'opponent' : dialog[0].opponent.id}
 
-
-                    # Send the message
-                    connections = []
-                    # Find socket of the user which sent the message
-                    if (user_owner.username, user_opponent.username) in ws_connections:
-                        connections.append(ws_connections[(user_owner.username, user_opponent.username)])
-                    # Find socket of the opponent
-                    if (user_opponent.username, user_owner.username) in ws_connections:
-                        connections.append(ws_connections[(user_opponent.username, user_owner.username)])
-                    else:
-                        # Find solo connections of the opponent
-                        if user_opponent.username in ws_solo_connections:
-                            solo_connection = ws_solo_connections[user_opponent.username]
-                            connections.append(solo_connection)
-
-                            print("Solo connection appended")
-
-
-
-                    yield from fanout_message(connections, packet)
+                    yield from fanout_message(getTargetConnections(user_owner, user_opponent), packet)
                 else:
                     pass  # no dialog found
             else:
@@ -177,6 +156,21 @@ def new_messages_handler(stream):
         else:
             pass  # missing one of params
 
+
+def getTargetConnections(user_owner, user_opponent):
+    connections = []
+    # Find socket of the user which sent the message
+    if (user_owner.username, user_opponent.username) in ws_connections:
+        connections.extend(ws_connections[(user_owner.username, user_opponent.username)])
+    # Find socket of the opponent
+    if (user_opponent.username, user_owner.username) in ws_connections:
+        connections.extend(ws_connections[(user_opponent.username, user_owner.username)])
+    else:
+        # Find solo connections of the opponent
+        if user_opponent.username in ws_solo_connections:
+            solo_connection = ws_solo_connections[user_opponent.username]
+            connections.extend(solo_connection)
+    return connections
 
 @asyncio.coroutine
 def users_changed_handler(stream):
@@ -284,12 +278,21 @@ def main_handler(websocket, path):
     username = path[2]
     session_id = path[1]
     user_owner = get_user_from_session(session_id)
+
     if user_owner:
         user_owner = user_owner.username
         # Persist users connection, associate user w/a unique ID
-        ws_connections[(user_owner, username)] = websocket
+
+        try:
+            ws_connections[(user_owner, username)].append(websocket)
+        except:
+            ws_connections[(user_owner, username)] = [websocket]
+
         if username == session_id:
-            ws_solo_connections[user_owner] = websocket
+            try:
+                ws_solo_connections[user_owner].append(websocket)
+            except:
+                ws_solo_connections[user_owner] = [websocket]
 
         # While the websocket is open, listen for incoming messages/events
         # if unable to listening for messages/events, then disconnect the client
@@ -307,7 +310,8 @@ def main_handler(websocket, path):
         except websockets.exceptions.InvalidState:  # User disconnected
             pass
         finally:
-            del ws_connections[(user_owner, username)]
+            ##del ws_connections[(user_owner, username)]
+            pass
     else:
         logger.info("Got invalid session_id attempt to connect " + session_id)
 
