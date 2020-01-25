@@ -287,7 +287,7 @@
                         <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
                         <input type="hidden" id="requestUserName" value="{{ request.user.username }}">
 
-                        <div>CHAT</div>
+                        <div style="padding-left: 5px">CHAT</div>
 
                         {% verbatim %}
                         <div class="sidebar-user-box" v-for="dialog in dialogs"
@@ -302,7 +302,7 @@
                         {% verbatim %}
                         <div style="position: fixed; bottom: 30px">
                             <div v-if="new_chat_users.length > 0">New Chat</div>
-                            <div id="sidebar-user-box-new" v-for="user in new_chat_users"
+                            <div class="sidebar-user-box-new" v-for="user in new_chat_users"
                                  @click="showNewMessageBox(user)">
                                 <img :src="user.image" class="dialog-icon"/>
                                 <span id="slider-username">{{ user.title }} </span>
@@ -310,11 +310,12 @@
                         </div>
                         {% endverbatim %}
 
-                        <div style="background-color: white"><input id="search-chat" placeholder="Search"
-                                                                    @input="search"></div>
+
 
 
                     </div>
+                    <div style="border-left: 0.5px solid #A9A9A9;background-color: white; width: 250px; right: 0px; position: fixed;"><input style="padding-left: 5px" id="search-chat" placeholder="Search"
+                                                                    @input="search"></div>
 
                 </div>
             </div>

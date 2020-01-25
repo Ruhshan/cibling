@@ -42,7 +42,7 @@
         <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
         <input type="hidden" id="requestUserName" value="{{ request.user.username }}">
 
-        <div>CHAT</div>
+        <div style="padding-left: 5px">CHAT</div>
 
         {% verbatim %}
         <div class="sidebar-user-box" v-for="dialog in dialogs"
