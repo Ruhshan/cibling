@@ -22,19 +22,19 @@ $(document).ready(function () {
     // });
 
 
-    $(document).on('click', '.close', function () {
-        var chatbox = $(this).parents().parents().attr("rel");
-        $('[rel="' + chatbox + '"]').remove();
-        arr.splice($.inArray(chatbox, arr), 1);
-        app.displayChatBox();
-        return false;
-    });
+    // $(document).on('click', '.close', function () {
+    //     var chatbox = $(this).parents().parents().attr("rel");
+    //     $('[rel="' + chatbox + '"]').remove();
+    //     arr.splice($.inArray(chatbox, arr), 1);
+    //     app.displayChatBox();
+    //     return false;
+    // });
 
 
 
 });
 
-var app = new Vue({
+var schatApp = new Vue({
     el: "#chat-sidebar-app",
     data: {
         dialogs: [],
@@ -50,6 +50,16 @@ var app = new Vue({
 
         this.$root.$on('clearUnread', (dialogId) => {
             this.clearUnread(dialogId);
+        });
+
+        this.$root.$on('closeChatBox', (relId) =>{
+
+           arr.splice($.inArray(relId, arr), 1);
+
+           $('[rel="' + relId + '"]').remove();
+
+           this.displayChatBox();
+
         });
     },
     created() {

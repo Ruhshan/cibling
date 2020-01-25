@@ -2,7 +2,7 @@ let ChatBox = {
     template: `
     <div class="msg_box" style="right:270px"><input type="hidden" id="opponentName" :value="opponentUserName">
         <div class="msg_head">{{ userName }}
-            <div class="close">x</div>
+            <div class="close" @click="close">x</div>
         </div>
         <div class="msg_wrap">
             <div class="msg_body" id="dialog-{{ dialogId }}">
@@ -20,6 +20,8 @@ let ChatBox = {
         this.websocket = new WebSocket('ws://' + location.hostname + ':5002/' + this.getRequestSessionId() + '/' + this.opponentUserName);
         this.websocket.onopen = this.socketOnOpen;
         this.websocket.onmessage = this.socketOnMessage;
+
+        this.websocket.onclose = this.socketOnClose;
 
 
         if(this.dialogId){
@@ -46,6 +48,10 @@ let ChatBox = {
     },
 
     methods: {
+        close:function(){
+            this.websocket.close();
+
+        },
         clearUnreadParent:function(){
             this.$root.$emit('clearUnread', this.dialogId);
 
@@ -146,6 +152,9 @@ let ChatBox = {
                     this.appendNewMessage(packet);
                     break;
             }
+        },
+        socketOnClose: function(){
+          this.$root.$emit('closeChatBox', this.relId);
         },
         appendNewMessage:function(packet){
 
