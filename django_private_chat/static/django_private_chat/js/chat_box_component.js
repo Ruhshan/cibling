@@ -168,7 +168,25 @@ let ChatBox = {
                         resolve(1);
                     }).then((res)=>{
                         this.autoScroll();
+                        this.notifyRead(packet);
                     })
+        },
+        notifyRead:function(packet){
+            console.log("Notify")
+
+            if(this.getRequestUserName() !== packet.sender.username){
+
+                console.log("Change read status")
+            var newMessagePacket = JSON.stringify({
+                    type: 'read_message',
+                    session_key: this.getRequestSessionId(),
+                    message_id: packet.id,
+                    username: packet.sender.username
+            });
+          }
+
+
+          this.websocket.send(newMessagePacket);
         },
         fetchMessages: async function () {
             var self = this;
