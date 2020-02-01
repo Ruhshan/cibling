@@ -42,6 +42,7 @@ var schatApp = new Vue({
         loading: false,
         show_suggestion: false,
         chatBoxes: [],
+        query : ""
     },
     mounted() {
         this.$root.$on('refetchDialogHistory', () => {
@@ -287,8 +288,10 @@ var schatApp = new Vue({
 
         },
         search: function () {
-            var query = document.getElementById("search-chat").value;
-            var self = this
+
+            var query = this.query;
+            var self = thisl
+
 
             if (query.length > 1) {
                 self.loading = true
@@ -303,7 +306,6 @@ var schatApp = new Vue({
                             "title": user.user.first_name + " " + user.user.last_name,
                             "image": user.image,
                             "id": user.user.id,
-                            "institute": user.institute.institute,
                             "username": user.user.username
                         };
 
@@ -326,8 +328,9 @@ var schatApp = new Vue({
                 })
             } else {
                 self.loading = false;
-                self.show_suggestion = false
-                self.new_chat_users = []
+                self.show_suggestion = false;
+                self.new_chat_users = [];
+
             }
         },
 

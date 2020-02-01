@@ -28,8 +28,8 @@
     {% endverbatim %}
 
     {% verbatim %}
-    <div style="position: fixed; bottom: 30px">
-        <div v-if="new_chat_users.length > 0">New Chat</div>
+    <div style="position: fixed; bottom: 30px" v-if="query">
+        <div>New Chat</div>
         <div class="sidebar-user-box-new" v-for="user in new_chat_users"
              @click="showNewMessageBox(user)">
             <img :src="user.image" class="dialog-icon"/>
@@ -42,4 +42,4 @@
 </div>
 <div style="border-left: 0.5px solid #A9A9A9;background-color: white; width: 250px; right: 0px; position: fixed;"><input
         style="padding-left: 5px" id="search-chat" placeholder="Search"
-        @input="search"></div>
+        @input="search" v-model="query"></div>
