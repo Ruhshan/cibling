@@ -26,7 +26,11 @@ class DialogSerializer(ModelSerializer):
 
 class MessageSerializer(ModelSerializer):
     sender = UserSerializer("sender")
+    formatted_datetime = SerializerMethodField()
     class Meta:
         model = Message
         depth = 1
         fields = '__all__'
+
+    def get_formatted_datetime(self, obj):
+        return obj.get_formatted_create_datetime()

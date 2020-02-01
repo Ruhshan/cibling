@@ -8,7 +8,7 @@ let ChatBox = {
             <div class="msg_body" id="dialog-{{ dialogId }}">
                 <div><p class="msg-right pull-right "></p></div>
                 <div v-for="message in messages">
-                    <p :class="getMessageClass(message)"> {{ message.text }} </p>
+                    <p :class="getMessageClass(message)" data-toggle="tooltip" data-placement="top" :title="message.formatted_datetime"> {{ message.text }} </p>
                 </div>
                 <div class="msg_push"></div>
             </div>
