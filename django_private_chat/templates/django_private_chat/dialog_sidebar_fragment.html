@@ -1,0 +1,45 @@
+<template v-for="(child, index) in chatBoxes">
+    <component :is="child.chatBoxComp" :rel="child.userId" :rel-id="child.userId"
+               :user-name="child.userName"
+               :opponent-user-name="child.opponentUserName"
+               :dialog-id="child.dialogId"
+               :request-user-id="child.requestUserId"
+               v-on:refetchDialogHistory="fetchDialogHistory"
+    ></component>
+</template>
+
+<div id="chat-sidebar">
+
+
+    <input type="hidden" id="requestUserId" value="{{ request.user.id }}">
+    <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
+    <input type="hidden" id="requestUserName" value="{{ request.user.username }}">
+
+    <div style="padding-left: 5px">CHAT</div>
+
+    {% verbatim %}
+    <div class="sidebar-user-box" v-for="dialog in dialogs"
+         @click="showMessageBox(dialog)">
+        <input type="hidden" :value="dialog.id" :id="setDialogId(dialog)">
+        <img :src="getIconForDialog(dialog)" class="dialog-icon"/>
+        <span id="slider-username">{{ getNameForDialog(dialog) }}</span> <span
+            v-if="dialog.unread != 0">({{ dialog.unread }})</span>
+    </div>
+    {% endverbatim %}
+
+    {% verbatim %}
+    <div style="position: fixed; bottom: 30px">
+        <div v-if="new_chat_users.length > 0">New Chat</div>
+        <div class="sidebar-user-box-new" v-for="user in new_chat_users"
+             @click="showNewMessageBox(user)">
+            <img :src="user.image" class="dialog-icon"/>
+            <span id="slider-username">{{ user.title }} </span>
+        </div>
+    </div>
+    {% endverbatim %}
+
+
+</div>
+<div style="border-left: 0.5px solid #A9A9A9;background-color: white; width: 250px; right: 0px; position: fixed;"><input
+        style="padding-left: 5px" id="search-chat" placeholder="Search"
+        @input="search"></div>

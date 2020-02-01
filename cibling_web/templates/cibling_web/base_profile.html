@@ -32,6 +32,8 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.css">
 
+    <link href="{% static 'django_private_chat/css/sidebar-chat.css' %}" rel="stylesheet">
+
     <!--Favicon-->
     <link rel="shortcut icon" type="image/png" href="images/fav.png"/>
 
@@ -124,7 +126,11 @@
     {% endfor %}
 {% endif %}
 <!--Header End-->
-<div class="container">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10">
+
+            <div class="container">
     <!-- Timeline
     ================================================= -->
     <input type="hidden" value="{{ pk }}" id="user_pk">
@@ -363,6 +369,14 @@
     <div class="spinner"></div>
 </div>
 
+        </div>
+        <div class="col-md-2" id="chat-sidebar-app">
+            {% include "django_private_chat/dialog_sidebar_fragment.html" %}
+        </div>
+    </div>
+</div>
+
+
 <!-- Scripts
 ================================================= -->
 {% block scripts %}
@@ -382,6 +396,9 @@
     <script src="{% static "js/profile_script.js" %}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js"></script>
+
+    <script src="{% static "django_private_chat/js/chat_box_component.js" %}"></script>
+    <script src="{% static "django_private_chat/js/sidebar-chat.js" %}"></script>
 
     {% block submodule_scripts %}
     {% endblock submodule_scripts %}

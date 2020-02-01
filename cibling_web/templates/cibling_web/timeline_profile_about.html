@@ -3,74 +3,73 @@
 {% block timeline-display-content %}
     {% load static %}
     <div id="page-contents" style="position: relative;">
-          <div class="row">
+        <div class="row">
             <div class="col-md-3"></div>
             <div class="col-md-9">
 
-              <!-- About
-              ================================================= -->
-              <div class="about-profile">
-                <div class="about-content-block">
-                  <h4 class="grey">Personal Information</h4>
-                  <p>{{ profileinfo.personal_info }}</p>
-                </div>
-                <div class="about-content-block">
-                  <h4 class="grey">Education</h4>
-                  <div class="ed-institution">
-                    <div class="inst-name">
-                      <h5>{{ user.profile.institute }}</h5>
-                      <p>{{ profileinfo.subject }}</p>
+                <!-- About
+                ================================================= -->
+                <div class="about-profile">
+                    <div class="about-content-block">
+                        <h4 class="grey">Personal Information</h4>
+                        <p>{{ profileinfo.personal_info }}</p>
                     </div>
-                  </div>
-                </div>
+                    <div class="about-content-block">
+                        <h4 class="grey">Education</h4>
+                        <div class="ed-institution">
+                            <div class="inst-name">
+                                <h5>{{ user.profile.institute }}</h5>
+                                <p>{{ profileinfo.subject }}</p>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="about-content-block">
-                  <h4 class="grey">Expertise</h4>
-                  <ul>
-                    {% if ec %}
-                        {% for expertise in expertises %}
-                         <li>{{ expertise }}</li>
-                      {% endfor %}
-                    {% else %}
-                        <li>None</li>
-                    {% endif %}
-                  </ul>
-                </div>
+                    <div class="about-content-block">
+                        <h4 class="grey">Expertise</h4>
+                        <ul>
+                            {% if ec %}
+                                {% for expertise in expertises %}
+                                    <li>{{ expertise }}</li>
+                                {% endfor %}
+                            {% else %}
+                                <li>None</li>
+                            {% endif %}
+                        </ul>
+                    </div>
 
-                <div class="about-content-block">
-                  <h4 class="grey">Interests</h4>
-                  <ul>
-                    {% if ic %}
-                        {% for interest in interests %}
-                         <li>{{ interest }}</li>
-                      {% endfor %}
-                    {% else %}
-                        <li>None</li>
-                    {% endif %}
-                  </ul>
+                    <div class="about-content-block">
+                        <h4 class="grey">Interests</h4>
+                        <ul>
+                            {% if ic %}
+                                {% for interest in interests %}
+                                    <li>{{ interest }}</li>
+                                {% endfor %}
+                            {% else %}
+                                <li>None</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="about-content-block">
+                        <h4 class="grey">Language</h4>
+                        <ul>
+                            {% if ec %}
+                                {% for language in languages %}
+                                    <li>{{ language }}</li>
+                                {% endfor %}
+                            {% else %}
+                                <li>None</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                    <div class="about-content-block">
+                        <h4 class="grey">Country</h4>
+                        <p>{{ user.profile.institute.country }}</p>
+                    </div>
                 </div>
-                <div class="about-content-block">
-                  <h4 class="grey">Language</h4>
-                    <ul>
-                      {% if ec %}
-                        {% for language in languages %}
-                         <li>{{ language }}</li>
-                      {% endfor %}
-                    {% else %}
-                        <li>None</li>
-                    {% endif %}
-                    </ul>
-                </div>
-                <div class="about-content-block">
-                  <h4 class="grey">Country</h4>
-                    <p>{{ user.profile.institute.country }}</p>
-                </div>
-              </div>
             </div>
 
-          </div>
         </div>
-      </div>
     </div>
+
 
 {% endblock timeline-display-content %}
