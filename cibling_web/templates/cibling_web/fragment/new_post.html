@@ -1,0 +1,58 @@
+<div class="create-post" id="new-post">
+
+
+    <div class="modal fade" id="addMediaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Add photo/video</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="add-photos-box">
+                        <div class="add-photo-preview">
+                            <img src="/media/profile_pics/profile_14_fuln2ZW.png">
+                        </div>
+                        <div class="add-photo-preview">
+                            <img src="/media/profile_pics/profile_14_fuln2ZW.png">
+                        </div>
+                        <div class="add-photo-box">
+                            <span @click="addPhoto">Add Photo</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div>
+            <h4 class="grey bold">New Post</h4>
+            {{ form.content }}
+            <div class="form-row">
+                <div class="form-group col-md-5 mb-0 ml-0">
+                    <button @click="openAddMediaModal">Add Photo/Video</button>
+                </div>
+                <div class="form-group col-md-5 mb-0">
+                </div>
+                <div class="form-group col-md-2 mb-0">
+                    <button class="btn btn-primary pull-right" name="submit" value="post-submit">
+                        Publish
+                    </button>
+                </div>
+            </div>
+            <div class="form-row">
+                <br>
+            </div>
+        </div>
+    </form>
+</div>
