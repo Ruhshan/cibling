@@ -13,12 +13,22 @@
                 </div>
                 <div class="modal-body">
                     <div class="add-photos-box">
+
+                        {% verbatim %}
+
                         <div class="add-photo-preview">
                             <img src="/media/profile_pics/profile_14_fuln2ZW.png">
+                            <span class="rm"><i class="fa fa-times-circle fa-2x"></i></span>
                         </div>
-                        <div class="add-photo-preview">
-                            <img src="/media/profile_pics/profile_14_fuln2ZW.png">
+
+                        <div class="add-photo-preview" v-for="imageData in imageDatas">
+                            <img :src="imageData">
+                            <span class="rm"><i class="fa fa-times-circle"></i></span>
                         </div>
+
+                        {% endverbatim %}
+
+
                         <div class="add-photo-box">
                             <span @click="addPhoto">Add Photo</span>
                         </div>
