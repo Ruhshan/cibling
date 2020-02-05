@@ -18,58 +18,8 @@
 {% block page_content %}
     <div class="col-md-7">
 
-        <div class="create-post">
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div>
-                    <h4 class="grey bold">New Post</h4>
-                    {{ form.content }}
-                    <div class="form-row">
-                        <div class="form-group col-md-5 mb-0 ml-0">
-                            {{ form.image }}
-                        </div>
-                        <div class="form-group col-md-5 mb-0">
-                        </div>
-                        <div class="form-group col-md-2 mb-0">
-                            <button class="btn btn-primary pull-right" name="submit" value="post-submit">
-                                Publish
-                            </button>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <br>
-                    </div>
-                </div>
-            </form>
-            <!--
 
-            <form method="POST">
-                <div class="row">
-                  <div class="form-group">
-
-                    <input name="texts" id="" rows="4" cols="100" class="" placeholder="Write what you wish">
-
-                    </input>
-
-                  </div>
-
-                </div>
-
-                <div class="row">
-                  <div class="tools">
-                    <ul class="publishing-tools list-inline">
-                      <li><a href="#"><i class="ion-compose"></i></a></li>
-                      <li><a href="#"><i class="ion-images"></i></a></li>
-                      <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
-                    </ul>
-                    <button class="btn btn-primary pull-right" name="submit" value="post-submit">Publish</button>
-                  </div>
-
-                </div>
-            </form>
-            -->
-
-        </div><!-- Post Create Box End-->
+        {% include "cibling_web/fragment/new_post.html" %}
 
         <!-- Post Content
         ================================================= -->
@@ -174,6 +124,7 @@
     <script src="https://unpkg.com/vue-infinite-loading@^2/dist/vue-infinite-loading.js"></script>
 
     <script src="{% static "custom/js/newsfeed.js" %}"></script>
+    <script src="{% static "custom/js/new_post.js" %}"></script>
 
 
 {% endblock %}
