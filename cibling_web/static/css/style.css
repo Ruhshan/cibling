@@ -3389,7 +3389,16 @@ ul.nav.nav-pills.serch-result-nav {
     width: 120px;
 }
 
+.add-photo-preview .rm{
+     position: relative;
+     top: -120px;
+     left: 80%;
+    color: #00aae6;
+    /*transform: translate(-50%, -50%);*/
+}
+
 .add-photos-box{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
 }

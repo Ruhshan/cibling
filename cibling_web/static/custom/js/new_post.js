@@ -1,5 +1,8 @@
 var app = new Vue({
     el: "#new-post",
+    data:{
+      imageDatas:[]
+    },
     created: function () {
 
     },
@@ -16,7 +19,7 @@ var app = new Vue({
 
                 var reader = new FileReader();
                 reader.onload = (e) => {
-                    console.log(e.target.result);
+                    this.imageDatas.push( e.target.result);
                 }
 
                 reader.readAsDataURL(input.files[0]);
