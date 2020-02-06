@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import PostSerializer, MakeCommentSerializer
-from .models import Post
+from .models import Post, PostPhoto
 import time
 
 
@@ -55,12 +55,14 @@ class CommentView(APIView):
 
 class CreatePostView(APIView):
     def post(self, request):
-        print("Post received")
-        print(request.data['images'][0]['val'])
+        if request.data['content']:
+            p = Post.objects.create(author=request.user, content=request.data['content'])
+            p.save()
 
-        im = decode_base64_file(request.data['images'][0]['val'])
-
-        print(im)
+            for img in request.data['images']:
+                decoded = decode_base64_file(img['val'])
+                postImg = PostPhoto.objects.create(post = p, image=decoded)
+                postImg.save()
         return Response("ok", status=status.HTTP_201_CREATED)
 
 
