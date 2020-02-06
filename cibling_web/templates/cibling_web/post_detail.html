@@ -33,6 +33,13 @@
                       <div class="post-text">
                         <p>{{ post.content|urlize }}<i class="em em-anguished"></i> <i class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                       </div>
+                        <div style="display: flex; flex-direction: row; justify-content: space-around;">
+                            {% for image in post.postPhotos.all %}
+                                <div>
+                                    <img src="{{ image.image.url }}" height="150px" width="150px">
+                                </div>
+                            {% endfor %}
+                        </div>
                       <div class="line-divider"></div>
                         {% if post.image %}
                           {% if post.image.url != 'default.jpg' %}
