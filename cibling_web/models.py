@@ -40,3 +40,7 @@ class Activity(models.Model):
 
     def __str__(self):
         return self.text
+
+class PostPhoto(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    image = models.ImageField(default=None, upload_to='post_pics/', null=True)
