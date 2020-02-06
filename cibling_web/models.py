@@ -42,5 +42,5 @@ class Activity(models.Model):
         return self.text
 
 class PostPhoto(models.Model):
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='postPhotos')
     image = models.ImageField(default=None, upload_to='post_pics/', null=True)
