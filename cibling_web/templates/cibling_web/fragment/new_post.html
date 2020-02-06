@@ -1,6 +1,5 @@
 <div class="create-post" id="new-post">
 
-
     <div class="modal fade" id="addMediaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
          aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -11,32 +10,31 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
+
                 <div class="modal-body">
+
                     <div class="add-photos-box">
 
                         {% verbatim %}
 
-                        <div class="add-photo-preview">
-                            <img src="/media/profile_pics/profile_14_fuln2ZW.png">
-                            <span class="rm"><i class="fa fa-times-circle fa-2x"></i></span>
-                        </div>
 
                         <div class="add-photo-preview" v-for="imageData in imageDatas">
-                            <img :src="imageData">
-                            <span class="rm"><i class="fa fa-times-circle"></i></span>
+                            <img :src="imageData.val">
+                            <span class="rm" @click="remove(imageData.id)"><i
+                                    class="fa fa-times-circle fa-2x"></i></span>
                         </div>
 
                         {% endverbatim %}
 
 
-                        <div class="add-photo-box">
+                        <div class="add-photo-box" v-if="imageDatas.length < 5">
                             <span @click="addPhoto">Add Photo</span>
                         </div>
                     </div>
 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-primary">Post</button>
                 </div>
             </div>
         </div>
