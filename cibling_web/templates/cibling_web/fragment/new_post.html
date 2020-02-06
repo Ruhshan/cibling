@@ -1,59 +1,40 @@
 <div class="create-post" id="new-post">
 
-    <div class="modal fade" id="addMediaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add photo/video</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
 
-                <div class="modal-body">
-
-                    <div class="add-photos-box">
-
-                        {% verbatim %}
-
-
-                        <div class="add-photo-preview" v-for="imageData in imageDatas">
-                            <img :src="imageData.val">
-                            <span class="rm" @click="remove(imageData.id)"><i
-                                    class="fa fa-times-circle fa-2x"></i></span>
-                        </div>
-
-                        {% endverbatim %}
-
-
-                        <div class="add-photo-box" v-if="imageDatas.length < 5">
-                            <span @click="addPhoto">Add Photo</span>
-                        </div>
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary">Post</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-
-    <form method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
+    <form onsubmit="return false;">
         <div>
             <h4 class="grey bold">New Post</h4>
-            {{ form.content }}
+
+            <textarea name="content" cols="40" rows="5" maxlength="2000" required="required" id="id_content" v-model="postContent"></textarea>
+
+            <div class="form-row" style="padding-top: 10px; padding-bottom: 10px" v-if="showPhotoBox">
+                <div class="add-photos-box">
+
+                    {% verbatim %}
+
+
+                    <div class="add-photo-preview" v-for="imageData in imageDatas">
+                        <img :src="imageData.val">
+                        <span class="rm" @click="remove(imageData.id)"><i
+                                class="fa fa-times-circle fa-2x"></i></span>
+                    </div>
+
+                    {% endverbatim %}
+
+
+                    <div class="add-photo-box" v-if="imageDatas.length < 5">
+                        <span @click="addPhoto">Add Photo</span>
+                    </div>
+                </div>
+            </div>
             <div class="form-row">
                 <div class="form-group col-md-5 mb-0 ml-0">
-                    <button @click="openAddMediaModal">Add Photo/Video</button>
+                    <button @click="toggelePhotoBox">Add Photo/Video</button>
                 </div>
                 <div class="form-group col-md-5 mb-0">
                 </div>
                 <div class="form-group col-md-2 mb-0">
-                    <button class="btn btn-primary pull-right" name="submit" value="post-submit">
+                    <button class="btn btn-primary pull-right" @click="publish">
                         Publish
                     </button>
                 </div>
