@@ -1,14 +1,20 @@
 var app = new Vue({
     el: "#new-post",
     data: {
-        imageDatas: []
+        imageDatas: [],
+        showPhotoBox: false,
+        postContent: ""
     },
     created: function () {
 
     },
     methods: {
-        openAddMediaModal: function () {
-            $('#addMediaModal').modal('show')
+        toggelePhotoBox: function () {
+            if (this.showPhotoBox) {
+                this.showPhotoBox = false;
+            } else {
+                this.showPhotoBox = true;
+            }
         },
         addPhoto: function () {
             var input = document.createElement('input');
@@ -40,7 +46,37 @@ var app = new Vue({
                     this.imageDatas.splice(i, 1);
                 }
             }
-        }
+        },
+        publish: function () {
+            var csrftoken = this.getCookie('csrftoken');
+            var headers = {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json', 'X-CSRFToken': csrftoken
+            };
+
+            data={
+                content:this.postContent,
+                images:this.imageDatas
+            }
+
+            axios.post("/api/cibling-web/post/create", data, {headers: headers}).then((res) => {
+                console.log(res.data)
+            })
+        },
+        getCookie: function (name) {
+            var cookieValue = null;
+
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+
+            return cookieValue;
+        },
 
     }
 })
