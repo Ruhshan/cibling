@@ -74,12 +74,6 @@
 
                         </section>
                         <div class="line-divider"></div>
-                        <div @click="post_detail(post.detail_url)"
-                             style="cursor: pointer;">
-                            <img v-if="post.image" :src="post.image" alt="post-image"
-                                 class="img-responsive post-image"/>
-
-                        </div>
                         <div v-for="comment in post.comments" class="post-comment">
                             <a :href="comment.author.profile_url"><img :src="comment.author.profile_image" alt=""
                                                                        class="profile-photo-sm"/></a>
