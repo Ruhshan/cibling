@@ -7,6 +7,21 @@
     <script src="{% static "js/moment-with-locales.js" %}"></script>
     <script src="{% static 'js/urlize.js' %}"></script>
     <script src="{% static 'js/urlize_tlds.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'css/lsb.css' %}"/>
+
+    <link rel="stylesheet" href="{% static "css/photoGrid.css" %}"/>
+
+
+
+    <script>
+
+        function initLightBox() {
+            $.fn.lightspeedBox();
+        }
+
+        window.onload = initLightBox;
+
+    </script>
 
 
 
@@ -30,7 +45,7 @@
             <div v-for="(post, index) in posts" class="post-content">
                 <div class="post-container">
                     <a :href="post.author.profile_url"><img :src="post.author.profile_image" alt="user"
-                            class="profile-photo-md pull-left"/></a>
+                                                            class="profile-photo-md pull-left"/></a>
                     <div class="post-detail">
                         <div class="user-info"
                              @click="post_detail(post.detail_url)"
@@ -51,6 +66,14 @@
                                     class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                         </div>
                         <div class="line-divider"></div>
+                        <section :id="getPhotosSectionId(post.postPhotos)">
+
+                            <a v-for="postPhoto in post.postPhotos" :href="postPhoto.image" class="lsb-preview" :data-lsb-group="getLsbGroup(post)">
+                                <img :src="postPhoto.image" height="150px" width="150px">
+                            </a>
+
+                        </section>
+                        <div class="line-divider"></div>
                         <div @click="post_detail(post.detail_url)"
                              style="cursor: pointer;">
                             <img v-if="post.image" :src="post.image" alt="post-image"
@@ -58,7 +81,8 @@
 
                         </div>
                         <div v-for="comment in post.comments" class="post-comment">
-                            <a :href="comment.author.profile_url"><img :src="comment.author.profile_image" alt="" class="profile-photo-sm"/></a>
+                            <a :href="comment.author.profile_url"><img :src="comment.author.profile_image" alt=""
+                                                                       class="profile-photo-sm"/></a>
                             <p><a :href="comment.author.profile_url"
                                   class="profile-link">{{ comment.author.first_name }} {{ comment.author.last_name
                                 }} </a><i
@@ -125,6 +149,8 @@
 
     <script src="{% static "custom/js/newsfeed.js" %}"></script>
     <script src="{% static "custom/js/new_post.js" %}"></script>
+
+    <script src="{% static "js/lsb.min.js" %}"></script>
 
 
 {% endblock %}

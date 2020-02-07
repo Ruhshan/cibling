@@ -55,15 +55,18 @@ class CommentView(APIView):
 
 class CreatePostView(APIView):
     def post(self, request):
-        if request.data['content']:
-            p = Post.objects.create(author=request.user, content=request.data['content'])
-            p.save()
+        try:
+            if request.data['content']:
+                p = Post.objects.create(author=request.user, content=request.data['content'])
+                p.save()
 
-            for img in request.data['images']:
-                decoded = decode_base64_file(img['val'])
-                postImg = PostPhoto.objects.create(post = p, image=decoded)
-                postImg.save()
-        return Response("ok", status=status.HTTP_201_CREATED)
+                for img in request.data['images']:
+                    decoded = decode_base64_file(img['val'])
+                    postImg = PostPhoto.objects.create(post = p, image=decoded)
+                    postImg.save()
+            return Response(p.id, status=status.HTTP_201_CREATED)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 

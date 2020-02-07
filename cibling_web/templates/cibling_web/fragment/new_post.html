@@ -5,7 +5,8 @@
         <div>
             <h4 class="grey bold">New Post</h4>
 
-            <textarea name="content" cols="40" rows="5" maxlength="2000" required="required" id="id_content" v-model="postContent"></textarea>
+            <textarea name="content" cols="40" rows="5" maxlength="2000" required="required" id="id_content"
+                      v-model="postContent"></textarea>
 
             <div class="form-row" style="padding-top: 10px; padding-bottom: 10px" v-if="showPhotoBox">
                 <div class="add-photos-box">
@@ -39,9 +40,22 @@
                     </button>
                 </div>
             </div>
+            {% verbatim %}
+            <div class="form-row" v-if="postUploadProgress>0">
+                <h5>Post uploading..</h5>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ postUploadProgress }}"
+                         aria-valuemin="0" aria-valuemax="100" v-bind:style="{ width : postUploadProgress+'%'}">
+                        <span class="sr-only">70% Complete</span>
+                    </div>
+                </div>
+            </div>
+            {% endverbatim %}
             <div class="form-row">
                 <br>
             </div>
+
+
         </div>
     </form>
 </div>
