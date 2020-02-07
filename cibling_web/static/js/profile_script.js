@@ -20,6 +20,7 @@ var profileImageApp = new Vue({
 
 
         },
+
         closeModal: function (name) {
             if (name === 'profile') {
                 $("#profileImageChangeModal").modal('hide');
@@ -67,7 +68,7 @@ var profileImageApp = new Vue({
 
             var formData = new FormData();
 
-            formData.append("image", blob,this.getProfileImageName());
+            formData.append("image", blob, this.getProfileImageName());
 
             axios.put("/api/user/update-profile-img/" + document.getElementById("user_pk").value,
                 formData, this.get_axios_config("profileImage")).then((response) => {
@@ -174,12 +175,12 @@ var profileImageApp = new Vue({
             var blob = new Blob(byteArrays, {type: contentType});
             return blob;
         },
-        getProfileImageName(){
-            var name = "profile_"+document.getElementById("user_pk").value+".png";
+        getProfileImageName() {
+            var name = "profile_" + document.getElementById("user_pk").value + ".png";
             return name;
         },
-        getCoverImageName(){
-            var name = "cover_"+document.getElementById("user_pk").value+".png";
+        getCoverImageName() {
+            var name = "cover_" + document.getElementById("user_pk").value + ".png";
             return name;
         },
 

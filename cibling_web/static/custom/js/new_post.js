@@ -3,7 +3,8 @@ var app = new Vue({
     data: {
         imageDatas: [],
         showPhotoBox: false,
-        postContent: ""
+        postContent: "",
+        postUploadProgress: 0
     },
     created: function () {
 
@@ -54,13 +55,23 @@ var app = new Vue({
                 'Content-Type': 'application/json', 'X-CSRFToken': csrftoken
             };
 
-            data={
-                content:this.postContent,
-                images:this.imageDatas
+            data = {
+                content: this.postContent,
+                images: this.imageDatas
             }
+            var self = this;
 
-            axios.post("/api/cibling-web/post/create", data, {headers: headers}).then((res) => {
-                console.log(res.data)
+            axios.post("/api/cibling-web/post/create", data, {
+                headers: headers,
+                onUploadProgress: function (progressEvent) {
+
+                    var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                    self.postUploadProgress = percentCompleted;
+                }
+            }).then((res) => {
+                window.location = "/post/" + res.data;
+            }).catch((err) => {
+                console.log(JSON.stringify(err))
             })
         },
         getCookie: function (name) {

@@ -30,6 +30,12 @@ var app = new Vue({
     },
 
     methods: {
+        getLsbGroup:function(post){
+          return "group"+post.id;
+        },
+        getPhotosSectionId:function(photos){
+            return "photos-"+photos.length;
+        },
         getCookie: function (name) {
             var cookieValue = null;
 
@@ -141,11 +147,18 @@ var app = new Vue({
                     page: this.page,
                 },
             }).then(({data}) => {
-                console.log(data)
                 if (data.results.length) {
                     this.page += 1;
-                    this.posts.push(...data.results);
+
+                    new Promise((resolve, reject)=>{
+                         this.posts.push(...data.results);
+                         resolve(true);
+                    }).then(res=>{
+                        $.fn.lightspeedBox();
+                    })
+
                     $state.loaded();
+
                 } else {
                     $state.complete();
                 }
