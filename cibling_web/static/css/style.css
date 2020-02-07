@@ -1553,7 +1553,7 @@ ul.online-users li span.online-dot{
   text-align: center;
   padding: 0 20px;
   top: -100px;
-  z-index: 999;
+  /*z-index: 999;*/
 }
 
 .timeline-cover .timeline-nav-bar .profile-info img.profile-photo{
