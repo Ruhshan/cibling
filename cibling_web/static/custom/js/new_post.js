@@ -61,18 +61,23 @@ var app = new Vue({
             }
             var self = this;
 
-            axios.post("/api/cibling-web/post/create", data, {
-                headers: headers,
-                onUploadProgress: function (progressEvent) {
+            if (this.postContent) {
+                axios.post("/api/cibling-web/post/create", data, {
+                    headers: headers,
+                    onUploadProgress: function (progressEvent) {
 
-                    var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-                    self.postUploadProgress = percentCompleted;
-                }
-            }).then((res) => {
-                window.location = "/post/" + res.data;
-            }).catch((err) => {
-                console.log(JSON.stringify(err))
-            })
+                        var percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+                        self.postUploadProgress = percentCompleted;
+                    }
+                }).then((res) => {
+                    window.location = "/post/" + res.data;
+                }).catch((err) => {
+                    console.log(JSON.stringify(err))
+                })
+
+            }
+
+
         },
         getCookie: function (name) {
             var cookieValue = null;

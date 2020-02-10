@@ -13,13 +13,13 @@
     <link rel="stylesheet" href="{% static 'css/lsb.css' %}"/>
 
     <script>
-    
-    function initLightBox() {
-        $.fn.lightspeedBox();
-    }
 
-    window.onload = initLightBox;
-    
+        function initLightBox() {
+            $.fn.lightspeedBox();
+        }
+
+        window.onload = initLightBox;
+
     </script>
 
 {% endblock head %}
@@ -43,7 +43,7 @@
                     <div class="col-md-7">
 
 
-                        <div class="post-content">
+                        <div class="post-content" id="post-detail">
 
                             <div class="post-container">
                                 <img src="{{ post.author.profile.image.url }}" alt="user"
@@ -125,7 +125,7 @@
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-default"
                                                                 data-dismiss="modal"
-                                                                onclick="location.href='{% url 'delete-post' post.id %}'">
+                                                                @click="post_delete( {{ post.id }} )">
                                                             Yes
                                                         </button>
                                                         <button type="button" class="btn btn-default"
@@ -140,14 +140,60 @@
 
                             </div>
                         </div>
-
-
-                        <!-- Post Content
-
-                        ================================================= -->
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
 {% endblock page_content %}
+
+{% block extra_js %}
+    <script type="text/javascript">
+        var app = new Vue({
+            el: "#post-detail",
+            created() {
+                console.log("Created!!!")
+            },
+            methods: {
+                get_csrf_header: function () {
+                    var csrftoken = this.getCookie('csrftoken')
+
+                    return {
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json', 'X-CSRFToken': csrftoken
+                        }
+                    }
+                },
+                getCookie: function (name) {
+                    var cookieValue = null;
+
+                    var cookies = document.cookie.split(';');
+                    for (var i = 0; i < cookies.length; i++) {
+                        var cookie = cookies[i].trim();
+                        if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                            cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                            break;
+                        }
+                    }
+
+                    return cookieValue;
+                },
+                post_delete: function (postId) {
+                    var self = this;
+
+                    axios.delete("/api/cibling-web/post/" + postId,
+                        self.get_csrf_header()
+                    ).then((response) => {
+                        $('#myModal').modal('hide');
+                        window.location = "/";
+                    }).catch((err) => {
+                        console.log(err);
+                    });
+
+                }
+            }
+        });
+    </script>
+{% endblock extra_js %}
