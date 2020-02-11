@@ -59,6 +59,11 @@
                                         <p>{{ post.content|urlize }}<i class="em em-anguished"></i> <i
                                                 class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                                     </div>
+                                    <div class="line-divider"></div>
+                                    <iframe width="450px" height="315"
+                                            src="https://www.youtube.com/embed/tgbNymZ7vqY">
+                                    </iframe>
+                                    <div class="line-divider"></div>
                                     <section id="photos-{{ post.postPhotos.count }}">
                                         {% for image in post.postPhotos.all %}
                                             <a href="{{ image.image.url }}" class="lsb-preview"
