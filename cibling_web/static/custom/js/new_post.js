@@ -4,10 +4,17 @@ var app = new Vue({
         imageDatas: [],
         showPhotoBox: false,
         postContent: "",
-        postUploadProgress: 0
+        postUploadProgress: 0,
+        youtubeLink: null,
+        ytId: null
     },
     created: function () {
 
+    },
+    watch: {
+        youtubeLink:function () {
+            this.ytId = this.getYtId(this.youtubeLink);
+        }
     },
     methods: {
         toggelePhotoBox: function () {
@@ -48,7 +55,17 @@ var app = new Vue({
                 }
             }
         },
+        getYtId: function (url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+
+            return (match && match[2].length === 11)
+                ? match[2]
+                : null;
+        },
         publish: function () {
+
+
             var csrftoken = this.getCookie('csrftoken');
             var headers = {
                 'Accept': 'application/json',
