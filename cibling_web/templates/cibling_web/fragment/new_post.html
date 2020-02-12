@@ -27,9 +27,18 @@
                         <span @click="addPhoto">Add Photo</span>
                     </div>
                 </div>
-                <div class="form-row" style="padding-top: 10px">
-                    <input type="text" placeholder="Paste youtube link to share" size="60px"/>
+
+                <div class="form-row" style="padding-top: 10px" v-if="ytId">
+                    <iframe width="480px" height="320px"
+                            :src="'https://www.youtube.com/embed/' + ytId" allowfullscreen>
+                    </iframe>
                 </div>
+
+                <div class="form-row" style="padding-top: 10px">
+                    <input type="text" placeholder="Paste youtube link to share" size="60px" v-model="youtubeLink"/>
+                </div>
+
+
             </div>
             <div class="form-row">
                 <div class="form-group col-md-5 mb-0 ml-0">
