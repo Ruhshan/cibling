@@ -1,21 +1,22 @@
-// $(document).ready(function (){
-//     $("#all-posts").paginate({
-//         perPgae: 15
-//     });
-// });
 
 var app = new Vue({
     el: "#all-posts",
     data: {
+        iframeWidth: "480px",
+        iframeHeight: "320px",
         page: 1,
         posts: [],
         user: "",
         forDelete: ""
     },
     created() {
-        console.log("created")
-        this.get_myinfo()
+        this.get_myinfo();
         //this.get_posts()
+        var parentWidth = parseInt(document.getElementsByClassName("post-detail")[0].offsetWidth);
+
+        this.iframeWidth = parentWidth+"px";
+        this.iframeHeight = (parentWidth / 1.5) + "px";
+        window.addEventListener("resize", this.windowResizeHandler);
     },
 
     filters: {
@@ -30,6 +31,12 @@ var app = new Vue({
     },
 
     methods: {
+        windowResizeHandler: function (e) {
+            var parentWidth = parseInt(document.getElementsByClassName("post-detail")[0].offsetWidth);
+
+            this.iframeWidth = parentWidth+"px";
+            this.iframeHeight = (parentWidth / 1.5) + "px";
+        },
         getLsbGroup:function(post){
           return "group"+post.id;
         },
