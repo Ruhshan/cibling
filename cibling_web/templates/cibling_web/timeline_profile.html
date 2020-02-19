@@ -44,6 +44,16 @@
                                                 class="em em-anguished"></i> <i class="em em-anguished"></i></p>
                                     </div>
                                     <div class="line-divider"></div>
+                                    
+                                    {% if post.youtubeId %}
+                                    <div>
+                                        <iframe width="480px" height="320px" 
+                                                src="https://www.youtube.com/embed/{{post.youtubeId}}" allowfullscreen>
+                                        </iframe>
+                                        <div class="line-divider"></div>
+                                    </div>
+                                    {% endif %}
+
                                     <section id="photos-{{ post.postPhotos.count }}">
                                         {% for image in post.postPhotos.all %}
                                             <a href="{{ image.image.url }}" class="lsb-preview"
