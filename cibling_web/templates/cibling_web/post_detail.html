@@ -34,8 +34,6 @@
     {% load static %}
     <div class="container">
 
-        <!-- Timeline
-        ================================================= -->
         <div class="timeline">
             <div id="page-contents">
                 <div class="row">
@@ -65,7 +63,7 @@
                                     <input type="hidden" id="ytid" value="{{ post.youtubeId }}"/>
                                         
                                     {% verbatim %}
-                                    <iframe :width="iframeWidth" height="325" v-if="ytid != 'None' "
+                                    <iframe :width="iframeWidth" :height="iframeHeight" v-if="ytid != 'None' "
                                             :src=" 'https://www.youtube.com/embed/' + ytid" allowfullscreen>
                                     </iframe>
                                     {% endverbatim %}
@@ -179,10 +177,6 @@
 
                     this.iframeWidth = parentWidth+"px";
                     this.iframeHeight = (parentWidth / 1.5) + "px";
-
-                    console.log("Resized")
-                    console.log(this.iframeWidth)
-                    console.log(this.iframeHeight)
                 },
                 get_csrf_header: function () {
                     var csrftoken = this.getCookie('csrftoken')
