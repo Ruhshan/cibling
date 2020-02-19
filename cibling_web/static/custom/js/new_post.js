@@ -74,7 +74,8 @@ var app = new Vue({
 
             data = {
                 content: this.postContent,
-                images: this.imageDatas
+                images: this.imageDatas,
+                youtubeId: this.ytId
             }
             var self = this;
 

@@ -61,10 +61,12 @@
                                     </div>
                                     <div class="line-divider"></div>
 
-
+                                    
+                                    <input type="hidden" id="ytid" value="{{ post.youtubeId }}"/>
+                                        
                                     {% verbatim %}
-                                    <iframe :width="iframeWidth" height="325"
-                                            src="https://www.youtube.com/embed/j6PbonHsqW0" allowfullscreen>
+                                    <iframe :width="iframeWidth" height="325" v-if="ytid != 'None' "
+                                            :src=" 'https://www.youtube.com/embed/' + ytid" allowfullscreen>
                                     </iframe>
                                     {% endverbatim %}
 
@@ -76,17 +78,9 @@
                                                data-lsb-group="group{{ post.id }}">
                                                 <img src="{{ image.image.url }}" height="150px" width="150px">
                                             </a>
-
-
                                         {% endfor %}
                                     </section>
                                     <div class="line-divider"></div>
-                                    {% if post.image %}
-                                        {% if post.image.url != 'default.jpg' %}
-                                            <img src="{{ post.image.url }}" alt="post-image"
-                                                 class="img-responsive post-image"/>
-                                        {% endif %}
-                                    {% endif %}
                                     {% for comment in comments %}
                                         {% if comment.post == post %}
                                             <div class="post-comment">
@@ -165,9 +159,13 @@
             el: "#post-detail",
             data: {
                 iframeWidth: "480px",
-                iframeHeight: "320px"
+                iframeHeight: "320px",
+                ytid:""
             },
             created() {
+
+                this.ytid = document.getElementById("ytid").value;
+                
 
                 var parentWidth = parseInt(document.getElementsByClassName("post-detail")[0].offsetWidth);
 

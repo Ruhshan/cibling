@@ -57,7 +57,7 @@ class CreatePostView(APIView):
     def post(self, request):
         try:
             if request.data['content']:
-                p = Post.objects.create(author=request.user, content=request.data['content'])
+                p = Post.objects.create(author=request.user, content=request.data['content'], youtubeId = request.data['youtubeId'])
                 p.save()
 
                 for img in request.data['images']:
