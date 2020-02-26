@@ -26,13 +26,10 @@
 								<li class="active"><a href="{% url 'postman:inbox' %}"><i class="fa fa-inbox"></i> Inbox 
 								
 								{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}
-								
 								</a></li>
-								<li><a href="#"><i class="fa fa-star"></i> Starred</a></li>
-								<li><a href="#"><i class="fa fa-bookmark"></i> Important</a></li>
-								<li><a href="#"><i class="fa fa-mail-forward"></i> Sent</a></li>
-								<li><a href="#"><i class="fa fa-pencil-square-o"></i> Drafts</a></li>
-								<li><a href="#"><i class="fa fa-folder"></i> Spam (217)</a></li>
+								<li><a href="{% url 'postman:archives' %}"><i class="fa fa-star"></i> Archives</a></li>
+								<li><a href="{% url 'postman:sent' %}"><i class="fa fa-mail-forward"></i> Sent</a></li>
+								<li><a href="{% url 'postman:trash' %}"><i class="fa fa-trash-o"></i>Trash</a></li>
 							</ul>
 						</div>
 					</div>
