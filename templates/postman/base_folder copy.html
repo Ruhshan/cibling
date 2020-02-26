@@ -1,6 +1,18 @@
-{% extends "postman/base.html" %}
+<!DOCTYPE html>
 {% load static %}
-{% block content %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <!--  This file has been downloaded from https://bootdey.com  -->
+    <!--  All snippets are MIT license https://bootdey.com/license -->
+    <title>Bootdey.com</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/pm-styles.css" %}"/>
+</head>
+<body>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container">
 <div class="row">
 	<!-- BEGIN INBOX -->
@@ -51,7 +63,7 @@
 								</div>
 							</div>
 
-							{% comment %} <div class="col-md-6 search-form">
+							<div class="col-md-6 search-form">
 								<form action="#" class="text-right">
 									<div class="input-group">
 										<input type="text" class="form-control input-sm" placeholder="Search">
@@ -59,7 +71,7 @@
                                             <button type="submit" name="search" class="btn_ btn-primary btn-sm search"><i class="fa fa-search"></i></button></span>
 									</div>			 
 								</form>
-							</div> {% endcomment %}
+							</div>
 						</div>
 						
 						<div class="padding"></div>
@@ -149,7 +161,15 @@
 							</tbody></table>
 						</div>
 
-											
+						<ul class="pagination">
+							<li class="disabled"><a href="#">«</a></li>
+							<li class="active"><a href="#">1</a></li>
+							<li><a href="#">2</a></li>
+							<li><a href="#">3</a></li>
+							<li><a href="#">4</a></li>
+							<li><a href="#">5</a></li>
+							<li><a href="#">»</a></li>
+						</ul>						
 					</div>
 					<!-- END INBOX CONTENT -->
 					
@@ -199,12 +219,10 @@
 	<!-- END INBOX -->
 </div>
 </div>
-</div>
 
-{% block extrahead %}
-
-<link rel="stylesheet" href="{% static "css/pm-styles.css" %}"/>
-
-{% endblock %}
-
-{% endblock content %}
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+	
+</script>
+</body>
+</html>
