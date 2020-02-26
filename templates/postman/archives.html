@@ -4,5 +4,15 @@
 {% block pm_archive_button %}{% endblock %}
 {% block pm_undelete_button %}{% endblock %}
 {% block pm_footer_info %}
-<p>{% trans "Messages in this folder will never be removed. You can use this folder for long term storage." %}</p>
 {% endblock %}
+
+{% block messagesTab %}
+{% for message in pm_messages %}
+    <tr class="{% if message.is_new == False %} read {% endif %}">
+        <td class="action"><input type="checkbox" /></td>
+        <td class="name"><a href="#">{{ message.sender.first_name }} {{ message.sender.last_name }}</a></td>
+        <td class="subject"><a href="#">{{ message.subject }}</a></td>
+        <td class="time">{{ message.sent_at }}</td>
+    </tr>
+{% endfor %}
+{% endblock messagesTab %}

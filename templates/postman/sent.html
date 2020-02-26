@@ -7,3 +7,15 @@
 {% block pm_sender_header %}{% endblock %}
 {% block pm_date %}{% trans "Sent" %}{% endblock %}
 {% block pm_sender_cell %}{% endblock %}
+
+
+{% block messagesTab %}
+{% for message in pm_messages %}
+    <tr class="{% if message.is_new == False %} read {% endif %}">
+        <td class="action"><input type="checkbox" /></td>
+        <td class="name"><a href="#">{{ message.sender.first_name }} {{ message.sender.last_name }}</a></td>
+        <td class="subject"><a href="#">{{ message.subject }}</a></td>
+        <td class="time">{{ message.sent_at }}</td>
+    </tr>
+{% endfor %}
+{% endblock messagesTab %}
