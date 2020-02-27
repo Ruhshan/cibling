@@ -7,12 +7,23 @@
 {% block pm_recipient_cell %}{% endblock %}
 
 {% block messagesTab %}
-{% for message in pm_messages %}
-    <tr class="{% if message.is_new == False %} read {% endif %}">
-        <td class="action"><input type="checkbox" /></td>
-        <td class="name"><a href="#">{{ message.sender.first_name }} {{ message.sender.last_name }}</a></td>
-        <td class="subject"><a href="#">{{ message.subject }}</a></td>
-        <td class="time">{{ message.sent_at }}</td>
-    </tr>
-{% endfor %}
+
+    <div class="table-responsive">
+        <table class="table">
+            {% for message in pm_messages %}
+                <tr class="{% if message.is_new == False %} read {% endif %}">
+                    <td class="action"><input type="checkbox"/></td>
+                    <td class="name"><a href="#">{{ message.sender.first_name }} {{ message.sender.last_name }}</a></td>
+                    <td class="subject"><a href="
+                            {% if message.thread_id %}{% url 'postman:view_conversation' message.thread_id %}{% else %}{% url 'postman:view' message.pk %}{% endif %}">{{ message.subject }}</a>
+                    </td>
+                    <td class="time">{{ message.sent_at }}</td>
+                </tr>
+            {% endfor %}
+            <tbody>
+
+            </tbody>
+        </table>
+    </div>
+
 {% endblock messagesTab %}
