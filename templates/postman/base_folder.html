@@ -33,7 +33,7 @@
 								
 								{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}
 								</a></li>
-								<li class="{% if url_name == 'archives' %}active{% endif %}"><a href="{% url 'postman:archives' %}"><i class="fa fa-star"></i> Archives</a></li>
+								<li class="{% if url_name == 'archives' %}active{% endif %}"><a href="{% url 'postman:archives' %}"><i class="fa fa-archive"></i> Archives</a></li>
 								<li class="{% if url_name == 'sent' %}active{% endif %}"><a href="{% url 'postman:sent' %}"><i class="fa fa-mail-forward"></i> Sent</a></li>
 								<li class="{% if url_name == 'trash' %}active{% endif %}" ><a href="{% url 'postman:trash' %}"><i class="fa fa-trash-o"></i>Trash</a></li>
 							</ul>
