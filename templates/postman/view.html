@@ -24,10 +24,18 @@
                                 style="background-color: white;border-width: 0px"><i class="fa fa-archive fa-2x"></i></button>
                         {% endif %}
 
-                        <p>{{ message. }}</p>
-
-                        <button type="submit" onclick="this.form.action='{% url 'postman:delete' %}?next={{ next_url|urlencode }}'"
+                        {% if message.sender == request.user and message.sender_deleted_at == None %}
+                            <button type="submit" onclick="this.form.action='{% url 'postman:delete' %}?next={{ next_url|urlencode }}'"
                                 style="background-color: white;border-width: 0px"><i class="fa fa-trash fa-2x"></i></button>
+
+                        {% endif %}
+
+                        {% if message.recipient == request.user and message.recipient_deleted_at == None %}
+                            <button type="submit" onclick="this.form.action='{% url 'postman:delete' %}?next={{ next_url|urlencode }}'"
+                                style="background-color: white;border-width: 0px"><i class="fa fa-trash fa-2x"></i></button>
+
+                        {% endif %}
+
 
 
                     </form>
