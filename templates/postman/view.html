@@ -51,7 +51,7 @@
                 <div class="row">
                     <div class="col-sm-1">
                         <img src="{{ message.sender.profile.image.url }}"
-                             style="border-radius: 50%; width: 50px; height: 50px"/>
+                             style="border-radius: 50%; width: 50px; height: 50px;border: 2px solid {% if message.sender == request.user %}#4141fd{% else %}#666666{% endif %};"/>
                     </div>
                     <div class="col-sm-9">
                         <div class="pull-left"
@@ -61,7 +61,7 @@
                             to {{ message.recipient.first_name }} {{ message.recipient.last_name }}</div>
                         <br>
                         <div style="padding-top: 10px">
-                            <p style="font-size: 15px; color: black">
+                            <p style="font-size: 15px; color: {% if message.sender == request.user %}#4141fd{% else %}black{% endif %}">
                                 {{ message.body|linebreaksbr }}
                             </p>
                         </div>
