@@ -77,6 +77,9 @@
                                         {% if post.postPhotos.count == 4 %}
                                             {% include "cibling_web/fragment/multiphoto/four_images.html" %}
                                         {% endif %}
+                                        {% if post.postPhotos.count == 3 %}
+                                            {% include "cibling_web/fragment/multiphoto/three_images.html" %}
+                                        {% endif %}
 
                                     </section>
                                     <div class="line-divider"></div>
