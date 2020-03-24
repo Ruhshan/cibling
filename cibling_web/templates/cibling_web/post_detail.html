@@ -71,7 +71,13 @@
 
                                     <div class="line-divider"></div>
                                     <section id="photos-{{ post.postPhotos.count }}">
-                                        {% include "cibling_web/fragment/five_images.html" %}
+                                        {% if post.postPhotos.count == 5 %}
+                                            {% include "cibling_web/fragment/five_images.html" %}
+                                        {% endif %}
+                                        {% if post.postPhotos.count == 4 %}
+                                            {% include "cibling_web/fragment/four_images.html" %}
+                                        {% endif %}
+
                                     </section>
                                     <div class="line-divider"></div>
                                     {% for comment in comments %}
