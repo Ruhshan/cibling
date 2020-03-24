@@ -72,10 +72,10 @@
                                     <div class="line-divider"></div>
                                     <section id="photos-{{ post.postPhotos.count }}">
                                         {% if post.postPhotos.count == 5 %}
-                                            {% include "cibling_web/fragment/five_images.html" %}
+                                            {% include "cibling_web/fragment/multiphoto/five_images.html" %}
                                         {% endif %}
                                         {% if post.postPhotos.count == 4 %}
-                                            {% include "cibling_web/fragment/four_images.html" %}
+                                            {% include "cibling_web/fragment/multiphoto/four_images.html" %}
                                         {% endif %}
 
                                     </section>
