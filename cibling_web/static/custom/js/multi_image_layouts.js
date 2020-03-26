@@ -168,3 +168,68 @@ let FourImages = {
         sectionId:String
     }
 }
+
+let FiveImages = {
+    template: `
+    <section :id="sectionId">
+    
+    <div style="display: flex; flex-direction: row">
+        <div>
+            <div>
+                <a :href="image0.image" class="lsb-preview" :data-lsb-group="lsbGroup">
+                    <div v-bind:style="{ 'background' : image0.background }" class="photo50 gridbase"></div>
+                </a>
+            </div>
+            <div>    
+                <a :href="image1.image" class="lsb-preview" :data-lsb-group="lsbGroup">
+                    <div v-bind:style="{ 'background' : image1.background }" class="photo51 gridbase"></div>
+                </a>
+            </div>
+        </div>
+        <div>
+            <div>
+                <a :href="image2.image" class="lsb-preview" :data-lsb-group="lsbGroup">
+                    <div v-bind:style="{ 'background' : image2.background }" class="photo52 gridbase"></div>
+                </a>
+            </div>
+            <div>    
+                <a :href="image3.image" class="lsb-preview" :data-lsb-group="lsbGroup">
+                    <div v-bind:style="{ 'background' : image3.background }" class="photo53 gridbase"></div>
+                </a>
+            </div>
+            <div>    
+                <a :href="image4.image" class="lsb-preview" :data-lsb-group="lsbGroup">
+                    <div v-bind:style="{ 'background' : image4.background }" class="photo54 gridbase"></div>
+                </a>
+            </div>
+        </div>
+    </div>
+    </section>
+    `,
+    created: function () {
+        this.image0 = this.images[0]
+        this.image0['background'] = getBgUrl(this.image0)
+        this.image1 = this.images[1]
+        this.image1['background'] = getBgUrl(this.image1)
+        this.image2 = this.images[2]
+        this.image2['background'] = getBgUrl(this.image2)
+        this.image3 = this.images[3]
+        this.image3['background'] = getBgUrl(this.image3)
+        this.image4 = this.images[4]
+        this.image4['background'] = getBgUrl(this.image4)
+    },
+    data() {
+        return {
+            image0: [],
+            image1: [],
+            image2: [],
+            image3: [],
+            image4: []
+        }
+    },
+    props: {
+        images: Array,
+        lsbGroup: String,
+        sectionId:String
+    }
+}
