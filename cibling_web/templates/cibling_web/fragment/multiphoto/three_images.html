@@ -1,11 +1,10 @@
-
 <div>
-        {% with image0=post.postPhotos.all.0 %}
-            <a href="{{ image0.image.url }}" class="lsb-preview" data-lsb-group="group{{ post.id }}">
-                <div style="background:url({{ image0.image.url }});" class="photo30 gridbase"></div>
-            </a>
-        {% endwith %}
-    </div>
+    {% with image0=post.postPhotos.all.0 %}
+        <a href="{{ image0.image.url }}" class="lsb-preview" data-lsb-group="group{{ post.id }}">
+            <div style="background:url({{ image0.image.url }});" class="photo30 gridbase"></div>
+        </a>
+    {% endwith %}
+</div>
 
 <div style="display: flex; flex-direction: row">
     <div>
