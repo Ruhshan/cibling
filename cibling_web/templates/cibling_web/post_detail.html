@@ -71,23 +71,7 @@
 
                                     <div class="line-divider"></div>
                                     <section id="photos-{{ post.postPhotos.count }}">
-                                        {% if post.postPhotos.count == 5 %}
-                                            {% include "cibling_web/fragment/multiphoto/five_images.html" %}
-                                        {% endif %}
-                                        {% if post.postPhotos.count == 4 %}
-                                            {% include "cibling_web/fragment/multiphoto/four_images.html" %}
-                                        {% endif %}
-                                        {% if post.postPhotos.count == 3 %}
-                                            {% include "cibling_web/fragment/multiphoto/three_images.html" %}
-                                        {% endif %}
-                                        {% if post.postPhotos.count == 2 %}
-                                            {% include "cibling_web/fragment/multiphoto/two_images.html" %}
-                                        {% endif %}
-                                        {% if post.postPhotos.count == 1 %}
-                                            {% include "cibling_web/fragment/multiphoto/one_image.html" %}
-                                        {% endif %}
-
-
+                                        {% include "cibling_web/fragment/multiphoto/layout_loader.html" %}
                                     </section>
                                     <div class="line-divider"></div>
                                     {% for comment in comments %}

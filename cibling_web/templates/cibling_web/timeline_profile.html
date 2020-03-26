@@ -55,12 +55,7 @@
                                     {% endif %}
 
                                     <section id="photos-{{ post.postPhotos.count }}">
-                                        {% for image in post.postPhotos.all %}
-                                            <a href="{{ image.image.url }}" class="lsb-preview"
-                                               data-lsb-group="group{{ post.id }}">
-                                                <img src="{{ image.image.url }}" height="150px" width="150px">
-                                            </a>
-                                        {% endfor %}
+                                        {% include "cibling_web/fragment/multiphoto/layout_loader.html" %}
                                     </section>
                                     {% for comment in comments %}
                                         {% if comment.post == post %}
