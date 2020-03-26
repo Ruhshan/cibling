@@ -1,8 +1,17 @@
+
+<div>
+        {% with image0=post.postPhotos.all.0 %}
+            <a href="{{ image0.image.url }}" class="lsb-preview" data-lsb-group="group{{ post.id }}">
+                <div style="background:url({{ image0.image.url }});" class="photo30 gridbase"></div>
+            </a>
+        {% endwith %}
+    </div>
+
 <div style="display: flex; flex-direction: row">
     <div>
         {% with image1=post.postPhotos.all.1 %}
             <a href="{{ image1.image.url }}" class="lsb-preview" data-lsb-group="group{{ post.id }}">
-                <div style="background:url({{ image1.image.url }});" class="photo41 gridbase"></div>
+                <div style="background:url({{ image1.image.url }});" class="photo31 gridbase"></div>
             </a>
         {% endwith %}
     </div>
@@ -10,7 +19,7 @@
 
         {% with image2=post.postPhotos.all.2 %}
             <a href="{{ image2.image.url }}" class="lsb-preview" data-lsb-group="group{{ post.id }}">
-                <div style="background:url({{ image2.image.url }});" class="photo42 gridbase"></div>
+                <div style="background:url({{ image2.image.url }});" class="photo32 gridbase"></div>
             </a>
         {% endwith %}
 
