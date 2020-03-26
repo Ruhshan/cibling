@@ -61,15 +61,29 @@
                         <div class="line-divider"></div>
                     </div>
 
-                    <section :id="getPhotosSectionId(post.postPhotos)">
 
 
-                        <div v-if="post.postPhotos.length == 1">
-                            <component :is="OneImage" :images="post.postPhotos" :lsb-group="getLsbGroup(post)"></component>
-                        </div>
+                        <component  v-if="post.postPhotos.length == 1"
+                                    :is="OneImage"
+                                    :images="post.postPhotos"
+                                    :lsb-group="getLsbGroup(post)"
+                                    :section-id="getPhotosSectionId(post.postPhotos)"></component>
+                        <component  v-if="post.postPhotos.length == 2"
+                                    :is="TwoImages"
+                                    :images="post.postPhotos"
+                                    :lsb-group="getLsbGroup(post)"
+                                    :section-id="getPhotosSectionId(post.postPhotos)"></component>
+                        <component  v-if="post.postPhotos.length == 3"
+                                    :is="ThreeImages"
+                                    :images="post.postPhotos"
+                                    :lsb-group="getLsbGroup(post)"
+                                    :section-id="getPhotosSectionId(post.postPhotos)"></component>
+                        <component  v-if="post.postPhotos.length == 4"
+                                    :is="FourImages"
+                                    :images="post.postPhotos"
+                                    :lsb-group="getLsbGroup(post)"
+                                    :section-id="getPhotosSectionId(post.postPhotos)"></component>
 
-
-                    </section>
                     <div class="line-divider"></div>
                     <div v-for="comment in post.comments" class="post-comment">
                         <a :href="comment.author.profile_url"><img :src="comment.author.profile_image" alt=""
