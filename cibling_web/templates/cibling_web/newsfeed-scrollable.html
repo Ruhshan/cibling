@@ -63,10 +63,11 @@
 
                     <section :id="getPhotosSectionId(post.postPhotos)">
 
-                        <a v-for="postPhoto in post.postPhotos" :href="postPhoto.image" class="lsb-preview"
-                            :data-lsb-group="getLsbGroup(post)">
-                            <img :src="postPhoto.image" height="150px" width="150px">
-                        </a>
+
+                        <div v-if="post.postPhotos.length == 1">
+                            <component :is="OneImage" :images="post.postPhotos" :lsb-group="getLsbGroup(post)"></component>
+                        </div>
+
 
                     </section>
                     <div class="line-divider"></div>
@@ -134,6 +135,7 @@
 <script src="https://cdn.jsdelivr.net/npm/vue"></script>
 <script src="https://unpkg.com/vue-infinite-loading@^2/dist/vue-infinite-loading.js"></script>
 
+<script src="{% static "custom/js/multi_image_layouts.js" %}"></script>
 <script src="{% static "custom/js/newsfeed.js" %}"></script>
 <script src="{% static "custom/js/new_post.js" %}"></script>
 
