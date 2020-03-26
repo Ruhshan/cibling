@@ -3,6 +3,7 @@ function getBgUrl(image){
 }
 
 let OneImage ={
+    // language=HTML
     template:`
     <section :id="sectionId">
         <a :href="image0.image" class="lsb-preview" :data-lsb-group="lsbGroup">
