@@ -94,3 +94,16 @@
     background-size: cover!important;
 }
 
+.photo10portrait{
+    width: 470px !important;
+    height: 550px !important;
+    background-position: center !important;
+    background-size: cover!important;
+}
+
+.photo10landscape{
+    width: 470px !important;
+    height: 225px !important;
+    background-position: center !important;
+    background-size: cover!important;
+}

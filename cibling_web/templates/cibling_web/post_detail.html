@@ -83,6 +83,10 @@
                                         {% if post.postPhotos.count == 2 %}
                                             {% include "cibling_web/fragment/multiphoto/two_images.html" %}
                                         {% endif %}
+                                        {% if post.postPhotos.count == 1 %}
+                                            {% include "cibling_web/fragment/multiphoto/one_image.html" %}
+                                        {% endif %}
+
 
                                     </section>
                                     <div class="line-divider"></div>

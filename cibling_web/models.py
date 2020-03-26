@@ -40,4 +40,13 @@ class Activity(models.Model):
 
 class PostPhoto(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='postPhotos')
-    image = models.ImageField(default=None, upload_to='post_pics/', null=True)
+    image = models.ImageField(default=None, upload_to='post_pics/', null=True, height_field='height', width_field='width')
+    height = models.IntegerField(blank=True, null=True)
+    width = models.IntegerField(blank=True, null=True)
+
+    @property
+    def orientation(self):
+        if self.height/self.width>1:
+            return 'portrait'
+        else:
+            return 'landscape'
