@@ -6,7 +6,9 @@ from rest_framework.views import APIView
 
 from .serializers import PostSerializer, MakeCommentSerializer
 from .models import Post, PostPhoto
-import time
+from PIL import Image
+import imghdr
+
 
 
 class PostResultPagination(PageNumberPagination):
@@ -64,16 +66,30 @@ class CreatePostView(APIView):
                     decoded = decode_base64_file(img['val'])
                     postImg = PostPhoto.objects.create(post = p, image=decoded)
                     postImg.save()
+                    convertToJpeg(postImg)
             return Response(p.id, status=status.HTTP_201_CREATED)
         except:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 
+def convertToJpeg(postImage):
+
+    if imghdr.what(postImage.image.path) == "png":
+        jpegPath = postImage.image.path + ".jpeg"
+        pindex = postImage.image.path.index("post_pics")
+        relativePath = jpegPath[pindex:]
+
+        im = Image.open(postImage.image.path)
+        im.convert("RGB").save(jpegPath, "JPEG")
+
+        postImage.image = relativePath
+        postImage.save()
+
+
 def decode_base64_file(data):
 
     def get_file_extension(file_name, decoded_file):
-        import imghdr
 
         extension = imghdr.what(file_name, decoded_file)
         extension = "jpg" if extension == "jpeg" else extension
