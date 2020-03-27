@@ -80,7 +80,14 @@ def convertToJpeg(postImage):
         pindex = postImage.image.path.index("post_pics")
         relativePath = jpegPath[pindex:]
 
+        fill_color = (255, 255, 255)
         im = Image.open(postImage.image.path)
+        im = im.convert("RGBA")  # it had mode P after DL it from OP
+        if im.mode in ('RGBA', 'LA'):
+            background = Image.new(im.mode[:-1], im.size, fill_color)
+            background.paste(im, im.split()[-1])  # omit transparency
+            im = background
+
         im.convert("RGB").save(jpegPath, "JPEG")
 
         postImage.image = relativePath
