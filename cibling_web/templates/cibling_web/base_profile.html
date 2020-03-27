@@ -216,6 +216,7 @@
                                 {% elif cibling_status == 0 %}
                                     <a class="btn btn-info" href="#">Request Sent</a>
                                 {% elif cibling_status == 1 %}
+                                    <a class="btn btn-default" id="start-chat-btn" user-id="{{ user.id }}" user-name="{{ user.username }}" user-title="{{ user.first_name }} {{ user.last_name }}">Start Chat</a>
                                     <a class="btn btn-info" href="#">Your Cibling</a>
                                 {% endif %}
                             </ul>
