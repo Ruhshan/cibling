@@ -1,7 +1,7 @@
 var arr = [];
 
-// const worker = new SharedWorker("/chat/worker.js");
-//
+const worker = new Worker("/chat/worker.js");
+
 // console.log(worker)
 //
 // worker.port.start();
@@ -12,23 +12,13 @@ var arr = [];
 
 $(document).ready(function () {
 
-    // List of users
-
-    // $(document).on('click', '.msg_head', function () {
-    //     var chatbox = $(this).parents().attr("rel");
-    //     $('[rel="' + chatbox + '"] .msg_wrap').slideToggle('slow');
-    //     app.autoScroll(chatbox);
-    //     return false;
-    // });
-
-
-    // $(document).on('click', '.close', function () {
-    //     var chatbox = $(this).parents().parents().attr("rel");
-    //     $('[rel="' + chatbox + '"]').remove();
-    //     arr.splice($.inArray(chatbox, arr), 1);
-    //     app.displayChatBox();
-    //     return false;
-    // });
+    $("#start-chat-btn").bind("click",function () {
+        var user={};
+        user["id"] = $(this).attr("user-id");
+        user["username"] = $(this).attr("user-name");
+        user["title"] = $(this).attr("user-title");
+        worker.postMessage({type:'new-chat',user:user});
+    })
 
 
 
@@ -69,9 +59,14 @@ var schatApp = new Vue({
         this.websocket.onmessage = this.socketOnMessage;
 
         this.fetchDialogHistory();
+
+        worker.addEventListener('message',this.messageFromWorker)
     },
 
     methods: {
+        messageFromWorker: function(event){
+          this.showNewMessageBox(event.data.user)
+        },
         getRequestSessionId: () => {
             return document.getElementById("requestSessionId").value;
         },
