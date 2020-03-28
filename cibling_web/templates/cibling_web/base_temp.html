@@ -161,10 +161,10 @@
                                             </li>
                                         </ul><!--news-feed links ends-->
                                         <div id="chat-block">
-                                            <div class="title">Message to Ciblings</div>
+                                            <div class="title">Visit Cibling's Timeline</div>
                                             <ul class="online-users list-inline">
                                                 {% for userc in user_ciblings %}
-                                                    <li><a href="{% url 'postman:write' userc %}"
+                                                    <li><a href="{% url 'timeline-profile' userc.id %}"
                                                            title="{{ userc }}"><img
                                                             src="{{ userc.profile.image.url }}" alt="user"
                                                             class="img-responsive profile-photo"/><span
