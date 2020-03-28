@@ -65,7 +65,16 @@ var schatApp = new Vue({
 
     methods: {
         messageFromWorker: function(event){
-          this.showNewMessageBox(event.data.user)
+
+            var dialog = this.retriveDialog(event.data.user)
+
+            if(dialog != null){
+                this.showMessageBox(dialog)
+            }else{
+                this.showNewMessageBox(event.data.user)
+            }
+
+
         },
         getRequestSessionId: () => {
             return document.getElementById("requestSessionId").value;
@@ -285,7 +294,7 @@ var schatApp = new Vue({
         search: function () {
 
             var query = this.query;
-            var self = thisl
+            var self = this
 
 
             if (query.length > 1) {
@@ -343,6 +352,20 @@ var schatApp = new Vue({
             });
 
 
+        },
+        retriveDialog: function (user) {
+            var userId = user.id;
+            var result = null;
+            this.dialogs.forEach((dialog) => {
+
+                if (parseInt(userId) === parseInt(this.getOpponentIdForDialog(dialog))) {
+                    result = dialog;
+
+                }
+
+            });
+
+            return result;
         }
     }
 });
