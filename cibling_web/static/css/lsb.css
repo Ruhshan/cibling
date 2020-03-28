@@ -9,7 +9,7 @@
   height: 0;
   margin: auto;
   position: fixed;
-  background-color: rgba(0, 0, 0, 0.84);
+  background-color: rgba(124, 117, 127, 0.51);
   z-index: 30;
   -webkit-transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
   transition: all 600ms cubic-bezier(0.86, 0, 0.07, 1);
@@ -283,7 +283,7 @@
 
 .lightspeed-box .lsb-close {
   position: absolute;
-  top: 0;
+  top: 4em;
   right: 0;
   width: 25%;
   height: 25%;
