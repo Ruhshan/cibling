@@ -1,18 +1,18 @@
 {% extends 'cibling_web/base_temp.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-
+{% load compress %}
 
 {% block head %}
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-<script src="{% static 'js/urlize.js' %}"></script>
-<script src="{% static 'js/urlize_tlds.js' %}"></script>
+
+{% compress css %}
 <link rel="stylesheet" href="{% static 'css/lsb.css' %}" />
 
 <link rel="stylesheet" href="{% static "css/photoGrid.css" %}" />
 
-
+{% endcompress %}
 
 <script>
 
@@ -153,15 +153,17 @@
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
 <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.plugins.min.js"></script>
 
-<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vue"></script>
+
 <script src="https://unpkg.com/vue-infinite-loading@^2/dist/vue-infinite-loading.js"></script>
+
+{% compress js %}
+<script src="{% static 'js/urlize.js' %}"></script>
+<script src="{% static 'js/urlize_tlds.js' %}"></script>
 
 <script src="{% static "custom/js/multi_image_layouts.js" %}"></script>
 <script src="{% static "custom/js/newsfeed.js" %}"></script>
 <script src="{% static "custom/js/new_post.js" %}"></script>
-
 <script src="{% static "js/lsb.min.js" %}"></script>
-
+{% endcompress %}
 
 {% endblock %}
