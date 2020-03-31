@@ -7,7 +7,7 @@ let OneImage ={
     template:`
     <section :id="sectionId">
         <a :href="image0.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-            <div v-bind:style="{ 'background': image0.background }" v-bind:class="[gridBase, photoClass]"></div>
+            <div v-bind:style="{ 'background': '' }" v-bind:class="[gridBase, photoClass, lazy]" :data-src="image0.image"></div>
         </a>
     </section>
     `,
@@ -25,6 +25,7 @@ let OneImage ={
     return {
       gridBase: 'gridbase',
       photoClass: 'photo10landscape',
+      lazy:'lazy',
       image0:[]
     }},
     props:{
@@ -40,12 +41,12 @@ let TwoImages ={
     <div style="display: flex; flex-direction: row">
         <div>
                 <a :href="image0.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                    <div v-bind:style="{ 'background' : image0.background }" class="photo20 gridbase"></div>
+                    <div v-bind:style="{ 'background-image' : '' }" class="photo20 gridbase lazy" :data-src="image0.image"></div>
                 </a>
         </div>
         <div>    
                 <a :href="image1.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                    <div v-bind:style="{ 'background' : image1.background }" class="photo21 gridbase"></div>
+                    <div v-bind:style="{ 'background-image' : '' }" class="photo21 gridbase lazy" :data-src="image1.image"></div>
                 </a>
         </div>
     </div>
@@ -74,18 +75,18 @@ let ThreeImages = {
     <section :id="sectionId">
     <div>
         <a :href="image0.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-            <div v-bind:style="{ 'background' : image0.background }" class="photo30 gridbase"></div>
+            <div v-bind:style="{ 'background-image' : '' }" class="photo30 gridbase lazy" :data-src="image0.image"></div>
         </a>
     </div>
     <div style="display: flex; flex-direction: row">
         <div>
             <a :href="image1.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                <div v-bind:style="{ 'background' : image1.background }" class="photo31 gridbase"></div>
+                <div v-bind:style="{ 'background-image' : '' }" class="photo31 gridbase lazy" :data-src="image1.image"></div>
             </a>
         </div>
         <div>    
             <a :href="image2.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                <div v-bind:style="{ 'background' : image2.background }" class="photo32 gridbase"></div>
+                <div v-bind:style="{ 'background-image' : '' }" class="photo32 gridbase lazy" :data-src="image2.image"></div>
             </a>
         </div>
     </div>
@@ -121,24 +122,24 @@ let FourImages = {
         <div>
             <div>
                 <a :href="image0.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                    <div v-bind:style="{ 'background' : image0.background }" class="photo40 gridbase"></div>
+                    <div v-bind:style="{ 'background-image' : '' }" class="photo40 gridbase lazy" :data-src="image0.image"></div>
                 </a>
             </div>
             <div>    
                 <a :href="image1.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                    <div v-bind:style="{ 'background' : image1.background }" class="photo41 gridbase"></div>
+                    <div v-bind:style="{ 'background-image' : '' }" class="photo41 gridbase lazy" :data-src="image1.image"></div>
                 </a>
             </div>
         </div>
         <div>
             <div>
                 <a :href="image2.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                    <div v-bind:style="{ 'background' : image2.background }" class="photo42 gridbase"></div>
+                    <div v-bind:style="{ 'background-image' : '' }" class="photo42 gridbase lazy" :data-src="image2.image"></div>
                 </a>
             </div>
             <div>    
                 <a :href="image3.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                    <div v-bind:style="{ 'background' : image3.background }" class="photo43 gridbase"></div>
+                    <div v-bind:style="{ 'background-image' : '' }" class="photo43 gridbase lazy" :data-src="image3.image"></div>
                 </a>
             </div>
         </div>
@@ -178,29 +179,29 @@ let FiveImages = {
         <div>
             <div>
                 <a :href="image0.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                    <div v-bind:style="{ 'background' : image0.background }" class="photo50 gridbase"></div>
+                    <div v-bind:style="{ 'background-image' : '' }" class="photo50 gridbase lazy" :data-src="image0.image"></div>
                 </a>
             </div>
             <div>    
                 <a :href="image1.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                    <div v-bind:style="{ 'background' : image1.background }" class="photo51 gridbase"></div>
+                    <div v-bind:style="{ 'background-image' : '' }" class="photo51 gridbase lazy" :data-src="image1.image"></div>
                 </a>
             </div>
         </div>
         <div>
             <div>
                 <a :href="image2.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                    <div v-bind:style="{ 'background' : image2.background }" class="photo52 gridbase"></div>
+                    <div v-bind:style="{ 'background-image' : '' }" class="photo52 gridbase lazy" :data-src="image2.image"></div>
                 </a>
             </div>
             <div>    
                 <a :href="image3.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                    <div v-bind:style="{ 'background' : image3.background }" class="photo53 gridbase"></div>
+                    <div v-bind:style="{ 'background-image' : '' }" class="photo53 gridbase lazy" :data-src="image3.image"></div>
                 </a>
             </div>
             <div>    
                 <a :href="image4.image" class="lsb-preview" :data-lsb-group="lsbGroup">
-                    <div v-bind:style="{ 'background' : image4.background }" class="photo54 gridbase"></div>
+                    <div v-bind:style="{ 'background-image' : '' }" class="photo54 gridbase lazy" :data-src="image4.image"></div>
                 </a>
             </div>
         </div>
