@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'postman',
     'django.contrib.postgres',
     'django_private_chat',
+    'compressor'
 ]
 
 MIDDLEWARE = [
@@ -66,6 +67,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
 
 ROOT_URLCONF = 'cibling.urls'
 
@@ -175,3 +183,5 @@ CHAT_WS_SERVER_PROTOCOL = 'ws'
 
 
 SITE_ID=2
+
+COMPRESS_ENABLED = True

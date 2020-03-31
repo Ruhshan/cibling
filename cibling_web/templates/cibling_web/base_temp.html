@@ -1,6 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+{% load compress %}
 
 {% with request.resolver_match.url_name as url_name %}
 
@@ -23,13 +24,13 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
 
-
+        {% compress css %}
         <link rel="stylesheet" href="{% static "css/style.css" %}"/>
         <link rel="stylesheet" href="{% static "css/ionicons.min.css" %}"/>
         <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}"/>
-        <link href="css/emoji.css" rel="stylesheet">
         <link href="{% static 'django_private_chat/css/sidebar-chat.css' %}" rel="stylesheet">
-
+        {% endcompress %}
+        <link href="css/emoji.css" rel="stylesheet">
         <!--Google Font-->
         <link href="https://fonts.googleapis.com/css?family=Lato:300,400,400i,700,700i" rel="stylesheet">
 
@@ -294,8 +295,6 @@
     <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
 			  crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="{% static "js/jquery.sticky-kit.min.js" %}"></script>
-    <script src="{% static "js/script.js" %}"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet"
           href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
@@ -305,8 +304,17 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    {% compress js %}
+
+    <script src="{% static "js/jquery.sticky-kit.min.js" %}"></script>
+    <script src="{% static "js/script.js" %}"></script>
+
+
     <script src="{% static "django_private_chat/js/chat_box_component.js" %}"></script>
     <script src="{% static "django_private_chat/js/sidebar-chat.js" %}"></script>
+
+    {% endcompress %}
 
 
     <!-- Add these two line -->
