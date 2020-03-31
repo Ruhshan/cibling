@@ -148,20 +148,20 @@ $(window).on("resize", function() {
     }
 });
 
-// Fuction for map initialization
-function initMap() {
-  var uluru = {lat: 12.927923, lng: 77.627108};
-  var map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 15,
-    center: uluru,
-    zoomControl: true,
-    scaleControl: false,
-    scrollwheel: false,
-    disableDoubleClickZoom: true
-  });
-  
-  var marker = new google.maps.Marker({
-    position: uluru,
-    map: map
-  });
-}
+// // Fuction for map initialization
+// function initMap() {
+//   var uluru = {lat: 12.927923, lng: 77.627108};
+//   var map = new google.maps.Map(document.getElementById('map'), {
+//     zoom: 15,
+//     center: uluru,
+//     zoomControl: true,
+//     scaleControl: false,
+//     scrollwheel: false,
+//     disableDoubleClickZoom: true
+//   });
+//
+//   var marker = new google.maps.Marker({
+//     position: uluru,
+//     map: map
+//   });
+// }

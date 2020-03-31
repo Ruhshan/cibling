@@ -21,7 +21,8 @@ var app = new Vue({
 
     filters: {
         formatDate: function (date) {
-            return moment(date).format('MMMM Do YYYY, h:mm:ss a')
+            var formatted = moment(date).format('MMMM Do YYYY, h:mm:ss a')
+            return formatted
         },
         urlize: function (text) {
             u = urlize(text)
