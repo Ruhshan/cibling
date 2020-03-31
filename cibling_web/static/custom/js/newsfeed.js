@@ -1,4 +1,5 @@
 
+
 var app = new Vue({
     el: "#all-posts",
     data: {
@@ -10,6 +11,7 @@ var app = new Vue({
         forDelete: ""
     },
     created() {
+
         this.get_myinfo();
         //this.get_posts()
         var parentWidth = parseInt(document.getElementsByClassName("post-detail")[0].offsetWidth);
@@ -17,7 +19,10 @@ var app = new Vue({
         this.iframeWidth = parentWidth+"px";
         this.iframeHeight = (parentWidth / 1.5) + "px";
         window.addEventListener("resize", this.windowResizeHandler);
+
+
     },
+
 
     filters: {
         formatDate: function (date) {
@@ -163,6 +168,7 @@ var app = new Vue({
                          resolve(true);
                     }).then(res=>{
                         $.fn.lightspeedBox();
+                         $('.lazy').lazy();
                     })
 
                     $state.loaded();
