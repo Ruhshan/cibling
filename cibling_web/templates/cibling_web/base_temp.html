@@ -12,6 +12,9 @@
         <meta name="keywords" content="Cibling, Brotherhood, Academics, Student"/>
         <meta name="robots" content="index, follow"/>
 
+        {% block og_meta %}
+        {% endblock og_meta %}
+
         {% if url_name == "newsfeed" %}
 
             <title>News Feed | Check what your Ciblings are doing</title>
