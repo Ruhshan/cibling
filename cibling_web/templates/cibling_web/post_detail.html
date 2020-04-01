@@ -22,6 +22,7 @@
 
     </script>
 
+
 {% endblock head %}
 
 {% block script %}
@@ -215,3 +216,9 @@
         });
     </script>
 {% endblock extra_js %}
+
+{% block og_meta %}
+    {% for postimg in post.postPhotos.all %}
+        <meta property="og:image" content="{{ postimg.image.url }}"/>
+    {% endfor %}
+{% endblock %}
