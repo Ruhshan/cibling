@@ -168,7 +168,11 @@ var app = new Vue({
                          resolve(true);
                     }).then(res=>{
                         $.fn.lightspeedBox();
-                         $('.lazy').lazy();
+                         $('.lazy').Lazy({
+                             scrollDirection: 'vertical',
+                            effect: 'fadeIn',
+                            visibleOnly: true,
+                         });
                     })
 
                     $state.loaded();

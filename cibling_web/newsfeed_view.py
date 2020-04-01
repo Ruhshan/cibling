@@ -24,8 +24,7 @@ class NewsFeedView(View):
         for cibling in ciblings_2:
             user_ciblings.append(cibling.cibling_1)
 
-        user_ciblings = list(set(user_ciblings))
-        user_ciblings.append(user)
+        user_ciblings = list(set(user_ciblings))[:30]
 
         context={
             "user":user,
