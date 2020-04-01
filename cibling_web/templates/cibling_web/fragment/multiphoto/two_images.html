@@ -4,6 +4,7 @@
             <a href="{{ image0.image.url }}" class="lsb-preview" data-lsb-group="group{{ post.id }}">
                 <div style="background:url({{ image0.image.url }});" class="photo20 gridbase"></div>
             </a>
+            <meta property="og:image" content="{{ image0.image.url }}"/>
         {% endwith %}
     </div>
     <div>
@@ -12,6 +13,7 @@
             <a href="{{ image1.image.url }}" class="lsb-preview" data-lsb-group="group{{ post.id }}">
                 <div style="background:url({{ image1.image.url }});" class="photo21 gridbase"></div>
             </a>
+            <meta property="og:image" content="{{ image1.image.url }}"/>
         {% endwith %}
 
     </div>
