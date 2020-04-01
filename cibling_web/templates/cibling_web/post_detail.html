@@ -219,7 +219,7 @@
 
 {% block og_meta_img %}
     {% for postimg in post.postPhotos.all %}
-        <meta property="og:image" content="{{ postimg.image.url }}"/>
+        <meta property="og:image" content="http://{{ request.META.HTTP_HOST }}{{ postimg.image.url }}"/>
     {% endfor %}
 {% endblock og_meta_img %}
 
