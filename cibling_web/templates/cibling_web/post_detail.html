@@ -90,6 +90,7 @@
                                     {% endfor %}
 
                                     <div class="post-comment">
+                                        {% if request.user.is_authenticated %}
                                         <form method="POST">
                                             {% csrf_token %}
 
@@ -106,6 +107,18 @@
                                                 </div>
                                             </div>
                                         </form>
+                                            {% else %}
+                                            <form>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-12 mb-0">
+                                                    {{ comment_form.text }}
+                                                    <a class="btn btn-primary pull-right" href="{% url 'login' %}?next=/post/{{ post.id }}">
+                                                        Comment
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            </form>
+                                        {% endif %}
                                     </div>
 
                                 </div>
