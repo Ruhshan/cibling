@@ -9,6 +9,7 @@ from .listtextwidget import ListTextWidget, ListTextWidgetDynamic, TagWidget
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
 
+import json
 
 def validate_ac(value):
     print(value)
@@ -79,8 +80,9 @@ class UserRegisterForm(UserCreationForm):
         institute, _ = Institute.objects.get_or_create(institute=self.cleaned_data.get('institute').title(),
                                                        country=Country.objects.get(country=country))
         subject, _ = Subject.objects.get_or_create(subject=self.cleaned_data.get('subject').title())
-        expertise = self.cleaned_data["expertise"]
-        interest = self.cleaned_data["interest"]
+        expertise = json.loads(self.cleaned_data["expertise"])
+        interest = json.loads(self.cleaned_data["interest"])
+
         offer = self.cleaned_data["offer"]
 
         if commit:
@@ -94,21 +96,18 @@ class UserRegisterForm(UserCreationForm):
 
         profile_info = ProfileInfo.objects.get(profile=profile)
 
-        profile_info.subject = subject
-
-        for e in expertise.split(","):
+        for e in expertise:
             try:
-                exp, _ = (Expertise.objects.get(id=e), _) if e.isdigit() else Expertise.objects.get_or_create(
-                    expertise=e.title())
-
+                exp, _ = (Expertise.objects.get(id=e['key']), _) if e['key'].isdigit() else Expertise.objects.get_or_create(
+                    expertise=e['value'].title())
                 profile_info.expertises.add(exp)
             except Exception as excptn:
                 print(excptn)
 
-        for i in interest.split(","):
+        for i in interest:
             try:
-                intrst, _ = (Interest.objects.get(id=i), _) if i.isdigit() else Interest.objects.get_or_create(
-                    interest=i.title())
+                intrst, _ = (Interest.objects.get(id=i['key']), _) if i['key'].isdigit() else Interest.objects.get_or_create(
+                    interest=i['value'].title())
                 profile_info.interests.add(intrst)
             except Exception as excptn:
                 print(excptn)
@@ -209,23 +208,24 @@ class ProfileInfoUpdateForm(forms.ModelForm):
     def clean_expertises(self):
         expertises = []
         data = self.cleaned_data["expertises"]
-        for e in data.split(","):
+        for e in json.loads(data):
             try:
-                exp, _ = (Expertise.objects.get(id=e), _) if e.isdigit() else Expertise.objects.get_or_create(
-                    expertise=e.title())
+                exp, _ = (Expertise.objects.get(id=e["key"]), _) if e["key"].isdigit() else Expertise.objects.get_or_create(
+                    expertise=e["value"].title())
 
                 expertises.append(exp)
             except Exception as excptn:
                 print(excptn)
+
         return expertises
 
     def clean_interests(self):
         interests = []
         data = self.cleaned_data["interests"]
-        for i in data.split(","):
+        for i in json.loads(data):
             try:
-                intrst, _ = (Interest.objects.get(id=i), _) if i.isdigit() else Interest.objects.get_or_create(
-                    interest=i.title())
+                intrst, _ = (Interest.objects.get(id=i["key"]), _) if i["key"].isdigit() else Interest.objects.get_or_create(
+                    interest=i["value"].title())
                 interests.append(intrst)
             except Exception as excptn:
                 print(excptn)

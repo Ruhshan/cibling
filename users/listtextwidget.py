@@ -1,7 +1,7 @@
 from django import forms
 
 from users.models import Subject
-
+import json
 
 class ListTextWidget(forms.TextInput):
     def __init__(self, data_list, name, *args, **kwargs):
@@ -61,14 +61,25 @@ class TagWidget(forms.TextInput):
                            "placeholder":"Add an "+name.title() + " then press Enter",
                            "style":"height:auto",
                            "name":self._name,
+                           ":add-tags-on-comma":"true"
                            })
 
     def render(self, name, value, attrs=None, renderer=None):
         text_html = super(TagWidget, self).render(name, value, attrs=attrs)
         text_html = text_html.replace("input","tags-input")
 
+        values = []
+        try:
+            dicts = json.loads(value)
+            for d in dicts:
+                values.append(d["value"])
+        except:
+            pass
 
-        text_html+='''<input type="hidden" name="previous_%s" id="previous_%s" value="%s">'''%(self._name,self._name, value)
+
+        text_html+='''<input type="hidden" name="previous_%s" id="previous_%s" value="%s">'''%(self._name,self._name, ",".join(values))
+
+        print(text_html)
 
 
         return text_html
