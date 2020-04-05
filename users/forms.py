@@ -234,10 +234,10 @@ class ProfileInfoUpdateForm(forms.ModelForm):
     def clean_languages(self):
         languages = []
         data = self.cleaned_data["languages"]
-        for l in data.split(","):
+        for l in json.loads(data):
             try:
-                lngz, _ = (Language.objects.get(id=l),_) if l.isdigit() else Language.objects.get_or_create(
-                    language = l.title())
+                lngz, _ = (Language.objects.get(id=l["key"]),_) if l["key"].isdigit() else Language.objects.get_or_create(
+                    language = l["value"].title())
                 languages.append(lngz)
             except Exception as excptn:
                 print(excptn)

@@ -73,14 +73,9 @@ class TagWidget(forms.TextInput):
             dicts = json.loads(value)
             for d in dicts:
                 values.append(d["value"])
+            text_html += '''<input type="hidden" name="previous_%s" id="previous_%s" value="%s">''' % (self._name, self._name, ",".join(values))
         except:
-            pass
-
-
-        text_html+='''<input type="hidden" name="previous_%s" id="previous_%s" value="%s">'''%(self._name,self._name, ",".join(values))
-
-        print(text_html)
-
+            text_html += '''<input type="hidden" name="previous_%s" id="previous_%s" value="%s">''' % (self._name, self._name, value)
 
         return text_html
 
