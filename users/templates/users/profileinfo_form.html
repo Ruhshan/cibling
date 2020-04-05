@@ -55,4 +55,14 @@
 
 {% block submodule_heads %}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@voerro/vue-tagsinput@2.2.0/dist/style.css">
+    <style>
+        .tags-input-wrapper-default{
+              border: 0px solid transparent; !important;
+        }
+
+        .tags-input-wrapper-default.active{
+              border: 0px solid transparent; !important;
+              box-shadow: 0 0 0 0.2em white; !important;
+        }
+    </style>
 {% endblock submodule_heads %}
