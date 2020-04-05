@@ -58,7 +58,7 @@ class TagWidget(forms.TextInput):
                            ":typeahead":"true",
                            "v-model":selectedTagsModel,
                            ":existing-tags":existingTagsModel,
-                           "placeholder":"Add an "+name.title() + " then press Enter",
+                           "placeholder":"Add an "+name.title() + " then press Enter or comma",
                            "style":"height:auto",
                            "name":self._name,
                            ":add-tags-on-comma":"true"
