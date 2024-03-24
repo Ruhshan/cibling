@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="{% static "css/bootstrap.min.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/font-awesome.min.css" %}"/>
+    <link href="{% static 'django_private_chat/css/sidebar-chat.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static "css/style.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/ionicons.min.css" %}"/>
+    <script src="{% static "js/jquery-3.1.1.min.js" %}"></script>
+</head>
+
+<body>
+
+<div style="position:fixed;left:10px;width:200px;background-color:#7ec0ee;padding:10px;text-align:center;color:white;font-weight:bold;">
+    <a href="http://www.skptricks.com/2018/03/facebook-style-chat-application-with-jquery-and-css.html"> Download
+        Now </a></div>
+
+
+<div id="chat-sidebar-app">
+
+    <template v-for="(child, index) in chatBoxes">
+        <component :is="child.chatBoxComp" :rel="child.userId" :rel-id="child.userId"
+                   :user-name="child.userName"
+                   :opponent-user-name="child.opponentUserName"
+                   :dialog-id="child.dialogId"
+                   :request-user-id="child.requestUserId"
+                   v-on:refetchDialogHistory="fetchDialogHistory"
+        ></component>
+    </template>
+
+
+
+    <div id="chat-sidebar" style="background-color: snow">
+
+
+        <input type="hidden" id="requestUserId" value="{{ request.user.id }}">
+        <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
+        <input type="hidden" id="requestUserName" value="{{ request.user.username }}">
+
+        <div style="padding-left: 5px">CHAT</div>
+
+        {% verbatim %}
+        <div class="sidebar-user-box" v-for="dialog in dialogs"
+             @click="showMessageBox(dialog)">
+            <input type="hidden" :value="dialog.id" :id="setDialogId(dialog)">
+            <img :src="getIconForDialog(dialog)" class="dialog-icon"/>
+            <span id="slider-username">{{ getNameForDialog(dialog) }}</span> <span v-if="dialog.unread != 0">({{ dialog.unread }})</span>
+        </div>
+        {% endverbatim %}
+
+        {% verbatim %}
+        <div style="position: fixed; bottom: 30px">
+            <div v-if="new_chat_users.length > 0">New Chat</div>
+            <div id="sidebar-user-box-new" v-for="user in new_chat_users" @click="showNewMessageBox(user)">
+                <img :src="user.image" class="dialog-icon"/>
+                <span id="slider-username">{{ user.title }} </span>
+            </div>
+        </div>
+        {% endverbatim %}
+
+        <div style="background-color: white"><input id="search-chat" placeholder="Search" @input="search"></div>
+
+
+    </div>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="{% static "django_private_chat/js/chat_box_component.js" %}"></script>
+<script src="{% static "django_private_chat/js/sidebar-chat.js" %}"></script>
+<script src="{% static "js/bootstrap.min.js" %}"></script>
+</body>
+</html>

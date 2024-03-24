@@ -5,8 +5,10 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from .serializers import PostSerializer, MakeCommentSerializer
-from .models import Post
-import time
+from .models import Post, PostPhoto
+from PIL import Image
+import imghdr
+
 
 
 class PostResultPagination(PageNumberPagination):
@@ -51,3 +53,86 @@ class CommentView(APIView):
                 return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         except:
             return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
+class CreatePostView(APIView):
+    def post(self, request):
+        try:
+            if request.data['content']:
+                p = Post.objects.create(author=request.user, content=request.data['content'], youtubeId = request.data['youtubeId'])
+                p.save()
+
+                for img in request.data['images']:
+                    decoded = decode_base64_file(img['val'])
+                    postImg = PostPhoto.objects.create(post = p, image=decoded)
+                    postImg.save()
+                    convertToJpeg(postImg)
+            return Response(p.id, status=status.HTTP_201_CREATED)
+        except:
+            return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+def convertToJpeg(postImage):
+
+    if imghdr.what(postImage.image.path) == "png":
+        jpegPath = postImage.image.path + ".jpeg"
+        pindex = postImage.image.path.index("post_pics")
+        relativePath = jpegPath[pindex:]
+
+        fill_color = (255, 255, 255)
+        im = Image.open(postImage.image.path)
+        im = im.convert("RGBA")  # it had mode P after DL it from OP
+        if im.mode in ('RGBA', 'LA'):
+            background = Image.new(im.mode[:-1], im.size, fill_color)
+            background.paste(im, im.split()[-1])  # omit transparency
+            im = background
+
+        im.convert("RGB").save(jpegPath, "JPEG")
+
+        postImage.image = relativePath
+        postImage.save()
+
+
+def decode_base64_file(data):
+
+    def get_file_extension(file_name, decoded_file):
+
+        extension = imghdr.what(file_name, decoded_file)
+        extension = "jpg" if extension == "jpeg" else extension
+
+        return extension
+
+    from django.core.files.base import ContentFile
+    import base64
+    import six
+    import uuid
+
+    # Check if this is a base64 string
+    if isinstance(data, six.string_types):
+        # Check if the base64 string is in the "data:" format
+        if 'data:' in data and ';base64,' in data:
+            # Break out the header from the base64 content
+            header, data = data.split(';base64,')
+
+        # Try to decode the file. Return validation error if it fails.
+        try:
+            decoded_file = base64.b64decode(data)
+        except TypeError:
+            TypeError('invalid_image')
+
+        # Generate file name:
+        file_name = str(uuid.uuid4())[:12] # 12 characters are more than enough.
+        # Get the file name extension:
+        file_extension = get_file_extension(file_name, decoded_file)
+
+        complete_file_name = "%s.%s" % (file_name, file_extension, )
+
+        return ContentFile(decoded_file, name=complete_file_name)
+
+
+#
+# import decode_base64_file
+#
+# p = Post(content='My Picture', image=decode_based64_file(your_base64_file))
+# p.save()

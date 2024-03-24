@@ -1,0 +1,73 @@
+<div class="create-post" id="new-post">
+
+
+    <form onsubmit="return false;">
+        <div>
+            <h4 class="grey bold">New Post</h4>
+
+            <textarea name="content" cols="40" rows="5" maxlength="2000" required="required" id="id_content"
+                      v-model="postContent"></textarea>
+
+            <div class="form-row" style="padding-top: 10px; padding-bottom: 10px" v-if="showPhotoBox">
+                <div class="add-photos-box">
+
+                    {% verbatim %}
+
+
+                    <div class="add-photo-preview" v-for="imageData in imageDatas">
+                        <img :src="imageData.val">
+                        <span class="rm" @click="remove(imageData.id)"><i
+                                class="fa fa-times-circle fa-2x"></i></span>
+                    </div>
+
+                    {% endverbatim %}
+
+
+                    <div class="add-photo-box" v-if="imageDatas.length < 5">
+                        <span @click="addPhoto">Add Photo</span>
+                    </div>
+                </div>
+
+                <div class="form-row" style="padding-top: 10px" v-if="ytId">
+                    <iframe width="480px" height="320px"
+                            :src="'https://www.youtube.com/embed/' + ytId" allowfullscreen>
+                    </iframe>
+                </div>
+
+                <div class="form-row" style="padding-top: 10px">
+                    <input type="text" placeholder="Paste youtube link to share" size="70%" v-model="youtubeLink"/>
+                </div>
+
+
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-5 mb-0 ml-0">
+                    <button @click="toggelePhotoBox">Add Photos/Video</button>
+                </div>
+                <div class="form-group col-md-5 mb-0">
+                </div>
+                <div class="form-group col-md-2 mb-0">
+                    <button class="btn btn-primary pull-right" @click="publish">
+                        Publish
+                    </button>
+                </div>
+            </div>
+            {% verbatim %}
+            <div class="form-row" v-if="postUploadProgress>0">
+                <h5>Post uploading..</h5>
+                <div class="progress">
+                    <div class="progress-bar" role="progressbar" aria-valuenow="{{ postUploadProgress }}"
+                         aria-valuemin="0" aria-valuemax="100" v-bind:style="{ width : postUploadProgress+'%'}">
+                        <span class="sr-only">70% Complete</span>
+                    </div>
+                </div>
+            </div>
+            {% endverbatim %}
+            <div class="form-row">
+                <br>
+            </div>
+
+
+        </div>
+    </form>
+</div>

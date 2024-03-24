@@ -1,0 +1,12 @@
+<div>
+    {% with image0=post.postPhotos.all.0 %}
+        <a href="{{ image0.image.url }}" class="lsb-preview" data-lsb-group="group{{ post.id }}">
+            <div style="background:url({{ image0.image.url }});" class="photo10{{ image0.orientation}} gridbase"></div>
+        </a>
+    {% endwith %}
+</div>
+
+{#                        <a v-for="postPhoto in post.postPhotos" :href="postPhoto.image" class="lsb-preview"#}
+{#                            :data-lsb-group="getLsbGroup(post)">#}
+{#                            <img :src="postPhoto.image" height="150px" width="150px">#}
+{#                        </a>#}

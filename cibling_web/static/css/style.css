@@ -1553,7 +1553,7 @@ ul.online-users li span.online-dot{
   text-align: center;
   padding: 0 20px;
   top: -100px;
-  z-index: 999;
+  /*z-index: 999;*/
 }
 
 .timeline-cover .timeline-nav-bar .profile-info img.profile-photo{
@@ -3361,4 +3361,44 @@ ul.nav.nav-pills.serch-result-nav {
 .change-cover-text{
     color: white;
     padding-top: 10px
+}
+
+
+.add-photo-box{
+    margin-left: 5px;
+    border-style: dashed;
+    width: 120px;
+    height: 120px;
+    display: table;
+    text-align: center
+}
+
+.add-photo-box span{
+    vertical-align: middle;
+    display: table-cell;
+}
+
+.add-photo-preview{
+    margin-left: 5px;
+    height: 120px;
+    width: 120px;
+}
+
+.add-photo-preview img{
+    height: 120px;
+    width: 120px;
+}
+
+.add-photo-preview .rm{
+     position: relative;
+     top: -120px;
+     left: 80%;
+    color: #00aae6;
+    /*transform: translate(-50%, -50%);*/
+}
+
+.add-photos-box{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
 }

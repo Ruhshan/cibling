@@ -1,179 +1,169 @@
 {% extends 'cibling_web/base_temp.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-
+{% load compress %}
 
 {% block head %}
-    <script src="{% static "js/moment-with-locales.js" %}"></script>
-    <script src="{% static 'js/urlize.js' %}"></script>
-    <script src="{% static 'js/urlize_tlds.js' %}"></script>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
+{% compress css %}
+<link rel="stylesheet" href="{% static 'css/lsb.css' %}" />
 
+<link rel="stylesheet" href="{% static "css/photoGrid.css" %}" />
+
+{% endcompress %}
+
+<script>
+
+    function initLightBox() {
+        $.fn.lightspeedBox();
+    }
+
+    window.onload = initLightBox;
+
+</script>
 
 
 
 {% endblock %}
 
 {% block page_content %}
-    <div class="col-md-7">
+<div class="col-md-7">
 
-        <div class="create-post">
-            <form method="POST" enctype="multipart/form-data">
-                {% csrf_token %}
-                <div>
-                    <h4 class="grey bold">New Post</h4>
-                    {{ form.content }}
-                    <div class="form-row">
-                        <div class="form-group col-md-5 mb-0 ml-0">
-                            {{ form.image }}
-                        </div>
-                        <div class="form-group col-md-5 mb-0">
-                        </div>
-                        <div class="form-group col-md-2 mb-0">
-                            <button class="btn btn-primary pull-right" name="submit" value="post-submit">
-                                Publish
-                            </button>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <br>
-                    </div>
-                </div>
-            </form>
-            <!--
 
-            <form method="POST">
-                <div class="row">
-                  <div class="form-group">
+    {% include "cibling_web/fragment/new_post.html" %}
 
-                    <input name="texts" id="" rows="4" cols="100" class="" placeholder="Write what you wish">
-
-                    </input>
-
-                  </div>
-
-                </div>
-
-                <div class="row">
-                  <div class="tools">
-                    <ul class="publishing-tools list-inline">
-                      <li><a href="#"><i class="ion-compose"></i></a></li>
-                      <li><a href="#"><i class="ion-images"></i></a></li>
-                      <li><a href="#"><i class="ion-ios-videocam"></i></a></li>
-                    </ul>
-                    <button class="btn btn-primary pull-right" name="submit" value="post-submit">Publish</button>
-                  </div>
-
-                </div>
-            </form>
-            -->
-
-        </div><!-- Post Create Box End-->
-
-        <!-- Post Content
-        ================================================= -->
-
-        <!--TODO: Following will be paginated-->
-        {% verbatim %}
-        <div id="all-posts">
-            <div v-for="(post, index) in posts" class="post-content">
-                <div class="post-container">
-                    <a :href="post.author.profile_url"><img :src="post.author.profile_image" alt="user"
-                            class="profile-photo-md pull-left"/></a>
-                    <div class="post-detail">
-                        <div class="user-info"
-                             @click="post_detail(post.detail_url)"
-                             style="cursor: pointer;">
-                            <h5><a :href="post.author.profile_url"
-                                   class="profile-link">{{ post.author.first_name }} {{ post.author.last_name }}</a>
-                                <span
-                                        class="following"> </span></h5>
-                            <p v-if="post.image" class="text-muted">Published a photo {{ post.time_posted | formatDate
+    {% verbatim %}
+    <div id="all-posts">
+        <div v-for="(post, index) in posts" class="post-content">
+            <div class="post-container">
+                <a :href="post.author.profile_url"><img :src="post.author.profile_image" alt="user"
+                        class="profile-photo-md pull-left" /></a>
+                <div class="post-detail">
+                    <div class="user-info" @click="post_detail(post.detail_url)" style="cursor: pointer;">
+                        <h5><a :href="post.author.profile_url" class="profile-link">{{ post.author.first_name }}
+                                {{ post.author.last_name }}</a>
+                            <span class="following"> </span></h5>
+                        <p v-if="post.image" class="text-muted">Published a photo {{ post.time_posted | formatDate
                                 }}</p>
-                            <p v-else class="text-muted">Published a post {{ post.time_posted | formatDate }}</p>
-                        </div>
+                        <p v-else class="text-muted">Published a post {{ post.time_posted | formatDate }}</p>
+                    </div>
+                    <div class="line-divider"></div>
+                    <div class="post-text" @click="post_detail(post.detail_url)" style="cursor: pointer;">
+                        <p v-html="urlize(post.content)"><i class="em em-anguished"></i> <i class="em em-anguished"></i>
+                            <i class="em em-anguished"></i></p>
+                    </div>
+                    <div class="line-divider"></div>
+                    <div v-if="post.youtubeId">
+                        <iframe :width="iframeWidth" :height="iframeHeight"
+                            :src=" 'https://www.youtube.com/embed/' + post.youtubeId" allowfullscreen>
+                        </iframe>
                         <div class="line-divider"></div>
-                        <div class="post-text"
-                             @click="post_detail(post.detail_url)"
-                             style="cursor: pointer;">
-                            <p v-html="urlize(post.content)"><i class="em em-anguished"></i> <i
-                                    class="em em-anguished"></i> <i class="em em-anguished"></i></p>
-                        </div>
-                        <div class="line-divider"></div>
-                        <div @click="post_detail(post.detail_url)"
-                             style="cursor: pointer;">
-                            <img v-if="post.image" :src="post.image" alt="post-image"
-                                 class="img-responsive post-image"/>
+                    </div>
 
-                        </div>
-                        <div v-for="comment in post.comments" class="post-comment">
-                            <a :href="comment.author.profile_url"><img :src="comment.author.profile_image" alt="" class="profile-photo-sm"/></a>
-                            <p><a :href="comment.author.profile_url"
-                                  class="profile-link">{{ comment.author.first_name }} {{ comment.author.last_name
-                                }} </a><i
-                                    class="em em-laughing"></i> <span v-html="urlize(comment.text)"></span></p>
-                        </div>
-                        <div class="post-comment">
 
-                            <div class="form-row">
-                                <div class="form-group col-md-1 mb-0">
-                                    <img :src="user.profile_image" alt="user"
-                                         class="profile-photo-sm"/>
-                                </div>
-                                <div class="form-group col-md-11 mb-0">
-                                    <textarea name="text" cols="40" rows="2" maxlength="1000"
-                                              :id="get_comment_id(post.id)"></textarea>
-                                    <button class="btn btn-primary pull-right" @click="make_comment(post.id, post)">
-                                        Comment
-                                    </button>
-                                </div>
+
+                        <component  v-if="post.postPhotos.length == 1"
+                                    :is="OneImage"
+                                    :images="post.postPhotos"
+                                    :lsb-group="getLsbGroup(post)"
+                                    :section-id="getPhotosSectionId(post.postPhotos)"></component>
+                        <component  v-if="post.postPhotos.length == 2"
+                                    :is="TwoImages"
+                                    :images="post.postPhotos"
+                                    :lsb-group="getLsbGroup(post)"
+                                    :section-id="getPhotosSectionId(post.postPhotos)"></component>
+                        <component  v-if="post.postPhotos.length == 3"
+                                    :is="ThreeImages"
+                                    :images="post.postPhotos"
+                                    :lsb-group="getLsbGroup(post)"
+                                    :section-id="getPhotosSectionId(post.postPhotos)"></component>
+                        <component  v-if="post.postPhotos.length == 4"
+                                    :is="FourImages"
+                                    :images="post.postPhotos"
+                                    :lsb-group="getLsbGroup(post)"
+                                    :section-id="getPhotosSectionId(post.postPhotos)"></component>
+                        <component  v-if="post.postPhotos.length == 5"
+                                    :is="FiveImages"
+                                    :images="post.postPhotos"
+                                    :lsb-group="getLsbGroup(post)"
+                                    :section-id="getPhotosSectionId(post.postPhotos)"></component>
+
+                    <div class="line-divider"></div>
+                    <div v-for="comment in post.comments" class="post-comment">
+                        <a :href="comment.author.profile_url"><img :src="comment.author.profile_image" alt=""
+                                class="profile-photo-sm" /></a>
+                        <p><a :href="comment.author.profile_url" class="profile-link">{{ comment.author.first_name }} {{ comment.author.last_name
+                                }} </a><i class="em em-laughing"></i> <span v-html="urlize(comment.text)"></span></p>
+                    </div>
+                    <div class="post-comment">
+
+                        <div class="form-row">
+                            <div class="form-group col-md-1 mb-0">
+                                <img :src="user.profile_image" alt="user" class="profile-photo-sm" />
                             </div>
-
+                            <div class="form-group col-md-11 mb-0">
+                                <textarea name="text" cols="40" rows="2" maxlength="1000"
+                                    :id="get_comment_id(post.id)"></textarea>
+                                <button class="btn btn-primary pull-right" @click="make_comment(post.id, post)">
+                                    Comment
+                                </button>
+                            </div>
                         </div>
 
-
                     </div>
-                </div>
-                <div v-if="post.author.id == user.id" class="post-delete">
-                    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" @click="show_modal(index)"><i
-                            class="fa fa-trash-o" aria-hidden="true"></i></button>
+
 
                 </div>
             </div>
+            <div v-if="post.author.id == user.id" class="post-delete">
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" @click="show_modal(index)"><i
+                        class="fa fa-trash-o" aria-hidden="true"></i></button>
 
-            <infinite-loading @infinite="infiniteHandler"></infinite-loading>
-
-
-            <div class="modal fade" id="myModal" role="dialog">
-                <div class="modal-dialog modal-sm">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Are you sure?</h4>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" @click="post_delete">Yes</button>
-                            <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
-                        </div>
-                    </div>
-                </div>
             </div>
-
         </div>
 
+        <infinite-loading @infinite="infiniteHandler"></infinite-loading>
 
-        {% endverbatim %}
+
+        <div class="modal fade" id="myModal" role="dialog">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Are you sure?</h4>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" @click="post_delete">Yes</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
+
+
+    {% endverbatim %}
+
+</div>
 {% endblock page_content %}
 
 {% block script %}
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/jquery.lazy/1.7.9/jquery.lazy.plugins.min.js"></script>
 
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
-    <script src="https://unpkg.com/vue-infinite-loading@^2/dist/vue-infinite-loading.js"></script>
 
-    <script src="{% static "custom/js/newsfeed.js" %}"></script>
+<script src="https://unpkg.com/vue-infinite-loading@^2/dist/vue-infinite-loading.js"></script>
 
+{% compress js %}
+<script src="{% static 'js/urlize.js' %}"></script>
+<script src="{% static 'js/urlize_tlds.js' %}"></script>
+
+<script src="{% static "custom/js/multi_image_layouts.js" %}"></script>
+<script src="{% static "custom/js/newsfeed.js" %}"></script>
+<script src="{% static "custom/js/new_post.js" %}"></script>
+<script src="{% static "js/lsb.min.js" %}"></script>
+{% endcompress %}
 
 {% endblock %}

@@ -1,0 +1,167 @@
+/**** Chat Popup Layout******/
+
+.msg_box{
+	position:fixed;
+	bottom:-5px;
+	width:250px;
+	background:white;
+	border-radius:5px 5px 0px 0px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+
+.msg_head{
+	background:white;
+	color:black;
+	padding:8px;
+	margin-left: 4px;
+	font-weight:bold;
+	cursor:pointer;
+	border-radius:5px 5px 0px 0px;
+
+}
+
+.msg_body{
+	background:white;
+	height:200px;
+	font-size:12px;
+	padding:15px;
+	overflow:auto;
+	overflow-x: hidden;
+	display: flex;
+	flex: 1 1px;
+	flex-direction: column;
+	/*flex-flow: column;*/
+}
+.msg_input{
+	width:100%;
+	height: 55px;
+	border: 1px solid white;
+	border-top:1px solid #DDDDDD;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+.msg_input_new{
+	width:100%;
+	height: 55px;
+	border: 1px solid white;
+	border-top:1px solid #DDDDDD;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+
+.close{
+	float:right;
+	cursor:pointer;
+}
+.minimize{
+	float:right;
+	cursor:pointer;
+	padding-right:5px;
+
+}
+
+.msg-left{
+	position:relative;
+	background:#e2e2e2;
+	padding:5px;
+	min-height:10px;
+	margin-bottom:5px;
+	margin-right:10px;
+	border-radius:5px;
+	word-break: break-all;
+	align-self: flex-start;
+	display: inline-block;
+
+
+}
+
+.msg-right{
+	background:#d4e7fa;
+	padding:5px;
+	min-height:15px;
+	margin-bottom:5px;
+	position:relative;
+	margin-left:10px;
+	border-radius:5px;
+	word-break: break-all;
+	align-self: flex-end;
+	display: inline-block;
+
+}
+/**** Slider Layout Popup *********/
+
+ #chat-sidebar {
+     width: 250px;
+     position: fixed;
+     height: 100%;
+     right: 0px;
+     padding-top: 10px;
+     padding-bottom: 10px;
+	 background-color: #E8E8E8;
+     border-left: 0.5px solid #A9A9A9;
+}
+ .sidebar-user-box {
+     padding: 4px;
+	 padding-left: 5px;
+     margin-bottom: 4px;
+     font-size: 15px;
+     font-family: Calibri;
+     font-weight:bold;
+     cursor:pointer;
+}
+ .sidebar-user-box-new {
+     padding: 4px;
+     margin-bottom: 4px;
+     font-size: 15px;
+     font-family: Calibri;
+     font-weight:bold;
+     cursor:pointer;
+}
+ .sidebar-user-box-new:hover {
+     background-color: rgba(57, 60, 35, 0.32);
+	 color: black;
+}
+ .sidebar-user-box:hover {
+     background-color: rgba(57, 60, 35, 0.32);
+	 color: black;
+}
+ .sidebar-user-box:after {
+     content: ".";
+     display: block;
+     height: 0;
+     clear: both;
+     visibility: hidden;
+}
+
+ #slider-username{
+     /*float:right;*/
+     line-height:30px;
+     margin-left:5px;
+}
+
+
+#search-chat {
+
+    border: 0px solid #609;
+    width: 100%;
+    height: 30px;
+	position: fixed;
+	bottom: 0px;
+}
+
+.dialog-icon{
+	height: 30px;
+	width: 30px;
+	border-radius: 50%;
+}
+
+
+
+
+
+

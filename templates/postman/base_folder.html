@@ -1,107 +1,277 @@
 {% extends "postman/base.html" %}
-{% load i18n postman_tags %}{% load pagination_tags %}{% comment %}
-WARNING: 'pagination_tags' is a name from the dj-pagination application.
-For convenience, the design of this template is done with the use of that application.
-Django-postman will still be working, even if that application is not installed, by providing a mock
-for the template tag library.
-If the real implementation is to be used, just make sure that 'dj_pagination' is declared before 'postman'
-in the INSTALLED_APPS setting.
-{% endcomment %}
+{% load static %}
 
+
+{% load i18n postman_tags %}{% load pagination_tags %}
 {% block content %}
-    <div id="page-contents">
-    	<div class="container">
-    		<div class="row">
+    <div class="">
+        <div class="row">
+            <!-- BEGIN INBOX -->
+            <div class="col-md-12">
+                <div class="grid email">
+                    <div class="grid-body">
+                        <div class="row">
+                            <!-- BEGIN INBOX MENU -->
+                            <div class="col-md-2">
+                                {% with request.resolver_match.url_name as url_name %}
 
-           <div class="inbox-sec">
-                <div class="row">
-                <h1>
-                    {% block pm_folder_title %}
-                    {% endblock %}
-                </h1>
-                {% autopaginate pm_messages %}
-                {% if invalid_page %}
-                    <p>{% trans "Sorry, this page number is invalid." %}</p>
-                {% else %}
-                    {% if pm_messages %}
-                        {% block pm_by_modes %}
-                            <div id="pm_byModes">
-                                <span class="pm_by-mode">{% if by_message %}<a href="{{ by_conversation_url }}">{% endif %}{% trans "by conversation" %}{% if by_message %}</a>{% endif %}</span>
-                                <span class="pm_by-mode">{% if by_conversation %}<a href="{{ by_message_url }}">{% endif %}{% trans "by message" %}{% if by_conversation %}</a>{% endif %}</span>
+                                    <h2 class="grid-title"><i class="fa fa-inbox"></i> Messages </h2>
+                                    <a class="btn btn-block btn-primary" data-toggle="modal"
+                                       data-target="#compose-modal"><i class="fa fa-pencil"></i>&nbsp;&nbsp;NEW MESSAGE</a>
+
+                                    <hr>
+
+
+
+                                    <div>
+                                        <ul class="nav nav-pills nav-stacked">
+                                            <li class="header">Folders</li>
+
+                                            {% postman_unread as unread_count %}
+
+                                            <li class="{% if url_name == 'inbox' %}active{% endif %}"><a
+                                                    href="{% url 'postman:inbox' %}"><i class="fa fa-inbox"></i> Inbox
+
+                                                {% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}
+                                            </a></li>
+                                            <li class="{% if url_name == 'archives' %}active{% endif %}"><a
+                                                    href="{% url 'postman:archives' %}"><i class="fa fa-archive"></i>
+                                                Archives</a></li>
+                                            <li class="{% if url_name == 'sent' %}active{% endif %}"><a
+                                                    href="{% url 'postman:sent' %}"><i class="fa fa-mail-forward"></i>
+                                                Sent</a></li>
+                                            <li class="{% if url_name == 'trash' %}active{% endif %}"><a
+                                                    href="{% url 'postman:trash' %}"><i class="fa fa-trash-o"></i>Trash</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                {% endwith %}
+
                             </div>
-                        {% endblock pm_by_modes %}
-                        <form action="{% block pm_form_action %}{% endblock %}" method="post">{% csrf_token %}
-                            {% block pm_form_buttons %}
-                            {% endblock %}
-                        </form>
-                        {% paginate %}
-                    {% else %}
-                        <p>{% trans "No messages." %}</p>
-                    {% endif %}
-                {% endif %}
-        {% block pm_footer_info %}{% endblock %}
-                    <div class="col-lg-3 col-md-3 col-sm-4">
-                        <div class="inbox-navigation">
-                            <div class="inbox-panel-head">
+                            <!-- END INBOX MENU -->
 
-                                <h1><i>{{ user }}</i></h1>
-                                <a title="" href="{% url 'timeline-profile' user.pk %}"><i class="fa fa-user"></i>Profile</a>
+                            <!-- BEGIN INBOX CONTENT -->
+                            <div class="col-md-9">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <label style="margin-right: 8px;" class="">
+                                            <div class="icheckbox_square-blue" style="position: relative;"><input
+                                                    type="checkbox" id="check-all" class="icheck"
+                                                    style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);">
+                                                <ins class="iCheck-helper"
+                                                     style="position: absolute; top: -20%; left: -20%; display: block; width: 140%; height: 140%; margin: 0px; padding: 0px; border: 0px; opacity: 0; background: rgb(255, 255, 255);"></ins>
+                                            </div>
+                                        </label>
+                                        {% block action_button %}
+                                            {#								<div class="btn-group">#}
+                                            {#									<button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">#}
+                                            {#										Action <span class="caret"></span>#}
+                                            {#									</button>#}
+                                            {#									<ul class="dropdown-menu" role="menu">#}
+                                            {#										<li><a href="#">Mark as read</a></li>#}
+                                            {#										<li><a href="#">Mark as unread</a></li>#}
+                                            {#										<li><a href="#">Move to archive</a></li>#}
+                                            {#										<li class="divider"></li>#}
+                                            {#										<li><a href="#">Move to trash</a></li>#}
+                                            {#									</ul>#}
+                                            {#								</div>#}
+                                        {% endblock action_button %}
+                                    </div>
+
+                                    {% comment %} <div class="col-md-6 search-form">
+								<form action="#" class="text-right">
+									<div class="input-group">
+										<input type="text" class="form-control input-sm" placeholder="Search">
+										<span class="input-group-btn">
+                                            <button type="submit" name="search" class="btn_ btn-primary btn-sm search"><i class="fa fa-search"></i></button></span>
+									</div>			 
+								</form>
+							</div> {% endcomment %}
+                                </div>
+
+                                <div class="padding"></div>
+
+
+                                {% block messagesTab %}
+                                {% endblock messagesTab %}
+
+
                             </div>
-                            <ul>{% postman_unread as unread_count %}
-                                     <li><a href="{% url 'postman:inbox' %}"><i class="fa fa-inbox"></i>{% trans "Inbox" %}{% if unread_count %} <strong>({{ unread_count }})</strong>{% endif %}</a></li>
-                                <li><a href="{% url 'postman:write' %}"><i class="fa fa-briefcase"></i>{% trans "Write" %}</a></li>
-                                <li><a href="{% url 'postman:sent' %}"><i class="fa fa-paper-plane-o"></i>{% trans "Sent Messages" %}</a></li>
-                                <li><a href="{% url 'postman:archives' %}"><i class="fa fa-plane"></i>{% trans "Archives" %}</a></li>
-                                <li><a href="{% url 'postman:trash' %}"><i class="fa fa-trash-o"></i>{% trans "Trash" %}</a></li>
-                            </ul>
+                            <!-- END INBOX CONTENT -->
 
+                            <!-- BEGIN COMPOSE MESSAGE -->
+                            <div class="modal fade" id="compose-modal" tabindex="-1" role="dialog" aria-hidden="true">
+                                <div class="modal-wrapper">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header bg-blue">
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                        aria-hidden="true">×
+                                                </button>
+                                                <h4 class="modal-title"><i class="fa fa-envelope"></i> Compose New
+                                                    Message</h4>
+                                            </div>
+                                            {% verbatim %}
+                                            <div id="app">
+                                                <div class="modal-body">
+                                                    <div v-if="delivering">
+
+                                                        <square color="#c112c4"></square>
+
+                                                    </div>
+                                                    <div v-if="successMessage.length > 0" class="alert alert-success"
+                                                         role="alert"
+                                                         id="alert_message">
+                                                        {{ successMessage }}
+
+                                                    </div>
+
+
+                                                    <div id="div_id_recipients" class="form-group required">
+                                                        <label for="id_recipients"
+                                                               class="col-form-label  requiredField">
+                                                            Recipient<span class="asteriskField">*</span>
+                                                        </label>
+                                                        <div class="">
+                                                            <v-select v-model="recipient"
+                                                                      label="title"
+                                                                      :options="users"
+                                                                      @search="onSearch"
+                                                                      :filterable="false"
+
+                                                                      class="textinput textInput"
+                                                            >
+                                                                <template slot="no-options">
+                                                                    Type to search users..
+                                                                </template>
+
+                                                                <template slot="option" slot-scope="option">
+                                                                    <div class="d-center">
+                                                                        <img :src="option.image" height="20px"/>
+                                                                        {{ option.title }}
+                                                                    </div>
+                                                                </template>
+
+                                                                <template slot="selected-option" slot-scope="option">
+                                                                    <div class="selected d-center">
+                                                                        <img :src="option.image" height="20px"/>
+                                                                        {{ option.title }}
+                                                                    </div>
+                                                                </template>
+
+                                                            </v-select>
+                                                            <span class="help-block">{{ error.recipient }}</span>
+                                                        </div>
+                                                    </div>
+
+                                                    <div id="div_id_subject" class="form-group required">
+                                                        <label for="id_subject" class="col-form-label  requiredField">
+                                                            Subject</span>
+                                                        </label>
+                                                        <div>
+                                                            <input type="text" name="subject" maxlength="120"
+                                                                   class="textinput textInput form-control" required
+                                                                   id="id_subject" v-model="subject">
+                                                            <span class="help-block">{{ error.subject }}</span>
+                                                        </div>
+                                                    </div>
+                                                    <div id="div_id_body" class="form-group">
+                                                        <label for="id_body" class="col-form-label ">
+                                                            Body<span class="asteriskField">*</span>
+                                                        </label>
+                                                        <div class="">
+                                                <textarea name="body" cols="55" rows="12" class="textarea form-control"
+                                                          id="id_body" v-model="body">
+                                                </textarea>
+                                                            <span class="help-block">{{ error.body }}</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-default" data-dismiss="modal">
+                                                        <i class="fa fa-times"></i> Discard
+                                                    </button>
+                                                    <button type="submit" class="btn btn-primary pull-right"
+                                                            v-on:click="onSend"><i
+                                                            class="fa fa-envelope"></i> Send Message
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            {% endverbatim %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- END COMPOSE MESSAGE -->
                         </div>
-                    </div>
-                    <div class="col-lg-9 col-md-9 col-sm-8">
-                        <div class="inbox-lists">
-
-                            <div class="mesages-lists">
-
-                                <ul id="message-list" class="message-list ps-container ps-theme-default ps-active-y" data-ps-id="26990d2b-4337-0703-2adc-d7bbdb165b1d">
-
-                                    {% for message in pm_messages %}
-                                        <li class="">
-                                            {% block pm_sender_cell %}
-                                                {{ message.obfuscated_sender|or_me:user }}{% if message.count %} ({{ message.count }}){% endif %}
-                                            {% endblock %}
-                                            {% block pm_recipient_cell %}
-                                                {{ message.obfuscated_recipient|or_me:user }}{% if message.count %} ({{ message.count }}){% endif %}
-                                            {% endblock %}
-                                               {% if message.is_new %}
-                                                   <strong>
-                                               {% endif %}
-                                               {% if message.is_replied %}
-                                                   <em>
-                                               {% endif %}
-                                                {% block pm_subject %}
-                                                    <a href="{% if by_conversation and message.thread_id %}{% url 'postman:view_conversation' message.thread_id %}{% else %}{% url 'postman:view' message.pk %}{% endif %}?next={{ current_url|urlencode }}">
-                                                    {% include "postman/inc_subject_ex.html" %}
-                                                    </a>
-                                                {% endblock %}
-                                                       {% if message.is_replied %}
-                                                           </em>
-                                                       {% endif %}
-                                                       {% if message.is_new %}
-                                                           </strong>
-                                                       {% endif %}
-                                                  {{ message.sent_at|compact_date:_("g:i A,M j,n/j/y") }}
-                                        </li>
-                                    {% endfor %}
-
-
-
-
-                            </ul></div>
-                        </div><!-- Inbox lists -->
                     </div>
                 </div>
             </div>
-        </div>
+            <!-- END INBOX -->
         </div>
     </div>
+    </div>
+
+    {% block extrahead %}
+
+        <link rel="stylesheet" href="{% static "css/pm-styles.css" %}"/>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+        <script src="https://unpkg.com/vue-select@3.0.0"></script>
+        <link rel="stylesheet" href="https://unpkg.com/vue-select@3.0.0/dist/vue-select.css">
+
+        <script src="https://unpkg.com/lodash@latest/lodash.min.js"></script>
+
+        <!-- Add these two line -->
+        <link rel="stylesheet" href="https://unpkg.com/vue-spinners@1.0.0/dist/vue-spinners.css">
+        <script src="https://unpkg.com/vue-spinners@1.0.0/dist/vue-spinners.browser.js"></script>
+
+
+        <style>
+
+            .preview-img {
+                height: auto;
+                max-width: 2.5rem;
+                margin-right: 1rem;
+            }
+
+            .d-center {
+                display: flex;
+                align-items: center;
+            }
+
+            .selected img {
+                width: auto;
+                max-height: 23px;
+                margin-right: 0.5rem;
+            }
+
+            .v-select .dropdown li {
+                border-bottom: 1px solid rgba(112, 128, 144, 0.1);
+            }
+
+            .v-select .dropdown li:last-child {
+                border-bottom: none;
+            }
+
+            .v-select .dropdown li a {
+                padding: 10px 20px;
+                width: 100%;
+                font-size: 1.25em;
+                color: #3c3c3c;
+            }
+
+            .v-select .dropdown-menu .active > a {
+                color: #fff;
+            }
+
+        </style>
+
+    {% endblock %}
 {% endblock content %}
+
+
+{% block extra_js %}
+    <script type="text/javascript" src="{% static 'custom/js/write-message.js' %}"></script>
+{% endblock extra_js %}

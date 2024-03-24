@@ -3,11 +3,11 @@ var profileUpdateApp = new Vue({
     components: {"tags-input": VoerroTagsInput},
     data: {
         selectedExpertises: [],
-        existingExpertises: {},
+        existingExpertises: [],
         selectedInterests: [],
-        existingInterests: {},
+        existingInterests: [],
         selectedLanguages: [],
-        existingLanguages: {},
+        existingLanguages: [],
         institutes: [],
     },
     created() {
@@ -17,31 +17,40 @@ var profileUpdateApp = new Vue({
         var previous_languages = document.getElementById("previous_languages").value;
 
 
+        console.log(previous_languages)
+
 
         if (previous_expertises.length !== 0 && previous_expertises !== "None") {
             previous_expertises.split(",").forEach((item) => {
                 item = item.includes("Expertise: ") ? item.match(": (.*)>")[1] : item;
-                this.selectedExpertises.push(item);
+
+                kv={key:"", value:item}
+
+                this.selectedExpertises.push(kv);
             });
         }
 
         if (previous_interests.length !== 0 && previous_interests !== "None") {
             previous_interests.split(",").forEach((item) => {
                 item = item.includes("Interest: ") ? item.match(": (.*)>")[1] : item;
-                this.selectedInterests.push(item);
+
+                kv = {key:"", value: item}
+                this.selectedInterests.push(kv);
             });
         }
 
         if (previous_languages.length !== 0 && previous_languages !== "None") {
             previous_languages.split(",").forEach((item) => {
                 item = item.includes("Language: ") ? item.match(": (.*)>")[1] : item;
-                this.selectedLanguages.push(item);
+                kv = {key:"",value:item}
+                this.selectedLanguages.push(kv);
             });
         }
 
         axios.get("/api/user/expertises").then((response) => {
             response.data.forEach((item) => {
-                self.existingExpertises[item["expertise"]] = item["expertise"];
+                var kv = {key:item.id.toString(), value:item.expertise}
+                self.existingExpertises.push(kv);
             });
 
         }).catch((err) => {
@@ -50,7 +59,9 @@ var profileUpdateApp = new Vue({
 
         axios.get("/api/user/interests").then((response) => {
             response.data.forEach((item) => {
-                self.existingInterests[item["interest"]] = item["interest"];
+
+                var kv = {key:item.id.toString(), value: item.interest}
+                self.existingInterests.push(kv);
             });
 
         }).catch((err) => {
@@ -58,7 +69,8 @@ var profileUpdateApp = new Vue({
         });
         axios.get("/api/user/languages").then((response) => {
             response.data.forEach((item) => {
-                self.existingLanguages[item["language"]] = item["language"];
+                var kv = {key:item.id.toString(), value:item.language}
+                self.existingLanguages.push(kv);
             });
 
         }).catch((err) => {

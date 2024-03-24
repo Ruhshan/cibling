@@ -59,6 +59,8 @@ def register(request):
 
         elif request.POST.get('submit')=='login':
             login_form = UserLoginForm(request.POST)
+            next_param = request.GET.get('next')
+
             if login_form.is_valid():
                 email = login_form.cleaned_data['email']
                 password = login_form.cleaned_data['password']
@@ -69,6 +71,9 @@ def register(request):
                     user = authenticate(username=username,password=password)
                     if user is not None:
                         login(request, user)
+
+                        if next_param is not None:
+                            return redirect(next_param)
                         return redirect('newsfeed')
 
 

@@ -1,5 +1,5 @@
-//import VueTagInput from 'vue-tag-input'
-//import VueTagInput from 'vue-tag-input'
+
+
 
 var app = new Vue({
     el: '#app',
@@ -10,9 +10,9 @@ var app = new Vue({
         subject: "",
         institutes: [],
         selectedExpertises:[],
-        existingExpertises:{},
+        existingExpertises:[],
         selectedInterests:[],
-        existingInterests:{},
+        existingInterests:[],
 
     },
     created() {
@@ -20,20 +20,21 @@ var app = new Vue({
 
         var previous_expertises = document.getElementById("previous_expertise").value;
         var previous_interests = document.getElementById("previous_interest").value;
-        //var previous_offers = document.getElementById("previous_offer").value;
 
         document.getElementById("id_offer").parentNode.innerHTML+='<small class="form-text text-muted" >Adding offers will increase your exposure to ciblings!</small>';
 
 
         if(previous_expertises.length !==0 && previous_expertises !== "None"){
         previous_expertises.split(",").forEach((item)=>{
-            this.selectedExpertises.push(item);
+            var kv={key:"", value:item}
+            this.selectedExpertises.push(kv);
         });
         }
 
         if(previous_interests.length !== 0 && previous_interests !== "None"){
         previous_interests.split(",").forEach((item)=>{
-            this.selectedInterests.push(item);
+            var kv={key:"", value:item}
+            this.selectedInterests.push(kv);
         });
         }
 
@@ -42,16 +43,19 @@ var app = new Vue({
 
         axios.get("/api/user/expertises").then((response)=>{
             response.data.forEach((item)=>{
-                self.existingExpertises[item["expertise"]] = item["expertise"];
+                var kv = {key:item.id.toString(), value:item.expertise}
+                self.existingExpertises.push(kv)
             });
 
         }).catch((err)=>{
             console.log(err);
         });
 
+
         axios.get("/api/user/interests").then((response)=>{
             response.data.forEach((item)=>{
-                self.existingInterests[item["interest"]] = item["interest"];
+                var kv = {key:item.id.toString(), value: item.interest}
+                self.existingInterests.push(kv)
             });
 
         }).catch((err)=>{
@@ -61,6 +65,15 @@ var app = new Vue({
 
     },
     methods: {
+        changedTags:function(name, value){
+            var current = this.selectedExpertises
+            console.log(current)
+            current.push(value)
+            console.log(current)
+            this.selectedExpertises = current
+
+
+        },
         focused: function () {
             var country = document.getElementById("id_country").value;
 
@@ -89,3 +102,4 @@ var app = new Vue({
         }
     }
 });
+

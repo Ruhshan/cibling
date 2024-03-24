@@ -11,6 +11,13 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import environ
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
+environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -20,12 +27,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '5s5wj2j#vn!x_0eydnhhq!wq^@3mw$kak1-zmx2aw#aiu96w*w'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env('DEBUG')
 
-ALLOWED_HOSTS = ['www.cibling.ac','63.142.254.153','127.0.0.1', '*']
+
+ALLOWED_HOSTS = ['www.cibling.ac','127.0.0.1','localhost']
 
 
 # Application definition
@@ -45,8 +53,9 @@ INSTALLED_APPS = [
     'crispy_forms',
     'widget_tweaks',
     'postman',
-    'django_private_chat',
     'django.contrib.postgres',
+    'django_private_chat',
+    'compressor'
 ]
 
 MIDDLEWARE = [
@@ -58,6 +67,13 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    # other finders..
+    'compressor.finders.CompressorFinder',
+)
 
 ROOT_URLCONF = 'cibling.urls'
 
@@ -81,25 +97,14 @@ TEMPLATES = [
 WSGI_APPLICATION = 'cibling.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/2.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
-# }
-
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'cibling_db',
-        'USER': 'cblinguser',
-        'PASSWORD': 'cblinguser456789',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': env('DB_NAME'),
+        'USER': env('DB_USER'),
+        'PASSWORD': env('DB_PASSWORD'),
+        'HOST': env('DB_HOST'),
+        'PORT': env('DB_PORT'),
     }
 }
 
@@ -154,10 +159,10 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 # email confirmation
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.zoho.com'
-EMAIL_HOST_USER = 'admin@cibling.ac'
-EMAIL_HOST_PASSWORD = 'qweRTY!!@@##'
-EMAIL_PORT = 587
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = env('EMAIL_PORT')
 
 
 #postman conf
@@ -165,17 +170,18 @@ POSTMAN_DISALLOW_ANONYMOUS = True
 POSTMAN_DISALLOW_MULTIRECIPIENTS = True
 POSTMAN_DISALLOW_COPIES_ON_REPLY = True
 
-#EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = env('EMAIL_BACKEND')
 
 POSTMAN_AUTO_MODERATE_AS = True
 
 
 
 #private chat
-CHAT_WS_SERVER_HOST = 'localhost'
-CHAT_WS_SERVER_PORT = 5002
+CHAT_WS_SERVER_HOST = env('CHAT_WS_SERVER_HOST')
+CHAT_WS_SERVER_PORT = env('CHAT_WS_SERVER_PORT')
 CHAT_WS_SERVER_PROTOCOL = 'ws'
 
 
 SITE_ID=2
+
+COMPRESS_ENABLED = True

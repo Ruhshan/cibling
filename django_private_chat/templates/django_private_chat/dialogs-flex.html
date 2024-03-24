@@ -1,0 +1,186 @@
+{% extends "cibling_web/base_temp.html" %}
+{#{% extends "base.html" %}#}
+{% load static %}
+{% load i18n %}
+{% block head %}
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+    <link rel="stylesheet" href="{% static 'django_private_chat/css/flex-chat.css' %}">
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.6.10/vue.min.js"></script>
+    {#    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>#}
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue-chat-scroll/dist/vue-chat-scroll.min.js"></script>
+    <script src="https://unpkg.com/@saeris/vue-spinners"></script>
+
+
+
+{% endblock head %}
+
+{% block dialog_content %}
+    <input type="hidden" id="requestSessionId" value="{{ request.session.session_key }}">
+    <input type="hidden" id="opponentUserName" value="{{ opponent_username }}">
+    <input type="hidden" id="requestUserId" value="{{ request.user.id }}">
+    <input type="hidden" id="activeDialogId" value="{{ active_dialog.id }}">
+    <input type="hidden" id="requestUserName" value="{{ request.user.username }}">
+    <input type="hidden" id="opponentProfileImage" value="{{ opponent_profile_image }}">
+
+    <div class="wrapper" id="chat-app">
+        <div class="chatcontent">
+            <div class="left">
+                <div class="top">
+                    <input type="text" placeholder="Search dialogs" id="dialogSearch" @input="searchDialog"/>
+                    <span data-toggle="tooltip" data-placement="top" title="New Message">
+                    <i class="new-message-icon fa fa-edit fa-2x" aria-hidden="true" v-on:click="openNewChatModal"></i>
+                </span>
+
+                </div>
+                <ul class="people">
+
+                    {% verbatim %}
+                    <li v-for="dialog in dialogs"
+                        class="person"
+                        :class="[ dialog.id == getActiveDialogId() ? 'active' : '' ]"
+                        v-on:click="openDetails(dialog)"
+                        v-if="dialog.last_message && dialog.hide !== true"
+                    >
+                        <img :src="getIconForDialog(dialog)">
+                        <span class="name">{{ getNameForDialog(dialog) }}</span>
+                        <!--span class="time">{{ dialog.last_message_time }}</span-->
+                        <span class="preview">{{ dialog.last_message }}</span>
+                    </li>
+                    {% endverbatim %}
+                </ul>
+            </div>
+            <div class="right">
+
+
+                {% if active_dialog.owner == request.user %}
+                    <div class="top"><span>To: <span
+                            class="name">{{ active_dialog.opponent.first_name }} {{ active_dialog.opponent.last_name }}</span></span>
+                    </div>
+                {% else %}
+                    <div class="top"><span>To: <span
+                            class="name">{{ active_dialog.owner.first_name }} {{ active_dialog.owner.last_name }}</span></span>
+                    </div>
+                {% endif %}
+
+                <div id="new-chat-modal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Start new chat</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="col-sm-12">
+                                    <input type="new-chat-name" class="form-control" id="new-chat-name"
+                                           placeholder="Type cibling's name" @input="search">
+                                </div>
+                                </br>
+                                </br>
+                                </br>
+                                {% verbatim %}
+
+                                <div v-if="show_suggestion" v-for="user in new_chat_users" class="row new-chat-row">
+                                    <div class="col-sm-1" align="center">
+                                        <img :src="user.image" width="40px" height="40px" style="border-radius: 50%">
+                                    </div>
+                                    <div class="col-sm-8 pull-left"><span style="font-weight: bold; font-size: 17px">{{ user.title }}</span>
+                                        </br> {{ user.institute }}
+                                    </div>
+                                    <div class="col-sm-3 pull-right" style="padding-left:78px">
+                                        <button class="btn btn-default" @click="startNewChat( user.username )">Start
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div align="center">
+                                    <moon-loader class="" :loading="loading" :size="30"></moon-loader>
+                                </div>
+
+                                {% endverbatim %}
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+                <div class="chat" data-chat="activeChat" id="activeChat" v-chat-scroll>
+                    {% for msg in active_dialog.messages.all %}
+                        {% if msg.sender == request.user %}
+                            <div class="bubble me" data-toggle="tooltip" data-placement="top"
+                                 title="{{ msg.get_formatted_create_datetime }}">
+                                {{ msg.text }}
+                            </div>
+                        {% else %}
+                            <div data-toggle="tooltip" data-placement="top"
+                                 title="{{ msg.get_formatted_create_datetime }}">
+                                <span><img src="{{ opponent_profile_image }}" class="bubble-you-image"></span>
+                                <p class="bubble you bubble-you">{{ msg.text }}</p>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% verbatim %}
+                    <div v-for="message in messages">
+                        <span v-if="isOpponent(message)">
+                            <img :src="getOpponentProfileImage()" class="bubble-you-image">
+                        </span>
+                        <p :class="getBubbleClass(message)">
+                            {{ message.message }}
+                        </p>
+                    </div>
+                    {% endverbatim %}
+
+
+                </div>
+
+
+                <div class="write">
+                    <textarea type="text" id="newMessageTextBox" v-on:keyup.enter="sendMessage"></textarea>
+                </div>
+
+                <div class="send-button" v-on:click="sendMessage">
+                    <i class="fa fa-paper-plane fa-2x" aria-hidden="true"></i>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+
+        $('.chat[data-chat=activeChat]').addClass('active-chat');
+
+        $('.left .person').mousedown(function () {
+            if ($(this).hasClass('.active')) {
+                return false;
+            } else {
+                var findChat = $(this).attr('data-chat');
+                var personName = $(this).find('.name').text();
+                $('.right .top .name').html(personName);
+                $('.chat').removeClass('active-chat');
+                $('.left .person').removeClass('active');
+                $(this).addClass('active');
+                $('.chat[data-chat = ' + findChat + ']').addClass('active-chat');
+            }
+            $('.active-chat').scrollTop($('.active-chat')[0].scrollHeight);
+        });
+
+    </script>
+
+{% endblock dialog_content %}
+
+{% block extra_js %}
+
+    <script src="{% static 'django_private_chat/js/chat-app.js' %}"></script>
+
+{% endblock extra_js %}

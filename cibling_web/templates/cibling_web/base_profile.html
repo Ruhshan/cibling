@@ -32,8 +32,27 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.css">
 
+    <link href="{% static 'django_private_chat/css/sidebar-chat.css' %}" rel="stylesheet">
+
     <!--Favicon-->
     <link rel="shortcut icon" type="image/png" href="images/fav.png"/>
+
+    <link rel="stylesheet" href="{% static "css/photoGrid.css" %}"/>
+    <link rel="stylesheet" href="{% static 'css/lsb.css' %}"/>
+
+    {% block submodule_heads %}
+    {% endblock submodule_heads %}
+
+    <script>
+
+        function initLightBox() {
+            $.fn.lightspeedBox();
+        }
+
+        window.onload = initLightBox;
+
+    </script>
+
 
 </head>
 <body>
@@ -124,7 +143,11 @@
     {% endfor %}
 {% endif %}
 <!--Header End-->
-<div class="container">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-10">
+
+            <div class="container">
     <!-- Timeline
     ================================================= -->
     <input type="hidden" value="{{ pk }}" id="user_pk">
@@ -196,6 +219,7 @@
                                 {% elif cibling_status == 0 %}
                                     <a class="btn btn-info" href="#">Request Sent</a>
                                 {% elif cibling_status == 1 %}
+                                    <a class="btn btn-default" id="start-chat-btn" user-id="{{ user.id }}" user-name="{{ user.username }}" user-title="{{ user.first_name }} {{ user.last_name }}">Start Chat</a>
                                     <a class="btn btn-info" href="#">Your Cibling</a>
                                 {% endif %}
                             </ul>
@@ -363,6 +387,14 @@
     <div class="spinner"></div>
 </div>
 
+        </div>
+        <div class="col-md-2" id="chat-sidebar-app">
+            {% include "django_private_chat/dialog_sidebar_fragment.html" %}
+        </div>
+    </div>
+</div>
+
+
 <!-- Scripts
 ================================================= -->
 {% block scripts %}
@@ -382,6 +414,14 @@
     <script src="{% static "js/profile_script.js" %}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropper/4.0.0/cropper.min.js"></script>
+
+    <script src="{% static "django_private_chat/js/chat_box_component.js" %}"></script>
+    <script src="{% static "django_private_chat/js/sidebar-chat.js" %}"></script>
+
+    <script src="{% static "custom/js/new_post.js" %}"></script>
+    <script src="{% static "js/lsb.min.js" %}"></script>
+
+
 
     {% block submodule_scripts %}
     {% endblock submodule_scripts %}
