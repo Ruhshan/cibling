@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  ciblinbg-db:
+    image: postgres:9.2.20-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=cibling_db
+      - POSTGRES_PASSWORD=cblinguser456789
+      - POSTGRES_DB=cibling_db
+    ports:
+      - '5434:5432'
+    volumes:
+      - cibling-datavolume:/var/lib/postgres/data
+
+volumes:
+  cibling-datavolume:
