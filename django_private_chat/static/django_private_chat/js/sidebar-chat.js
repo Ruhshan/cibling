@@ -54,7 +54,9 @@ var schatApp = new Vue({
         });
     },
     created() {
-        this.websocket = new WebSocket('ws://' + location.hostname + ':5002/' + this.getRequestSessionId() + '/' + this.getRequestSessionId());
+        var baseUrl = document.getElementById('chat_base_url').value
+        console.log('chat_server_base_url '+baseUrl)
+        this.websocket = new WebSocket('ws://' + baseUrl + this.getRequestSessionId() + '/' + this.getRequestSessionId());
         this.websocket.onopen = this.socketOnOpen;
         this.websocket.onmessage = this.socketOnMessage;
 
