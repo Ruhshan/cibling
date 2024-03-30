@@ -89,6 +89,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'cibling.chat_context.chat_context'
             ],
         },
     },
@@ -181,6 +182,7 @@ CHAT_WS_SERVER_HOST = env('CHAT_WS_SERVER_HOST')
 CHAT_WS_SERVER_PORT = env('CHAT_WS_SERVER_PORT')
 CHAT_WS_SERVER_PROTOCOL = 'ws'
 
+CHAT_SERVER_BASE_URL = env('CHAT_SERVER_BASE_URL')
 
 SITE_ID=2
 
