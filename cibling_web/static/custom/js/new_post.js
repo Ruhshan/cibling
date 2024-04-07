@@ -9,7 +9,6 @@ var app = new Vue({
         ytId: null
     },
     created: function () {
-
     },
     watch: {
         youtubeLink:function () {
