@@ -1,15 +1,8 @@
 'use strict'
 
 //Preloader
-var preloader = $('#spinner-wrapper');
-$(window).on('load', function() {
-    var preloaderFadeOutTime = 500;
 
-    function hidePreloader() {
-        preloader.fadeOut(preloaderFadeOutTime);
-    }
-    hidePreloader();
-});
+$(window).on('load', function() {});
 
 jQuery(document).ready(function($) {
 

@@ -3402,3 +3402,8 @@ ul.nav.nav-pills.serch-result-nav {
     flex-direction: row;
     flex-wrap: wrap;
 }
+
+
+[v-cloak] {
+  display: none;
+}
