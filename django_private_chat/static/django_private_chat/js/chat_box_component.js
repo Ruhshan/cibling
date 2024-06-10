@@ -17,7 +17,9 @@ let ChatBox = {
     </div>
   `,
     created: function () {
-        this.websocket = new WebSocket('ws://' + location.hostname + ':5002/' + this.getRequestSessionId() + '/' + this.opponentUserName);
+        var chat_base_url = document.getElementById('chat_base_url').value
+        console.log("opening "+chat_base_url)
+        this.websocket = new WebSocket(chat_base_url + this.getRequestSessionId() + '/' + this.opponentUserName);
         this.websocket.onopen = this.socketOnOpen;
         this.websocket.onmessage = this.socketOnMessage;
 
